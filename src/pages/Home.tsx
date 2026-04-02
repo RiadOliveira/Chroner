@@ -1,9 +1,15 @@
 import { Button, Text, View } from 'react-native';
 import { useTasks } from '@/hooks/tasks';
+import { useEffect } from 'react';
+import { setOnForegroundEvent } from '@/lib/events';
 import { scheduleNotification } from '@/lib/notifications';
 
 export default function Home() {
-  const { tasks } = useTasks();
+  const { tasks, selectTaskById } = useTasks();
+
+  useEffect(() => {
+    return setOnForegroundEvent({ selectTaskById });
+  }, [selectTaskById]);
 
   return (
     <View>

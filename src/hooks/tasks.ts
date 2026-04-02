@@ -29,6 +29,15 @@ export function useTasks() {
     handleInitialLoad();
   }, []);
 
+  function selectTaskByIndex(index: number) {
+    setSelectedIndex(index);
+  }
+
+  function selectTaskById(id: number) {
+    const indexFound = tasks.findIndex(({ id: taskId }) => taskId === id);
+    if (indexFound !== -1) setSelectedIndex(indexFound);
+  }
+
   function reloadTasks() {
     return fetchTasks().then(setTasks);
   }
@@ -58,7 +67,8 @@ export function useTasks() {
   return {
     tasks,
     selectedTask,
-    setSelectedIndex,
+    selectTaskById,
+    selectTaskByIndex,
     createTask,
     updateTask,
     deleteTask,
