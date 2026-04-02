@@ -4,14 +4,17 @@
   "main": "index.ts",
   "scripts": {
     "prebuild": "bunx expo prebuild --clean",
+    "db:generate": "bunx drizzle-kit generate",
     "start": "expo start",
     "android": "expo run:android",
     "lint": "expo lint"
   },
   "dependencies": {
     "@notifee/react-native": "^9.1.8",
+    "drizzle-orm": "^0.45.2",
     "expo": "~54.0.33",
     "expo-build-properties": "~1.0.10",
+    "expo-sqlite": "~16.0.10",
     "expo-status-bar": "~3.0.9",
     "expo-system-ui": "~6.0.9",
     "nativewind": "^4.2.3",
@@ -22,7 +25,9 @@
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
+    "babel-plugin-inline-import": "^3.0.0",
     "babel-preset-expo": "~54.0.10",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~10.0.0",
     "eslint-config-prettier": "^10.1.8",

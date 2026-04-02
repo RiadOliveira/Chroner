@@ -1,8 +1,9 @@
 import notifee, {
   type Notification,
+  type RepeatFrequency,
   TriggerType,
-  RepeatFrequency,
 } from '@notifee/react-native';
+import { type RecurrenceValue, RECURRENCE } from '@/types/Recurrence';
 import { CHANNEL_PROPS } from '@/constants/channel';
 
 type NotificationProps = {
@@ -12,7 +13,7 @@ type NotificationProps = {
 
 type ScheduleProps = {
   date: Date;
-  recurrence?: RepeatFrequency;
+  recurrence?: RecurrenceValue;
 };
 
 export async function displayNotification(props: NotificationProps) {
@@ -22,15 +23,19 @@ export async function displayNotification(props: NotificationProps) {
 
 export async function scheduleNotification({
   date,
-  recurrence = RepeatFrequency.NONE,
+  recurrence = RECURRENCE.NONE,
   ...props
 }: NotificationProps & ScheduleProps) {
   const notification = await generateNotification(props);
 
+  const repeatFrequency = (
+    recurrence > RECURRENCE.WEEKLY ? RECURRENCE.NONE : recurrence
+  ) as RepeatFrequency;
+
   return notifee.createTriggerNotification(notification, {
     type: TriggerType.TIMESTAMP,
     timestamp: date.getTime(),
-    repeatFrequency: recurrence,
+    repeatFrequency,
   });
 }
 
