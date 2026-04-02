@@ -37,7 +37,7 @@ export async function scheduleNotification({
   });
 }
 
-export async function cancelNotification(notificationId: string | null) {
+export async function cancelNotification(notificationId?: string | null) {
   if (notificationId) return notifee.cancelNotification(notificationId);
 }
 
