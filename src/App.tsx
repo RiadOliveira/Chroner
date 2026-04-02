@@ -2,16 +2,16 @@ import './global.css';
 
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { db } from './db/database';
 import { useEffect } from 'react';
-import { database } from './db/database';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { setOnForegroundEvent } from './lib/events';
 
-import Pages from './pages';
+import Home from './pages/Home';
 import migrations from '@/db/drizzle/migrations';
 
 export default function App() {
-  useMigrations(database, migrations);
+  useMigrations(db, migrations);
 
   useEffect(() => {
     return setOnForegroundEvent();
@@ -19,7 +19,7 @@ export default function App() {
 
   return (
     <SafeAreaView>
-      <Pages />
+      <Home />
       <StatusBar style="dark" />
     </SafeAreaView>
   );
