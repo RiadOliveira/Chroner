@@ -87,7 +87,7 @@ function handleTaskScheduling({
 
   return scheduleNotification({
     title: 'Chrono Triggered!',
-    body: `It's time to ${name}. Get it done now!`,
+    body: `It's time to ${name}`,
     date,
     repeatFrequency,
   });

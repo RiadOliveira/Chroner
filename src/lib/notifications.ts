@@ -3,7 +3,10 @@ import notifee, {
   RepeatFrequency,
   TriggerType,
 } from '@notifee/react-native';
-import { CHANNEL_PROPS } from '@/constants/channel';
+import {
+  CHANNEL_PROPS,
+  NOTIFICATION_BASE_PROPS,
+} from '@/constants/notificationProps';
 
 type NotificationProps = {
   title?: string;
@@ -44,9 +47,6 @@ async function generateNotification(props: NotificationProps) {
 
   return {
     ...props,
-    android: {
-      channelId,
-      pressAction: { id: 'default' },
-    },
+    android: { ...NOTIFICATION_BASE_PROPS, channelId },
   } as const satisfies Notification;
 }
