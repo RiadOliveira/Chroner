@@ -1,3 +1,5 @@
+import type { TaskNotificationData } from '@/types/TaskNotificationData';
+
 import { PRESS_ACTION } from '@/types/PressAction';
 import { TASK_SERVICES } from './taskServices';
 
@@ -16,7 +18,7 @@ async function handleEvent({
   type,
   detail: { notification, pressAction },
 }: Event) {
-  const { taskId } = notification?.data as { taskId: number };
+  const { taskId } = notification?.data as TaskNotificationData;
 
   if (type === EventType.DISMISSED) {
     const { title, body } = notification!;

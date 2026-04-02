@@ -12,6 +12,7 @@ export const CHANNEL_PROPS: AndroidChannel = {
   name: 'Chroner',
   bypassDnd: true,
   importance: AndroidImportance.HIGH,
+  lightColor: HEX_COLOR[COLOR.PURPLE],
 } as const;
 
 export const NOTIFICATION_BASE_PROPS: NotificationAndroid = {

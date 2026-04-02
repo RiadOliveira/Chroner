@@ -1,4 +1,5 @@
 import type { Task, TaskDTO } from '@/types/Task';
+import type { TaskNotificationData } from '@/types/TaskNotificationData';
 
 import {
   RECURRENCE,
@@ -71,7 +72,7 @@ function handleTaskScheduling({
     body: `It's time to ${name}`,
     date,
     repeatFrequency,
-    data: { taskId: id! },
+    data: { taskId: id! } as TaskNotificationData,
   });
 }
 
