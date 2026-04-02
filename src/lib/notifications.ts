@@ -11,6 +11,7 @@ import {
 type NotificationProps = {
   title?: string;
   body?: string;
+  data?: Notification['data'];
 };
 
 type ScheduleProps = {

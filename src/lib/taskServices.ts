@@ -10,13 +10,23 @@ import { eq } from 'drizzle-orm';
 import { add } from 'date-fns';
 import { tasksTable } from '@/db/schema';
 import { joinDateTime } from '@/utils/date';
-import { cancelNotification, scheduleNotification } from './notifications';
+import { scheduleNotification, cancelNotification } from './notifications';
 import { RepeatFrequency } from '@notifee/react-native';
 
 export const TASK_SERVICES = {
+  async findById(id: number): Promise<Task | null> {
+    const whereSql = eq(tasksTable.id, id);
+    const result = await db.select().from(tasksTable).where(whereSql);
+
+    return result[0] ?? null;
+  },
+
   async create(task: TaskDTO) {
-    const notificationId = await handleTaskScheduling(task);
-    await db.insert(tasksTable).values({ ...task, notificationId });
+    const { lastInsertRowId: id } = await db.insert(tasksTable).values(task);
+    const createdTask: TaskDTO = { ...task, id } as const;
+
+    const notificationId = await handleTaskScheduling(createdTask);
+    return saveTask({ ...createdTask, notificationId });
   },
 
   async update(current: Task, updated: TaskDTO) {
@@ -39,6 +49,7 @@ export const TASK_SERVICES = {
 } as const;
 
 function handleTaskScheduling({
+  id,
   name,
   dueDate,
   reminderTime,
@@ -60,6 +71,7 @@ function handleTaskScheduling({
     body: `It's time to ${name}`,
     date,
     repeatFrequency,
+    data: { taskId: id! },
   });
 }
 
