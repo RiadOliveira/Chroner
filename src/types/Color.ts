@@ -5,7 +5,7 @@ export const COLOR = {
   GREEN: 3,
   YELLOW: 4,
   PURPLE: 5,
-  CYAN: 6,
+  PINK: 6,
   ORANGE: 7,
 } as const;
 
@@ -13,12 +13,12 @@ type ColorMapType = typeof COLOR;
 export type ColorValue = ColorMapType[keyof ColorMapType];
 
 export const HEX_COLOR: Record<ColorValue, string> = {
-  [COLOR.GRAY]: '#9E9E9E',
-  [COLOR.RED]: '#F44336',
-  [COLOR.BLUE]: '#2196F3',
-  [COLOR.GREEN]: '#4CAF50',
-  [COLOR.YELLOW]: '#FFEB3B',
-  [COLOR.PURPLE]: '#9C27B0',
-  [COLOR.CYAN]: '#00BCD4',
-  [COLOR.ORANGE]: '#FF9800',
+  [COLOR.GRAY]: '#BDCBDE',
+  [COLOR.RED]: '#F71118',
+  [COLOR.BLUE]: '#1C94FC',
+  [COLOR.GREEN]: '#2CC55D',
+  [COLOR.YELLOW]: '#F2BD09',
+  [COLOR.PURPLE]: '#9C44FC',
+  [COLOR.PINK]: '#FC5EF0',
+  [COLOR.ORANGE]: '#FB4935',
 } as const;
