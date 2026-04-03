@@ -2,38 +2,27 @@ import type { Task } from '@/types/Task';
 
 import { View, Text } from 'react-native';
 import { AlertTriangle, Calendar, Clock, RefreshCw } from 'lucide-react-native';
-import { RECURRENCE } from '@/types/Recurrence';
+import { RECURRENCE, RECURRENCE_LABEL } from '@/types/Recurrence';
 import { HEX_COLOR } from '@/types/Color';
 import { isOverdue } from '@/utils/date';
 import { format, parseISO } from 'date-fns';
 
 import GestureButton from './GestureButton';
 
-const RECURRENCE_LABEL: Record<number, string> = {
-  [RECURRENCE.NONE]: '',
-  [RECURRENCE.HOURLY]: 'Hourly',
-  [RECURRENCE.DAILY]: 'Daily',
-  [RECURRENCE.WEEKLY]: 'Weekly',
-  [RECURRENCE.MONTHLY]: 'Monthly',
-  [RECURRENCE.YEARLY]: 'Yearly',
-};
-
 export default function TaskCard({ task }: { task: Task }) {
-  const overdue = isOverdue(task.dueDate, task.reminderTime);
-  const taskColor = HEX_COLOR[task.color];
-  const recurrenceLabel = RECURRENCE_LABEL[task.recurrence];
+  const accentCOlor = HEX_COLOR[task.color];
 
   return (
     <GestureButton className="rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm">
       <View
         className="absolute left-0 bottom-0 h-0.5 w-full"
-        style={{ backgroundColor: taskColor }}
+        style={{ backgroundColor: accentCOlor }}
       />
 
       <View className="px-4 py-5 gap-2">
         <View className="flex-row items-start justify-between gap-5">
           <Text
-            style={{ color: taskColor }}
+            style={{ color: accentCOlor }}
             className="text-slate-800 font-semibold text-base font-primary flex-1"
             numberOfLines={1}
           >
@@ -42,7 +31,7 @@ export default function TaskCard({ task }: { task: Task }) {
 
           <View
             className="size-2 rounded-full opacity-80 mt-0.5 mr-0.5"
-            style={{ backgroundColor: taskColor }}
+            style={{ backgroundColor: accentCOlor }}
           />
         </View>
 
@@ -53,10 +42,15 @@ export default function TaskCard({ task }: { task: Task }) {
           />
 
           <View className="flex-row gap-2.5">
-            {!overdue && <OverdueBadge />}
-            {recurrenceLabel && (
-              <RecurrencePill label={recurrenceLabel} color={taskColor} />
-            )}
+            <OverdueBadge
+              dueDate={task.dueDate}
+              reminderTime={task.reminderTime}
+            />
+
+            <RecurrencePill
+              recurrence={task.recurrence}
+              accentColor={accentCOlor}
+            />
           </View>
         </View>
       </View>
@@ -64,7 +58,13 @@ export default function TaskCard({ task }: { task: Task }) {
   );
 }
 
-function OverdueBadge() {
+function OverdueBadge({
+  dueDate,
+  reminderTime,
+}: Pick<Task, 'dueDate' | 'reminderTime'>) {
+  const overdue = isOverdue(dueDate, reminderTime);
+  if (!overdue) return null;
+
   return (
     <View className="flex-row items-center gap-1 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
       <AlertTriangle size={10} color="#F59E0B" strokeWidth={3} />
@@ -78,10 +78,7 @@ function OverdueBadge() {
 function DateTimeRow({
   dueDate,
   reminderTime,
-}: {
-  dueDate?: string | null;
-  reminderTime?: string | null;
-}) {
+}: Pick<Task, 'dueDate' | 'reminderTime'>) {
   if (!dueDate && !reminderTime) return null;
 
   const dateLabel = dueDate ? format(parseISO(dueDate), 'MMM d, yyyy') : null;
@@ -112,14 +109,26 @@ function DateTimeRow({
   );
 }
 
-function RecurrencePill({ label, color }: { label: string; color: string }) {
+function RecurrencePill({
+  recurrence,
+  accentColor,
+}: Pick<Task, 'recurrence'> & { accentColor: string }) {
+  if (recurrence === RECURRENCE.NONE) return null;
+
+  const label = RECURRENCE_LABEL[recurrence];
   return (
     <View
       className="flex-row items-center gap-1 px-2 py-0.5 rounded-full border"
-      style={{ backgroundColor: `${color}10`, borderColor: `${color}40` }}
+      style={{
+        backgroundColor: `${accentColor}10`,
+        borderColor: `${accentColor}40`,
+      }}
     >
-      <RefreshCw size={10} color={color} strokeWidth={3} />
-      <Text style={{ color }} className="font-semibold text-xs font-secondary">
+      <RefreshCw size={10} color={accentColor} strokeWidth={3} />
+      <Text
+        style={{ color: accentColor }}
+        className="font-semibold text-xs font-secondary"
+      >
         {label}
       </Text>
     </View>

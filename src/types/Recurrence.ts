@@ -12,6 +12,15 @@ export const RECURRENCE = {
 type RecurrenceMapType = typeof RECURRENCE;
 export type RecurrenceValue = RecurrenceMapType[keyof RecurrenceMapType];
 
+export const RECURRENCE_LABEL: Record<RecurrenceValue, string> = {
+  [RECURRENCE.NONE]: '',
+  [RECURRENCE.HOURLY]: 'Hourly',
+  [RECURRENCE.DAILY]: 'Daily',
+  [RECURRENCE.WEEKLY]: 'Weekly',
+  [RECURRENCE.MONTHLY]: 'Monthly',
+  [RECURRENCE.YEARLY]: 'Yearly',
+};
+
 export const RECURRENCE_DURATION: Record<RecurrenceValue, Duration> = {
   [RECURRENCE.NONE]: {},
   [RECURRENCE.HOURLY]: { hours: 1 },
