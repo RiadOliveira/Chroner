@@ -1,7 +1,7 @@
 import './global.css';
 
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { db } from './db/database';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 
@@ -12,9 +12,9 @@ export default function App() {
   useMigrations(db, migrations);
 
   return (
-    <SafeAreaView>
+    <SafeAreaProvider>
       <Home />
-      <StatusBar style="dark" />
-    </SafeAreaView>
+      <StatusBar style="light" />
+    </SafeAreaProvider>
   );
 }
