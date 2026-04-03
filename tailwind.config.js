@@ -22,6 +22,10 @@ module.exports = {
           orange: '#FB4935',
         },
       },
+      fontFamily: {
+        primary: ['FunnelDisplay', 'sans-serif'],
+        secondary: ['SpaceGrotesk', 'sans-serif'],
+      },
     },
   },
   plugins: [],
