@@ -1,6 +1,7 @@
 import './global.css';
 
 import { StatusBar } from 'expo-status-bar';
+import { TasksContext } from './hooks/tasks';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { db } from './db/database';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
@@ -13,7 +14,10 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <Home />
+      <TasksContext>
+        <Home />
+      </TasksContext>
+
       <StatusBar style="light" />
     </SafeAreaProvider>
   );

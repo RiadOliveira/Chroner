@@ -1,19 +1,13 @@
 import { View } from 'react-native';
 import { useTasks } from '@/hooks/tasks';
-import { isOverdue } from '@/utils/date';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { setOnForegroundEvent } from '@/lib/events';
 
 import Header from '@/components/Header';
+import TasksList from '@/components/TasksList';
 
 export default function Home() {
-  const { tasks, selectTaskById, completeTaskById } = useTasks();
-
-  const overdueCount = useMemo(() => {
-    return tasks.reduce((count, { dueDate, reminderTime }) => {
-      return count + Number(isOverdue(dueDate, reminderTime));
-    }, 0);
-  }, [tasks]);
+  const { selectTaskById, completeTaskById } = useTasks();
 
   useEffect(() => {
     return setOnForegroundEvent({ selectTaskById, completeTaskById });
@@ -21,7 +15,8 @@ export default function Home() {
 
   return (
     <View className="flex-1 bg-background">
-      <Header overdueCount={overdueCount} />
+      <Header />
+      <TasksList />
     </View>
   );
 }

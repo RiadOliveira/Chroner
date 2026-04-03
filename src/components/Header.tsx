@@ -3,8 +3,9 @@ import { Hourglass } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { COLOR, HEX_COLOR } from '@/types/Color';
 import { cn } from '@/utils/mergeStyles';
-
-type Props = { overdueCount: number };
+import { useMemo } from 'react';
+import { useTasks } from '@/hooks/tasks';
+import { isOverdue } from '@/utils/date';
 
 const GRADIENT_LOCATIONS = [0, 0.55, 1] as const;
 const GRADIENT_COLORS = [
@@ -13,12 +14,20 @@ const GRADIENT_COLORS = [
   HEX_COLOR[COLOR.PINK],
 ] as const;
 
-export default function Header({ overdueCount }: Props) {
+export default function Header() {
+  const { tasks } = useTasks();
+
+  const overdueCount = useMemo(() => {
+    return tasks.reduce((count, { dueDate, reminderTime }) => {
+      return count + Number(isOverdue(dueDate, reminderTime));
+    }, 0);
+  }, [tasks]);
+
   const hasOverdueTasks = overdueCount > 0;
   const hourglassColor = hasOverdueTasks ? COLOR.BLUE : COLOR.PURPLE;
 
   return (
-    <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow-sm">
+    <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow">
       <LinearGradient
         locations={GRADIENT_LOCATIONS}
         colors={GRADIENT_COLORS}

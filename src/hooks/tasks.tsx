@@ -1,13 +1,28 @@
+import type { DefaultProps } from '@/types/DefaultProps';
 import type { Task, TaskDTO } from '@/types/Task';
 import type { TaskNotificationData } from '@/types/TaskNotificationData';
 
 import { fetchTasks } from '@/utils/fetchTasks';
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { TASK_SERVICES } from '@/lib/taskServices';
 
 import notifee from '@notifee/react-native';
 
-export function useTasks() {
+type TasksContextType = {
+  tasks: Task[];
+  selectedTask: Task | undefined;
+  selectTaskById(id: number): void;
+  selectTaskByIndex(id: number): void;
+  createTask(task: TaskDTO): Promise<void>;
+  updateTask(task: TaskDTO): Promise<void>;
+  deleteTask(task: Task): Promise<void>;
+  completeTask(task: Task): Promise<void>;
+  completeTaskById(id: number): Promise<void>;
+};
+
+const tasksContext = createContext<TasksContextType>({} as TasksContextType);
+
+export function TasksContext({ children }: DefaultProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const selectedTask = selectedIndex === -1 ? undefined : tasks[selectedIndex];
@@ -69,15 +84,25 @@ export function useTasks() {
     if (taskFound !== undefined) return completeTask(taskFound);
   }
 
-  return {
-    tasks,
-    selectedTask,
-    selectTaskById,
-    selectTaskByIndex,
-    createTask,
-    updateTask,
-    deleteTask,
-    completeTask,
-    completeTaskById,
-  } as const;
+  return (
+    <tasksContext.Provider
+      value={{
+        tasks,
+        selectedTask,
+        selectTaskById,
+        selectTaskByIndex,
+        createTask,
+        updateTask,
+        deleteTask,
+        completeTask,
+        completeTaskById,
+      }}
+    >
+      {children}
+    </tasksContext.Provider>
+  );
+}
+
+export function useTasks() {
+  return useContext(tasksContext);
 }
