@@ -64,6 +64,11 @@ export function useTasks() {
     return reloadTasks();
   }
 
+  async function completeTaskById(id: number) {
+    const taskFound = tasks.find(({ id: taskId }) => taskId === id);
+    if (taskFound !== undefined) return completeTask(taskFound);
+  }
+
   return {
     tasks,
     selectedTask,
@@ -73,5 +78,6 @@ export function useTasks() {
     updateTask,
     deleteTask,
     completeTask,
+    completeTaskById,
   } as const;
 }

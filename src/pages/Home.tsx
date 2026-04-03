@@ -5,11 +5,11 @@ import { setOnForegroundEvent } from '@/lib/events';
 import { scheduleNotification } from '@/lib/notifications';
 
 export default function Home() {
-  const { tasks, selectTaskById } = useTasks();
+  const { tasks, selectTaskById, completeTaskById } = useTasks();
 
   useEffect(() => {
-    return setOnForegroundEvent({ selectTaskById });
-  }, [selectTaskById]);
+    return setOnForegroundEvent({ selectTaskById, completeTaskById });
+  }, [completeTaskById, selectTaskById]);
 
   return (
     <View>

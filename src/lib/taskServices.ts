@@ -56,7 +56,7 @@ function handleTaskScheduling({
   reminderTime,
   recurrence = RECURRENCE.NONE,
 }: TaskDTO) {
-  if (!reminderTime || recurrence === RECURRENCE.NONE) return undefined;
+  if (!reminderTime) return undefined;
 
   const dateTime = joinDateTime(dueDate!, reminderTime);
   const date = add(dateTime, RECURRENCE_DURATION[recurrence]);
