@@ -34,16 +34,21 @@ export default function RecurrencePicker({ value, onChange }: Props) {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 4 }}
+        contentContainerStyle={{ paddingHorizontal: 4, flexGrow: 1 }}
       >
-        {OPTIONS.map((option) => (
-          <Item
-            key={option.value}
-            option={option}
-            selected={value === option.value}
-            onSelect={() => onChange(option.value)}
-          />
-        ))}
+        {OPTIONS.map((option) => {
+          const selected = value === option.value;
+          const selectValue = selected ? RECURRENCE.NONE : option.value;
+
+          return (
+            <Item
+              key={option.value}
+              option={option}
+              selected={selected}
+              onSelect={() => onChange(selectValue)}
+            />
+          );
+        })}
       </ScrollView>
     </View>
   );
@@ -59,7 +64,7 @@ function Item({
   return (
     <Pressable
       onPress={onSelect}
-      className="items-center py-3 px-4"
+      className="items-center py-3 px-4 flex-1"
       style={{ borderRightWidth: last ? 0 : 1, borderRightColor: '#f1f5f9' }}
     >
       <Text
@@ -71,7 +76,7 @@ function Item({
 
       <View
         className="h-0.5 w-full rounded-full mt-2"
-        style={{ backgroundColor: selected ? activeColor : 'transparent' }}
+        style={{ backgroundColor: selected ? activeColor : '#c5cdd9' }}
       />
     </Pressable>
   );

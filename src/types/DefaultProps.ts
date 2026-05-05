@@ -1,1 +1,4 @@
-export type DefaultProps = Readonly<{ children?: React.ReactNode }>;
+export type DefaultProps = Readonly<{
+  className?: string;
+  children?: React.ReactNode;
+}>;

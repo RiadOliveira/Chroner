@@ -29,7 +29,7 @@ export default function DatePicker({ value, onChange }: Props) {
   return (
     <Pressable
       onPress={openPicker}
-      className="bg-white border border-slate-200 rounded-2xl px-3 py-3 shadow-sm flex-row items-center gap-2"
+      className="bg-white border border-slate-200 rounded-2xl p-3 shadow-sm flex-row items-center gap-2"
     >
       <Calendar
         size={14}

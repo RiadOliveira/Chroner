@@ -7,7 +7,7 @@ import { HEX_COLOR } from '@/types/Color';
 import { isOverdue } from '@/utils/date';
 import { format, parseISO } from 'date-fns';
 
-import GestureButton from './GestureButton';
+import GestureButton from '../GestureButton';
 
 export default function TaskCard({ task }: { task: Task }) {
   const accentColor = HEX_COLOR[task.color];

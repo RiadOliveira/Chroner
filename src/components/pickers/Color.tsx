@@ -16,8 +16,8 @@ type ColorCircleProps = {
 };
 
 const COLOR_ROWS: ColorValue[][] = [
-  [COLOR.GRAY, COLOR.RED, COLOR.BLUE, COLOR.GREEN],
-  [COLOR.YELLOW, COLOR.PURPLE, COLOR.PINK, COLOR.ORANGE],
+  [COLOR.BLUE, COLOR.CYAN, COLOR.TEAL, COLOR.GREEN, COLOR.LIME, COLOR.YELLOW],
+  [COLOR.ORANGE, COLOR.RED, COLOR.ROSE, COLOR.PINK, COLOR.PURPLE, COLOR.INDIGO],
 ] as const;
 
 export default function ColorPicker({ value, onChange }: Props) {

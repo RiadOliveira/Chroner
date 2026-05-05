@@ -6,7 +6,7 @@ import { useTasks } from '@/hooks/tasks';
 import { RECURRENCE } from '@/types/Recurrence';
 import { COLOR, HEX_COLOR } from '@/types/Color';
 
-import TaskCard from './TaskCard';
+import TaskCard from './Card';
 
 const TEST_TASKS: Task[] = [
   {

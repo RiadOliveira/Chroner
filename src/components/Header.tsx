@@ -1,18 +1,12 @@
 import { View, Text } from 'react-native';
 import { Hourglass } from 'lucide-react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { COLOR, HEX_COLOR } from '@/types/Color';
 import { cn } from '@/utils/mergeStyles';
 import { useMemo } from 'react';
 import { useTasks } from '@/hooks/tasks';
 import { isOverdue } from '@/utils/date';
+import { COLOR, HEX_COLOR } from '@/types/Color';
 
-const GRADIENT_LOCATIONS = [0, 0.55, 1] as const;
-const GRADIENT_COLORS = [
-  HEX_COLOR[COLOR.BLUE],
-  HEX_COLOR[COLOR.PURPLE],
-  HEX_COLOR[COLOR.PINK],
-] as const;
+import AppGradient from './AppGradient';
 
 export default function Header() {
   const { tasks } = useTasks();
@@ -28,11 +22,7 @@ export default function Header() {
 
   return (
     <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow">
-      <LinearGradient
-        locations={GRADIENT_LOCATIONS}
-        colors={GRADIENT_COLORS}
-        className="absolute inset-0"
-      />
+      <AppGradient className="absolute inset-0" />
 
       <View className="flex-row justify-between items-center">
         <View className="gap-1">
