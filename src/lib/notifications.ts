@@ -9,8 +9,8 @@ import {
 } from '@/constants/notificationProps';
 
 type NotificationProps = {
-  title?: string;
-  body?: string;
+  title: string;
+  body: string;
   data?: Notification['data'];
 };
 
