@@ -10,19 +10,19 @@ import { format, parseISO } from 'date-fns';
 import GestureButton from './GestureButton';
 
 export default function TaskCard({ task }: { task: Task }) {
-  const accentCOlor = HEX_COLOR[task.color];
+  const accentColor = HEX_COLOR[task.color];
 
   return (
     <GestureButton className="rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm">
       <View
         className="absolute left-0 bottom-0 h-0.5 w-full"
-        style={{ backgroundColor: accentCOlor }}
+        style={{ backgroundColor: accentColor }}
       />
 
-      <View className="px-4 py-5 gap-2">
+      <View className="p-4 gap-2">
         <View className="flex-row items-start justify-between gap-5">
           <Text
-            style={{ color: accentCOlor }}
+            style={{ color: accentColor }}
             className="text-slate-800 font-semibold text-base font-primary flex-1"
             numberOfLines={1}
           >
@@ -31,7 +31,7 @@ export default function TaskCard({ task }: { task: Task }) {
 
           <View
             className="size-2 rounded-full opacity-80 mt-0.5 mr-0.5"
-            style={{ backgroundColor: accentCOlor }}
+            style={{ backgroundColor: accentColor }}
           />
         </View>
 
@@ -49,7 +49,7 @@ export default function TaskCard({ task }: { task: Task }) {
 
             <RecurrencePill
               recurrence={task.recurrence}
-              accentColor={accentCOlor}
+              accentColor={accentColor}
             />
           </View>
         </View>
