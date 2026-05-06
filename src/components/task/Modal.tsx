@@ -18,8 +18,7 @@ import { COLOR, HEX_COLOR } from '@/types/Color';
 
 import RecurrencePicker from '../pickers/Recurrence';
 import ColorPicker from '../pickers/Color';
-import DatePicker from '../pickers/Date';
-import TimePicker from '../pickers/Time';
+import DateTimePicker from '../pickers/DateTime';
 import AppGradient from '../AppGradient';
 
 type Props = {
@@ -119,7 +118,8 @@ export default function TaskModal({ visible, onClose }: Props) {
               <View className="flex-row gap-3">
                 <View className="flex-1 gap-2">
                   <FieldLabel>Due Date</FieldLabel>
-                  <DatePicker
+                  <DateTimePicker
+                    mode="date"
                     value={formData.dueDate ?? undefined}
                     onChange={(value) => setField('dueDate', value)}
                   />
@@ -127,7 +127,8 @@ export default function TaskModal({ visible, onClose }: Props) {
 
                 <View className="flex-1 gap-2">
                   <FieldLabel>Reminder Time</FieldLabel>
-                  <TimePicker
+                  <DateTimePicker
+                    mode="time"
                     value={formData.reminderTime ?? undefined}
                     onChange={(value) => setField('reminderTime', value)}
                   />
