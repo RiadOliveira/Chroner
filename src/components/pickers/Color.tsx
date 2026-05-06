@@ -1,28 +1,21 @@
 import type { ColorValue } from '@/types/Color';
+import type { PickerProps, PickerItemProps } from '@/types/PickerProps';
 
 import { Check } from 'lucide-react-native';
 import { View, Pressable } from 'react-native';
 import { COLOR, HEX_COLOR } from '@/types/Color';
-
-type Props = {
-  value: ColorValue;
-  onChange(value: ColorValue): void;
-};
-
-type ColorCircleProps = {
-  value: ColorValue;
-  selected: boolean;
-  onSelect(): void;
-};
 
 const COLOR_ROWS: ColorValue[][] = [
   [COLOR.BLUE, COLOR.CYAN, COLOR.TEAL, COLOR.GREEN, COLOR.LIME, COLOR.YELLOW],
   [COLOR.ORANGE, COLOR.RED, COLOR.ROSE, COLOR.PINK, COLOR.PURPLE, COLOR.INDIGO],
 ] as const;
 
-export default function ColorPicker({ value, onChange }: Props) {
+export default function ColorPicker({
+  value,
+  onChange,
+}: PickerProps<ColorValue>) {
   return (
-    <View className="bg-white border border-slate-200 rounded-2xl shadow-sm px-4 py-4 gap-3">
+    <View className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 gap-3">
       {COLOR_ROWS.map((row, rowIndex) => (
         <View
           key={`color-row-${rowIndex}`}
@@ -31,7 +24,7 @@ export default function ColorPicker({ value, onChange }: Props) {
           {row.map((colorValue) => (
             <ColorCircle
               key={`color-${colorValue}`}
-              value={colorValue}
+              data={colorValue}
               selected={value === colorValue}
               onSelect={() => onChange(colorValue)}
             />
@@ -42,14 +35,18 @@ export default function ColorPicker({ value, onChange }: Props) {
   );
 }
 
-function ColorCircle({ value, selected, onSelect }: ColorCircleProps) {
-  const hexColor = HEX_COLOR[value];
+function ColorCircle({
+  data,
+  selected,
+  onSelect,
+}: PickerItemProps<ColorValue>) {
+  const hexColor = HEX_COLOR[data];
 
   return (
     <Pressable
+      hitSlop={6}
       onPress={onSelect}
       className="items-center justify-center"
-      hitSlop={6}
     >
       <View
         className="rounded-full p-0.5 border-2"

@@ -1,23 +1,14 @@
 import type { RecurrenceValue } from '@/types/Recurrence';
+import type { PickerProps, PickerItemProps } from '@/types/PickerProps';
 
 import { View, Text, Pressable, ScrollView } from 'react-native';
-import { RECURRENCE, RECURRENCE_LABEL } from '@/types/Recurrence';
+import { cn } from '@/utils/mergeStyles';
 import { COLOR, HEX_COLOR } from '@/types/Color';
-
-type Props = {
-  value: RecurrenceValue;
-  onChange(value: RecurrenceValue): void;
-};
+import { RECURRENCE, RECURRENCE_LABEL } from '@/types/Recurrence';
 
 type RecurrenceOption = {
   value: RecurrenceValue;
   activeColor: string;
-};
-
-type ItemProps = {
-  option: RecurrenceOption;
-  selected: boolean;
-  onSelect(): void;
 };
 
 const OPTIONS: RecurrenceOption[] = [
@@ -28,7 +19,10 @@ const OPTIONS: RecurrenceOption[] = [
   { value: RECURRENCE.YEARLY, activeColor: HEX_COLOR[COLOR.PINK] },
 ] as const;
 
-export default function RecurrencePicker({ value, onChange }: Props) {
+export default function RecurrencePicker({
+  value,
+  onChange,
+}: PickerProps<RecurrenceValue>) {
   return (
     <View className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
       <ScrollView
@@ -43,7 +37,7 @@ export default function RecurrencePicker({ value, onChange }: Props) {
           return (
             <Item
               key={option.value}
-              option={option}
+              data={option}
               selected={selected}
               onSelect={() => onChange(selectValue)}
             />
@@ -55,17 +49,19 @@ export default function RecurrencePicker({ value, onChange }: Props) {
 }
 
 function Item({
-  option: { value, activeColor },
+  data: { value, activeColor },
   selected,
   onSelect,
-}: ItemProps) {
+}: PickerItemProps<RecurrenceOption>) {
   const last = value === OPTIONS.at(-1)!.value;
 
   return (
     <Pressable
       onPress={onSelect}
-      className="items-center py-3 px-4 flex-1"
-      style={{ borderRightWidth: last ? 0 : 1, borderRightColor: '#f1f5f9' }}
+      className={cn(
+        'items-center py-3 px-4 flex-1',
+        !last && 'border-r border-slate-200',
+      )}
     >
       <Text
         className="text-sm font-semibold font-secondary"

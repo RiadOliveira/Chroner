@@ -13,6 +13,6 @@ export const tasksTable = table('tasks', (t) => ({
     .notNull()
     .default(RECURRENCE.NONE)
     .$type<RecurrenceValue>(),
-  color: t.integer().notNull().default(COLOR.GRAY).$type<ColorValue>(),
+  color: t.integer().notNull().default(COLOR.BLUE).$type<ColorValue>(),
   notificationId: t.text('notification_id', { length: 20 }),
 }));
