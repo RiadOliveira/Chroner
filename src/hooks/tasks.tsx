@@ -11,8 +11,7 @@ import notifee from '@notifee/react-native';
 type TasksContextType = {
   tasks: Task[];
   selectedTask: Task | undefined;
-  selectTaskById(id: number): void;
-  selectTaskByIndex(id: number): void;
+  selectTask(id: number): void;
   createTask(task: TaskDTO): Promise<void>;
   updateTask(task: TaskDTO): Promise<void>;
   deleteTask(task: Task): Promise<void>;
@@ -44,11 +43,7 @@ export function TasksContext({ children }: DefaultProps) {
     handleInitialLoad();
   }, []);
 
-  function selectTaskByIndex(index: number) {
-    setSelectedIndex(index);
-  }
-
-  function selectTaskById(id: number) {
+  function selectTask(id: number) {
     const indexFound = tasks.findIndex(({ id: taskId }) => taskId === id);
     if (indexFound !== -1) setSelectedIndex(indexFound);
   }
@@ -89,8 +84,7 @@ export function TasksContext({ children }: DefaultProps) {
       value={{
         tasks,
         selectedTask,
-        selectTaskById,
-        selectTaskByIndex,
+        selectTask,
         createTask,
         updateTask,
         deleteTask,

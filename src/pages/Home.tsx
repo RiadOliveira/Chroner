@@ -9,12 +9,16 @@ import TaskModal from '@/components/task/Modal';
 import FAB from '@/components/FAB';
 
 export default function Home() {
-  const { selectTaskById, completeTaskById } = useTasks();
+  const { selectedTask, selectTask, completeTaskById } = useTasks();
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    return setOnForegroundEvent({ selectTaskById, completeTaskById });
-  }, [completeTaskById, selectTaskById]);
+    return setOnForegroundEvent({ selectTask, completeTaskById });
+  }, [selectTask, completeTaskById]);
+
+  useEffect(() => {
+    if (selectedTask !== undefined) setModalVisible(true);
+  }, [selectedTask]);
 
   return (
     <View className="flex-1 bg-background">

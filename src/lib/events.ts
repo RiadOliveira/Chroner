@@ -7,7 +7,7 @@ import notifee, { type Event, EventType } from '@notifee/react-native';
 import { displayNotification } from './notifications';
 
 type ForegroundProps = {
-  selectTaskById(id: number): void;
+  selectTask(id: number): void;
   completeTaskById(id: number): Promise<void>;
 };
 
@@ -24,7 +24,7 @@ export function setOnBackgroundEvent() {
 async function handleEvent({
   type,
   detail: { notification, pressAction },
-  selectTaskById,
+  selectTask,
   completeTaskById,
 }: Event & Partial<ForegroundProps>) {
   const { taskId } = notification?.data as TaskNotificationData;
@@ -36,7 +36,7 @@ async function handleEvent({
   }
 
   const actionId = pressAction?.id;
-  if (actionId === PRESS_ACTION.DEFAULT) return selectTaskById?.(taskId);
+  if (actionId === PRESS_ACTION.DEFAULT) return selectTask?.(taskId);
   if (actionId !== PRESS_ACTION.COMPLETE) return;
 
   if (completeTaskById) return completeTaskById(taskId);

@@ -5,15 +5,32 @@ import { AlertTriangle, Calendar, Clock, RefreshCw } from 'lucide-react-native';
 import { RECURRENCE, RECURRENCE_LABEL } from '@/types/Recurrence';
 import { HEX_COLOR } from '@/types/Color';
 import { isOverdue } from '@/utils/date';
-import { format, parseISO } from 'date-fns';
+import { format, parse, parseISO } from 'date-fns';
 
 import GestureButton from '../GestureButton';
 
-export default function TaskCard({ task }: { task: Task }) {
+type Props = {
+  task: Task;
+  selectTask(): void;
+  completeTask(): Promise<void>;
+  deleteTask(): Promise<void>;
+};
+
+export default function TaskCard({
+  task,
+  selectTask,
+  completeTask,
+  deleteTask,
+}: Props) {
   const accentColor = HEX_COLOR[task.color];
 
   return (
-    <GestureButton className="rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm">
+    <GestureButton
+      onSingleTap={selectTask}
+      onDoubleTap={completeTask}
+      onHold={deleteTask}
+      className="rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm"
+    >
       <View
         className="absolute left-0 bottom-0 h-0.5 w-full"
         style={{ backgroundColor: accentColor }}
@@ -83,7 +100,7 @@ function DateTimeRow({
 
   const dateLabel = dueDate ? format(parseISO(dueDate), 'MMM d, yyyy') : null;
   const timeLabel = reminderTime
-    ? format(parseISO(reminderTime), 'HH:mm')
+    ? format(parse(reminderTime, 'HH:mm', new Date()), 'HH:mm')
     : null;
 
   return (
