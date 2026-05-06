@@ -78,7 +78,7 @@ const TEST_TASKS: Task[] = [
     dueDate: '2026-04-08T02:00:00.000Z',
     reminderTime: '2026-04-08T01:50:00.000Z',
     recurrence: RECURRENCE.DAILY,
-    color: COLOR.GRAY,
+    color: COLOR.BLUE,
     notificationId: 'notif-8',
   },
   {

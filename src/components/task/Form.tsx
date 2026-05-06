@@ -1,18 +1,18 @@
-import type { DefaultProps } from '@/types/DefaultProps';
 import type { TaskDTO } from '@/types/Task';
 
 import { Check, Plus } from 'lucide-react-native';
-import { View, Text, TextInput, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { COLOR } from '@/types/Color';
 import { RECURRENCE } from '@/types/Recurrence';
-import { cn } from '@/utils/mergeStyles';
 import { useTasks } from '@/hooks/tasks';
 import { useEffect, useState } from 'react';
 
 import AppGradient from '../AppGradient';
-import DateTimePicker from '../pickers/DateTime';
-import RecurrencePicker from '../pickers/Recurrence';
-import ColorPicker from '../pickers/Color';
+import Field from '../field/Base';
+import DateTimePicker from '../field/DateTime';
+import RecurrencePicker from '../field/Recurrence';
+import ColorPicker from '../field/Color';
+import Input from '../field/Input';
 
 type Props = {
   shouldReset: boolean;
@@ -54,17 +54,12 @@ export default function TaskForm({ shouldReset, onSubmit }: Props) {
   return (
     <View className="gap-6">
       <Field label="Task Name">
-        <View className="bg-white border border-slate-200 rounded-2xl px-4 py-2 shadow-sm">
-          <TextInput
-            returnKeyType="done"
-            placeholder="What do you need to do?"
-            placeholderTextColor="#94a3b8"
-            className="text-slate-800 text-base font-secondary font-medium"
-            maxLength={80}
-            value={formData.name}
-            onChangeText={(value) => setField('name', value)}
-          />
-        </View>
+        <Input
+          placeholder="What do you need to do?"
+          maxLength={80}
+          value={formData.name}
+          onChangeText={(value) => setField('name', value)}
+        />
       </Field>
 
       <View className="flex-row gap-3">
@@ -104,22 +99,6 @@ export default function TaskForm({ shouldReset, onSubmit }: Props) {
         isEditing={isEditing}
         handleSubmit={handleSubmit}
       />
-    </View>
-  );
-}
-
-function Field({
-  label,
-  className,
-  children,
-}: DefaultProps & { label: string }) {
-  return (
-    <View className={cn('gap-2', className)}>
-      <Text className="text-slate-500 text-xs font-semibold font-secondary uppercase tracking-widest ml-1">
-        {label}
-      </Text>
-
-      {children}
     </View>
   );
 }
