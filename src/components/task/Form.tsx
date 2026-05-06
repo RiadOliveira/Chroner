@@ -4,24 +4,20 @@ import { Check, Plus } from 'lucide-react-native';
 import { View, Text, Pressable } from 'react-native';
 import { COLOR } from '@/types/Color';
 import { RECURRENCE } from '@/types/Recurrence';
+import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
 import { useTasks } from '@/hooks/tasks';
 import { useEffect, useState } from 'react';
 
 import AppGradient from '../AppGradient';
 import Field from '../field/Base';
+import Input from '../field/Input';
 import DateTimePicker from '../field/DateTime';
 import RecurrencePicker from '../field/Recurrence';
 import ColorPicker from '../field/Color';
-import Input from '../field/Input';
-
-type Props = {
-  shouldReset: boolean;
-  onSubmit(): void;
-};
 
 type SubmitButtonProps = {
   isValid: boolean;
-  isEditing: boolean;
+  isCreating: boolean;
   handleSubmit(): Promise<void>;
 };
 
@@ -31,23 +27,24 @@ const DEFAULT_FORM_DATA: TaskDTO = {
   color: COLOR.BLUE,
 } as const;
 
-export default function TaskForm({ shouldReset, onSubmit }: Props) {
-  const { selectedTask, createTask, updateTask } = useTasks();
+export default function TaskForm({ onSubmit }: { onSubmit(): void }) {
+  const { tasks, selectedIndex, createTask, updateTask } = useTasks();
   const [formData, setFormData] = useState<TaskDTO>(DEFAULT_FORM_DATA);
 
-  const isEditing = selectedTask !== undefined;
   const isValid = formData.name.length > 0;
+  const isCreating = selectedIndex === CREATE_TASK_INDEX;
 
   useEffect(() => {
-    if (shouldReset) setFormData(selectedTask ?? DEFAULT_FORM_DATA);
-  }, [shouldReset, selectedTask]);
+    if (selectedIndex === undefined) return;
+    setFormData(tasks[selectedIndex] ?? DEFAULT_FORM_DATA);
+  }, [selectedIndex, tasks]);
 
   function setField<K extends keyof TaskDTO>(key: K, value: TaskDTO[K]) {
     setFormData((prev) => ({ ...prev, [key]: value }));
   }
 
   async function handleSubmit() {
-    await (isEditing ? updateTask : createTask)(formData);
+    await (isCreating ? createTask : updateTask)(formData);
     onSubmit();
   }
 
@@ -96,15 +93,19 @@ export default function TaskForm({ shouldReset, onSubmit }: Props) {
 
       <SubmitButton
         isValid={isValid}
-        isEditing={isEditing}
+        isCreating={isCreating}
         handleSubmit={handleSubmit}
       />
     </View>
   );
 }
 
-function SubmitButton({ isValid, isEditing, handleSubmit }: SubmitButtonProps) {
-  const Icon = isEditing ? Check : Plus;
+function SubmitButton({
+  isValid,
+  isCreating,
+  handleSubmit,
+}: SubmitButtonProps) {
+  const Icon = isCreating ? Plus : Check;
 
   return (
     <Pressable
@@ -121,7 +122,7 @@ function SubmitButton({ isValid, isEditing, handleSubmit }: SubmitButtonProps) {
         <Icon size={18} color="#fff" strokeWidth={2.5} />
 
         <Text className="text-white font-bold text-base font-primary">
-          {isEditing ? 'Save Changes' : 'Add Task'}
+          {isCreating ? 'Add Task' : 'Save Changes'}
         </Text>
       </AppGradient>
     </Pressable>

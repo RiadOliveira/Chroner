@@ -5,13 +5,14 @@ import type { TaskNotificationData } from '@/types/TaskNotificationData';
 import { fetchTasks } from '@/utils/fetchTasks';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { TASK_SERVICES } from '@/lib/taskServices';
+import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
 
 import notifee from '@notifee/react-native';
 
 type TasksContextType = {
   tasks: Task[];
-  selectedTask: Task | undefined;
-  selectTask(id: number): void;
+  selectedIndex: number | undefined;
+  selectTask(id: number | undefined): void;
   createTask(task: TaskDTO): Promise<void>;
   updateTask(task: TaskDTO): Promise<void>;
   deleteTask(task: Task): Promise<void>;
@@ -23,8 +24,9 @@ const tasksContext = createContext<TasksContextType>({} as TasksContextType);
 
 export function TasksContext({ children }: DefaultProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  const selectedTask = selectedIndex === -1 ? undefined : tasks[selectedIndex];
+  const [selectedIndex, setSelectedIndex] = useState<number | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     async function handleInitialLoad() {
@@ -43,7 +45,11 @@ export function TasksContext({ children }: DefaultProps) {
     handleInitialLoad();
   }, []);
 
-  function selectTask(id: number) {
+  function selectTask(id: number | undefined) {
+    if (id === undefined || id === CREATE_TASK_INDEX) {
+      return setSelectedIndex(id);
+    }
+
     const indexFound = tasks.findIndex(({ id: taskId }) => taskId === id);
     if (indexFound !== -1) setSelectedIndex(indexFound);
   }
@@ -83,7 +89,7 @@ export function TasksContext({ children }: DefaultProps) {
     <tasksContext.Provider
       value={{
         tasks,
-        selectedTask,
+        selectedIndex,
         selectTask,
         createTask,
         updateTask,

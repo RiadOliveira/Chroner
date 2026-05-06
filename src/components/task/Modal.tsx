@@ -8,25 +8,25 @@ import {
 } from 'react-native';
 import { X, Hourglass } from 'lucide-react-native';
 import { COLOR, HEX_COLOR } from '@/types/Color';
+import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
 import { useTasks } from '@/hooks/tasks';
 
 import AppGradient from '../AppGradient';
 import TaskForm from './Form';
 
-type Props = {
-  visible: boolean;
-  onClose(): void;
-};
+export default function TaskModal() {
+  const { selectedIndex, selectTask } = useTasks();
+  const isCreating = selectedIndex === CREATE_TASK_INDEX;
 
-export default function TaskModal({ visible, onClose }: Props) {
-  const { selectedTask } = useTasks();
-  const isEditing = selectedTask !== undefined;
+  function onClose() {
+    selectTask(undefined);
+  }
 
   return (
     <Modal
       transparent
       statusBarTranslucent
-      visible={visible}
+      visible={selectedIndex !== undefined}
       animationType="slide"
       onRequestClose={onClose}
     >
@@ -56,7 +56,7 @@ export default function TaskModal({ visible, onClose }: Props) {
                 </View>
 
                 <Text className="text-slate-800 text-xl font-bold font-primary">
-                  {isEditing ? 'Edit Task' : 'New Task'}
+                  {isCreating ? 'New Task' : 'Edit Task'}
                 </Text>
               </View>
 
@@ -69,7 +69,7 @@ export default function TaskModal({ visible, onClose }: Props) {
               </Pressable>
             </View>
 
-            <TaskForm shouldReset={visible} onSubmit={onClose} />
+            <TaskForm onSubmit={onClose} />
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
