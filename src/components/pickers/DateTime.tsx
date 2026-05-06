@@ -6,7 +6,9 @@ import { Text, Pressable } from 'react-native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { format, parse, parseISO } from 'date-fns';
 
-type Props = PickerProps<string | undefined> & { mode: DateTimePickerMode };
+type Props = PickerProps<string | null | undefined> & {
+  mode: DateTimePickerMode;
+};
 
 type ModeProps = {
   icon: LucideIcon;
