@@ -12,10 +12,9 @@ type RecurrenceOption = {
 };
 
 const OPTIONS: RecurrenceOption[] = [
-  { value: RECURRENCE.HOURLY, activeColor: '#5470FC' },
-  { value: RECURRENCE.DAILY, activeColor: HEX_COLOR[COLOR.PURPLE] },
-  { value: RECURRENCE.WEEKLY, activeColor: '#BC4CF8' },
-  { value: RECURRENCE.MONTHLY, activeColor: '#DC54F4' },
+  { value: RECURRENCE.DAILY, activeColor: HEX_COLOR[COLOR.BLUE] },
+  { value: RECURRENCE.WEEKLY, activeColor: HEX_COLOR[COLOR.PURPLE] },
+  { value: RECURRENCE.MONTHLY, activeColor: '#CC50F6' },
   { value: RECURRENCE.YEARLY, activeColor: HEX_COLOR[COLOR.PINK] },
 ] as const;
 

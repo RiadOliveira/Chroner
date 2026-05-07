@@ -8,7 +8,7 @@ import {
 } from '@/types/Recurrence';
 import { db } from '@/db/database';
 import { eq } from 'drizzle-orm';
-import { add } from 'date-fns';
+import { add, format } from 'date-fns';
 import { tasksTable } from '@/db/schema';
 import { joinDateTime } from '@/utils/date';
 import { scheduleNotification, cancelNotification } from './notifications';
@@ -26,13 +26,13 @@ export const TASK_SERVICES = {
     const { lastInsertRowId: id } = await db.insert(tasksTable).values(task);
     const createdTask: TaskDTO = { ...task, id } as const;
 
-    const notificationId = await handleTaskScheduling(createdTask);
-    return saveTask({ ...createdTask, notificationId });
+    const schedulingData = await scheduleTask(createdTask);
+    return saveTask({ ...createdTask, ...schedulingData });
   },
 
   async update(current: Task, updated: TaskDTO) {
-    const notificationId = await handleSchedulingUpdate(current, updated);
-    return saveTask({ ...updated, notificationId });
+    const schedulingData = await handleSchedulingUpdate(current, updated);
+    return saveTask({ ...updated, ...schedulingData });
   },
 
   async delete(task: Task) {
@@ -44,22 +44,27 @@ export const TASK_SERVICES = {
     await cancelNotification(task.notificationId);
     if (task.recurrence === RECURRENCE.NONE) return deleteTask(task);
 
-    const notificationId = await handleTaskScheduling(task);
-    await saveTask({ ...task, notificationId });
+    const schedulingData = await scheduleTask(task);
+    await saveTask({ ...task, ...schedulingData });
   },
 } as const;
 
-function handleTaskScheduling({
+async function scheduleTask({
   id,
   name,
-  dueDate,
   reminderTime,
+  dueDate: currentDueDate,
+  notificationId: currentNotificationId,
   recurrence = RECURRENCE.NONE,
 }: TaskDTO) {
   if (!reminderTime) return undefined;
 
-  const dateTime = joinDateTime(dueDate!, reminderTime);
-  const date = add(dateTime, RECURRENCE_DURATION[recurrence]);
+  const dateTime = joinDateTime(currentDueDate!, reminderTime);
+  const shouldReschedule = currentNotificationId !== undefined;
+
+  const date = shouldReschedule
+    ? add(dateTime, RECURRENCE_DURATION[recurrence])
+    : dateTime;
 
   const repeatFrequency = (
     RECURRENCES_WITHOUT_NOTIFEE_SUPPORT.includes(recurrence)
@@ -67,13 +72,16 @@ function handleTaskScheduling({
       : recurrence
   ) as RepeatFrequency;
 
-  return scheduleNotification({
+  const dueDate = format(date, 'yyyy-MM-dd');
+  const notificationId = await scheduleNotification({
     title: 'Chrono Triggered!',
     body: `It's time to ${name}`,
     date,
     repeatFrequency,
     data: { taskId: id! } as TaskNotificationData,
   });
+
+  return { dueDate, notificationId };
 }
 
 async function handleSchedulingUpdate(current: Task, updated: TaskDTO) {
@@ -86,10 +94,10 @@ async function handleSchedulingUpdate(current: Task, updated: TaskDTO) {
   const hasChanged = schedulingFields.some(
     (field) => current[field] !== updated[field],
   );
-  if (!hasChanged) return current.notificationId;
+  if (!hasChanged) return undefined;
 
   await cancelNotification(current.notificationId);
-  return handleTaskScheduling(updated);
+  return scheduleTask({ ...updated, notificationId: undefined });
 }
 
 async function saveTask(task: TaskDTO) {
