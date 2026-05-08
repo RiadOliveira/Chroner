@@ -6,10 +6,10 @@ export function isOverdue(
 ): boolean {
   if (!dueDate) return false;
 
-  const date = joinDateTime(dueDate, reminderTime);
+  const date = joinDateTime(dueDate, reminderTime ?? undefined);
   return isPast(date);
 }
 
-export function joinDateTime(date: string, time: string | null = '00:00') {
+export function joinDateTime(date: string, time = '00:00') {
   return new Date(`${date}T${time}:00`);
 }
