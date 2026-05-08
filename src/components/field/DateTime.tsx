@@ -53,7 +53,9 @@ export default function DateTimePicker({ mode, value, onChange }: Props) {
       mode,
       is24Hour: true,
       value: value ? parseValue(value) : new Date(),
-      onChange: (_, date) => date && onChange(format(date, formatMask)),
+      onChange({ type }, date) {
+        if (type === 'set' && date) onChange(format(date, formatMask));
+      },
     });
   }
 
