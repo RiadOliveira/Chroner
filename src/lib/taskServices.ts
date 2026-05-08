@@ -74,7 +74,7 @@ async function scheduleTask({
 
   const dueDate = format(date, 'yyyy-MM-dd');
   const notificationId = await scheduleNotification({
-    title: 'Chrono Triggered!',
+    title: 'Chrono Triggered',
     body: `It's time to ${name}`,
     date,
     repeatFrequency,
