@@ -36,10 +36,14 @@ export function TasksContext({ children }: DefaultProps) {
       const detail = await notifee.getInitialNotification();
       if (detail === null) return;
 
-      const { taskId } = detail.notification.data as TaskNotificationData;
-      const initialIndex = tasksFound.findIndex(({ id }) => id === taskId);
+      const { notification } = detail;
+      const { taskId } = notification.data as TaskNotificationData;
 
-      if (initialIndex !== -1) setSelectedIndex(initialIndex);
+      const initialIndex = tasksFound.findIndex(({ id }) => id === taskId);
+      if (initialIndex === -1) return;
+
+      const { notificationId: currentId } = tasksFound[initialIndex];
+      if (notification.id === currentId) setSelectedIndex(initialIndex);
     }
 
     handleInitialLoad();
