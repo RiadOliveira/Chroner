@@ -1,8 +1,4 @@
-import notifee, {
-  type Notification,
-  RepeatFrequency,
-  TriggerType,
-} from '@notifee/react-native';
+import notifee, { type Notification, TriggerType } from '@notifee/react-native';
 import {
   CHANNEL_PROPS,
   NOTIFICATION_BASE_PROPS,
@@ -15,11 +11,6 @@ type NotificationProps = {
   data?: Notification['data'];
 };
 
-type ScheduleProps = {
-  date: Date;
-  repeatFrequency?: RepeatFrequency;
-};
-
 export async function displayNotification(props: NotificationProps) {
   const notification = await generateNotification(props);
   return notifee.displayNotification(notification);
@@ -27,15 +18,13 @@ export async function displayNotification(props: NotificationProps) {
 
 export async function scheduleNotification({
   date,
-  repeatFrequency,
   ...props
-}: NotificationProps & ScheduleProps) {
+}: NotificationProps & { date: Date }) {
   const notification = await generateNotification(props);
 
   return notifee.createTriggerNotification(notification, {
     type: TriggerType.TIMESTAMP,
     timestamp: date.getTime(),
-    repeatFrequency,
   });
 }
 

@@ -26,8 +26,3 @@ export const RECURRENCE_DURATION: Record<RecurrenceValue, Duration> = {
   [RECURRENCE.MONTHLY]: { months: 1 },
   [RECURRENCE.YEARLY]: { years: 1 },
 } as const;
-
-export const RECURRENCES_WITHOUT_NOTIFEE_SUPPORT: RecurrenceValue[] = [
-  RECURRENCE.MONTHLY,
-  RECURRENCE.YEARLY,
-] as const;

@@ -1,18 +1,13 @@
 import type { Task, TaskDTO } from '@/types/Task';
 import type { TaskNotificationData } from '@/types/TaskNotificationData';
 
-import {
-  RECURRENCE,
-  RECURRENCE_DURATION,
-  RECURRENCES_WITHOUT_NOTIFEE_SUPPORT,
-} from '@/types/Recurrence';
+import { RECURRENCE, RECURRENCE_DURATION } from '@/types/Recurrence';
 import { db } from '@/db/database';
 import { eq } from 'drizzle-orm';
 import { add, format } from 'date-fns';
 import { tasksTable } from '@/db/schema';
 import { joinDateTime } from '@/utils/date';
 import { scheduleNotification, cancelNotification } from './notifications';
-import { RepeatFrequency } from '@notifee/react-native';
 
 export const TASK_SERVICES = {
   async findById(id: number): Promise<Task | null> {
@@ -66,18 +61,11 @@ async function scheduleTask({
     ? add(dateTime, RECURRENCE_DURATION[recurrence])
     : dateTime;
 
-  const repeatFrequency = (
-    RECURRENCES_WITHOUT_NOTIFEE_SUPPORT.includes(recurrence)
-      ? RECURRENCE.NONE
-      : recurrence
-  ) as RepeatFrequency;
-
   const dueDate = format(date, 'yyyy-MM-dd');
   const notificationId = await scheduleNotification({
+    date,
     title: 'Chrono Triggered',
     body: `It's time to ${name}`,
-    date,
-    repeatFrequency,
     data: { taskId: id! } as TaskNotificationData,
   });
 
