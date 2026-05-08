@@ -2,7 +2,7 @@ import type { DateTimePickerMode, PickerProps } from '@/types/PickerProps';
 
 import { type LucideIcon, X, Calendar, Clock } from 'lucide-react-native';
 import { type ColorValue, HEX_COLOR, COLOR } from '@/types/Color';
-import { Text, Pressable } from 'react-native';
+import { Text, Pressable, Keyboard } from 'react-native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { format, parse, parseISO } from 'date-fns';
 
@@ -48,6 +48,7 @@ export default function DateTimePicker({ mode, value, onChange }: Props) {
   const textColor = value ? HEX_COLOR[highlightColor] : '#94a3b8';
 
   function openPicker() {
+    Keyboard.dismiss();
     DateTimePickerAndroid.open({
       mode,
       is24Hour: true,
