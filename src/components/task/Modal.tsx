@@ -6,6 +6,7 @@ import {
   Pressable,
   KeyboardAvoidingView,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { X, Hourglass } from 'lucide-react-native';
 import { COLOR, HEX_COLOR } from '@/types/Color';
 import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
@@ -33,7 +34,7 @@ export default function TaskModal() {
       <KeyboardAvoidingView behavior="height" className="flex-1">
         <Pressable className="flex-1 bg-black/40" onPress={onClose} />
 
-        <View className="bg-background max-h-[88%]">
+        <SafeAreaView edges={['bottom']} className="bg-background max-h-[88%]">
           <AppGradient
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
@@ -43,7 +44,7 @@ export default function TaskModal() {
           <ScrollView
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ padding: 20, paddingBottom: 32 }}
+            contentContainerStyle={{ padding: 20 }}
           >
             <View className="flex-row items-center justify-between pb-6">
               <View className="flex-row items-center gap-3">
@@ -71,7 +72,7 @@ export default function TaskModal() {
 
             <TaskForm onSubmit={onClose} />
           </ScrollView>
-        </View>
+        </SafeAreaView>
       </KeyboardAvoidingView>
     </Modal>
   );

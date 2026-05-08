@@ -2,7 +2,7 @@ import './global.css';
 
 import { StatusBar } from 'expo-status-bar';
 import { TasksContext } from './hooks/tasks';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { db } from './db/database';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 
@@ -15,7 +15,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <TasksContext>
-        <Home />
+        <SafeAreaView edges={['bottom']} className="flex-1 bg-background">
+          <Home />
+        </SafeAreaView>
       </TasksContext>
 
       <StatusBar style="light" />
