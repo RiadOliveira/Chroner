@@ -13,7 +13,11 @@ export default function TasksList() {
       data={tasks}
       keyExtractor={({ id }) => id.toString()}
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ padding: 16, paddingBottom: 80, gap: 12 }}
+      contentContainerStyle={{
+        padding: 20,
+        paddingBottom: 80,
+        gap: 12,
+      }}
       ItemSeparatorComponent={() => null}
       renderItem={({ item }) => (
         <TaskCard

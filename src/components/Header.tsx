@@ -21,7 +21,7 @@ export default function Header() {
   const hourglassColor = hasOverdueTasks ? COLOR.BLUE : COLOR.PURPLE;
 
   return (
-    <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow-lg shadow-accent-purple">
+    <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow-lg shadow-accent-purple elevation-x z-10">
       <AppGradient className="absolute inset-0" />
 
       <View className="flex-row justify-between items-center">
