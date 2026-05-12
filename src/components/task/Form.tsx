@@ -111,7 +111,7 @@ function SubmitButton({
     <Pressable
       onPress={handleSubmit}
       disabled={!isValid}
-      className="rounded-2xl overflow-hidden my-2"
+      className="rounded-2xl overflow-hidden mt-2"
       style={{ opacity: isValid ? 1 : 0.5 }}
     >
       <AppGradient

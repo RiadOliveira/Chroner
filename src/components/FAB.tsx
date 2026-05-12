@@ -9,7 +9,7 @@ export default function FAB({ onPress }: Props) {
   return (
     <Pressable
       onPress={onPress}
-      className="rounded-2xl overflow-hidden shadow-md absolute bottom-4 right-6 shadow-accent-purple"
+      className="rounded-[20px] overflow-hidden shadow-md absolute bottom-4 right-6 shadow-accent-purple elevation-xl z-10"
     >
       <AppGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} className="p-4">
         <Plus size={26} color="#ffffff" strokeWidth={2.5} />

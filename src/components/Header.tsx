@@ -39,10 +39,10 @@ export default function Header() {
         </View>
       </View>
 
-      <View className="bg-background p-4 rounded-[40px] shadow-sm border border-slate-100 flex-row items-center justify-center">
+      <View className="bg-background p-4 rounded-[40px] shadow-sm border border-slate-100 flex-row items-center justify-center gap-3">
         <View
           className={cn(
-            'size-3 rounded-full mr-3',
+            'size-3 rounded-full',
             hasOverdueTasks ? 'bg-accent-blue' : 'bg-accent-purple',
           )}
         />

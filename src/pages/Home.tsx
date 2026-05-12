@@ -1,9 +1,11 @@
+import { TOAST_PROPS } from '@/constants/toastProps';
 import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
 import { View } from 'react-native';
 import { useTasks } from '@/hooks/tasks';
 import { useEffect } from 'react';
 import { setOnForegroundEvent } from '@/lib/events';
 
+import Toast from 'react-native-toast-message';
 import Header from '@/components/Header';
 import TasksList from '@/components/task/List';
 import TaskModal from '@/components/task/Modal';
@@ -25,6 +27,7 @@ export default function Home() {
 
       <FAB onPress={() => selectTask(CREATE_TASK_INDEX)} />
       <TaskModal />
+      <Toast {...TOAST_PROPS} />
     </View>
   );
 }
