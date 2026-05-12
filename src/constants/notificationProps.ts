@@ -27,9 +27,11 @@ export const NOTIFICATION_BASE_PROPS: NotificationAndroid = {
   actions: [
     {
       title: 'Complete',
-      pressAction: { id: PRESS_ACTION.COMPLETE },
+      pressAction: {
+        id: PRESS_ACTION.COMPLETE,
+        launchActivity: undefined,
+      },
     },
   ],
-  showTimestamp: true,
   showChronometer: true,
 } as const;
