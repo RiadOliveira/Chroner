@@ -4,7 +4,7 @@ import { PRESS_ACTION } from '@/types/PressAction';
 import { TASK_SERVICES } from './taskServices';
 
 import notifee, { type Event, EventType } from '@notifee/react-native';
-import { displayNotification } from './notifications';
+import { cancelNotification, displayNotification } from './notifications';
 
 type ForegroundProps = {
   selectTask(id: number): void;
@@ -39,6 +39,7 @@ async function handleEvent({
   if (actionId !== PRESS_ACTION.COMPLETE) return;
   if (completeTaskById) return completeTaskById(taskId);
 
-  const task = await TASK_SERVICES.findById(taskId);
-  if (task !== null) await TASK_SERVICES.complete(task);
+  const taskFound = await TASK_SERVICES.findById(taskId);
+  if (taskFound === null) return cancelNotification(notification?.id);
+  return TASK_SERVICES.complete(taskFound);
 }
