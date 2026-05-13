@@ -1,4 +1,4 @@
-import type { BaseToastProps, ToastProps } from 'react-native-toast-message';
+import type { ToastProps, ToastShowParams } from 'react-native-toast-message';
 
 import { COLOR, HEX_COLOR } from '@/types/Color';
 import { Dimensions, Text, View } from 'react-native';
@@ -11,9 +11,9 @@ export const TOAST_PROPS: ToastProps = {
   type: 'info',
   position: 'bottom',
   bottomOffset: 14,
-  visibilityTime: 60000,
+  visibilityTime: 2000,
   config: {
-    info({ text1, text1Style }: BaseToastProps) {
+    info({ text1, props: { color } }: ToastShowParams) {
       return (
         <AppGradient
           start={{ x: 0, y: 0 }}
@@ -33,7 +33,10 @@ export const TOAST_PROPS: ToastProps = {
           }}
         >
           <View className="bg-background size-full rounded-2xl items-center justify-center flex-row gap-3">
-            <View style={text1Style} className="size-3 rounded-full" />
+            <View
+              style={{ borderColor: color }}
+              className="rounded-full border-[5px]"
+            />
 
             <Text className="font-secondary font-semibold text-slate-800">
               {text1}
