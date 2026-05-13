@@ -64,13 +64,17 @@ export default function TaskForm({ onSubmit }: { onSubmit(): void }) {
           <DateTimePicker
             mode="date"
             value={formData.dueDate}
-            onChange={(value) => setField('dueDate', value)}
+            onChange={(value) => {
+              setField('dueDate', value);
+              if (!value) setField('reminderTime', undefined);
+            }}
           />
         </Field>
 
         <Field label="Reminder Time" className="flex-1">
           <DateTimePicker
             mode="time"
+            disabled={!formData.dueDate}
             value={formData.reminderTime}
             onChange={(value) => setField('reminderTime', value)}
           />

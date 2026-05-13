@@ -4,10 +4,12 @@ import { type LucideIcon, X, Calendar, Clock } from 'lucide-react-native';
 import { type ColorValue, HEX_COLOR, COLOR } from '@/types/Color';
 import { Text, Pressable, Keyboard } from 'react-native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { cn } from '@/utils/mergeStyles';
 import { format, parse, parseISO } from 'date-fns';
 
 type Props = PickerProps<string | null | undefined> & {
   mode: DateTimePickerMode;
+  disabled?: boolean;
 };
 
 type ModeProps = {
@@ -35,7 +37,12 @@ const MODE_PROPS: Record<DateTimePickerMode, ModeProps> = {
   },
 } as const;
 
-export default function DateTimePicker({ mode, value, onChange }: Props) {
+export default function DateTimePicker({
+  mode,
+  value,
+  disabled,
+  onChange,
+}: Props) {
   const {
     icon: Icon,
     formatMask,
@@ -62,14 +69,18 @@ export default function DateTimePicker({ mode, value, onChange }: Props) {
   return (
     <Pressable
       onPress={openPicker}
-      className="bg-white border border-slate-200 rounded-2xl p-3 shadow-sm flex-row items-center gap-2"
+      disabled={disabled}
+      className={cn(
+        'bg-white border border-slate-200 rounded-2xl p-3 shadow-sm flex-row items-center gap-2',
+        disabled && 'opacity-60',
+      )}
     >
       <Icon size={16} color={textColor} strokeWidth={2} />
 
       <Text
         numberOfLines={1}
-        className="flex-1 text-sm font-medium font-secondary"
         style={{ color: textColor }}
+        className="flex-1 text-sm font-medium font-secondary"
       >
         {label}
       </Text>
