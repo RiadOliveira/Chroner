@@ -1,10 +1,10 @@
-import { View, Text } from 'react-native';
+import { View, Text, Animated } from 'react-native';
 import { Hourglass } from 'lucide-react-native';
+import { COLOR, HEX_COLOR } from '@/types/Color';
 import { cn } from '@/utils/mergeStyles';
-import { useMemo } from 'react';
+import { useMemo, useRef, useEffect, useState } from 'react';
 import { useTasks } from '@/hooks/tasks';
 import { isOverdue } from '@/utils/date';
-import { COLOR, HEX_COLOR } from '@/types/Color';
 
 import AppGradient from './AppGradient';
 
@@ -20,6 +20,77 @@ export default function Header() {
   const hasOverdueTasks = overdueCount > 0;
   const hourglassColor = hasOverdueTasks ? COLOR.BLUE : COLOR.PURPLE;
 
+  const [displayedCount, setDisplayedCount] = useState(overdueCount);
+  const [displayedHasOverdue, setDisplayedHasOverdue] =
+    useState(hasOverdueTasks);
+
+  const prevHasOverdue = useRef(hasOverdueTasks);
+  const hourglassSpin = useRef(new Animated.Value(0)).current;
+  const textOpacity = useRef(new Animated.Value(1)).current;
+  const textTranslateY = useRef(new Animated.Value(0)).current;
+  const dotScale = useRef(new Animated.Value(1)).current;
+
+  const hourglassRotate = hourglassSpin.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
+
+  useEffect(() => {
+    if (prevHasOverdue.current === hasOverdueTasks) return;
+    prevHasOverdue.current = hasOverdueTasks;
+
+    Animated.timing(hourglassSpin, {
+      toValue: hasOverdueTasks ? 1 : 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  }, [hasOverdueTasks, hourglassSpin]);
+
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(textOpacity, {
+        toValue: 0,
+        duration: 180,
+        useNativeDriver: true,
+      }),
+      Animated.timing(textTranslateY, {
+        toValue: -10,
+        duration: 180,
+        useNativeDriver: true,
+      }),
+
+      Animated.sequence([
+        Animated.timing(dotScale, {
+          toValue: 1.5,
+          duration: 150,
+          useNativeDriver: true,
+        }),
+        Animated.timing(dotScale, {
+          toValue: 1,
+          duration: 150,
+          useNativeDriver: true,
+        }),
+      ]),
+    ]).start(() => {
+      setDisplayedCount(overdueCount);
+      setDisplayedHasOverdue(hasOverdueTasks);
+
+      textTranslateY.setValue(10);
+      Animated.parallel([
+        Animated.timing(textOpacity, {
+          toValue: 1,
+          duration: 220,
+          useNativeDriver: true,
+        }),
+        Animated.timing(textTranslateY, {
+          toValue: 0,
+          duration: 220,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    });
+  }, [overdueCount, hasOverdueTasks, textOpacity, textTranslateY, dotScale]);
+
   return (
     <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow-lg shadow-accent-purple elevation-x z-10">
       <AppGradient className="absolute inset-0" />
@@ -34,22 +105,32 @@ export default function Header() {
           </Text>
         </View>
 
-        <View className="bg-white/90 p-3 rounded-full border border-white/50">
+        <Animated.View
+          style={{ transform: [{ rotate: hourglassRotate }] }}
+          className="bg-white/90 p-3 rounded-full border border-white/50"
+        >
           <Hourglass size={24} color={HEX_COLOR[hourglassColor]} />
-        </View>
+        </Animated.View>
       </View>
 
       <View className="bg-background p-4 rounded-[40px] shadow-sm border border-slate-100 flex-row items-center justify-center gap-3">
-        <View
+        <Animated.View
+          style={{ transform: [{ scale: dotScale }] }}
           className={cn(
             'size-3 rounded-full',
-            hasOverdueTasks ? 'bg-accent-blue' : 'bg-accent-purple',
+            displayedHasOverdue ? 'bg-accent-blue' : 'bg-accent-purple',
           )}
         />
 
-        <Text className="text-slate-800 font-semibold font-secondary">
-          {getOverdueMessage(overdueCount)}
-        </Text>
+        <Animated.Text
+          style={{
+            opacity: textOpacity,
+            transform: [{ translateY: textTranslateY }],
+          }}
+          className="text-slate-800 font-semibold font-secondary"
+        >
+          {getOverdueMessage(displayedCount)}
+        </Animated.Text>
       </View>
     </View>
   );
