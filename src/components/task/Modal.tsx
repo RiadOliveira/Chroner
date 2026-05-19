@@ -11,6 +11,7 @@ import {
   Animated,
   Dimensions,
   Easing,
+  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTasks } from '@/hooks/tasks';
@@ -30,22 +31,11 @@ export default function TaskModal() {
 
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
-  const closeButtonAnimation = useRef(new Animated.Value(0)).current;
-
-  const closeScale = closeButtonAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0.92],
-  });
-  const closeOpacity = closeButtonAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0.6],
-  });
 
   useEffect(() => {
     if (isVisible) {
       setIsCreating(selectedIndex === CREATE_TASK_INDEX);
       setRenderModal(true);
-      closeButtonAnimation.setValue(0);
 
       Animated.parallel([
         Animated.timing(opacity, {
@@ -80,35 +70,10 @@ export default function TaskModal() {
         }),
       ]).start(() => setRenderModal(false));
     }
-  }, [
-    isVisible,
-    renderModal,
-    selectedIndex,
-    translateY,
-    opacity,
-    closeButtonAnimation,
-  ]);
+  }, [isVisible, renderModal, selectedIndex, translateY, opacity]);
 
   function onClose() {
     selectTask(undefined);
-  }
-
-  function onPressIn() {
-    Animated.timing(closeButtonAnimation, {
-      toValue: 1,
-      duration: 80,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start();
-  }
-
-  function onPressOut() {
-    Animated.spring(closeButtonAnimation, {
-      toValue: 0,
-      tension: 120,
-      friction: 7,
-      useNativeDriver: true,
-    }).start();
   }
 
   return (
@@ -162,22 +127,14 @@ export default function TaskModal() {
                   </Text>
                 </View>
 
-                <Animated.View
-                  style={{
-                    opacity: closeOpacity,
-                    transform: [{ scale: closeScale }],
-                  }}
+                <TouchableOpacity
+                  hitSlop={8}
+                  activeOpacity={0.6}
+                  className="bg-slate-200/70 p-2 rounded-xl"
+                  onPress={onClose}
                 >
-                  <Pressable
-                    onPressIn={onPressIn}
-                    onPressOut={onPressOut}
-                    onPress={onClose}
-                    className="bg-slate-200/70 p-2 rounded-xl"
-                    hitSlop={8}
-                  >
-                    <X size={18} color="#64748b" />
-                  </Pressable>
-                </Animated.View>
+                  <X size={18} color="#64748b" />
+                </TouchableOpacity>
               </View>
 
               <TaskForm isCreating={isCreating} onSubmit={onClose} />
