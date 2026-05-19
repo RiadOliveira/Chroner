@@ -25,7 +25,11 @@ export default function Header() {
     useState(hasOverdueTasks);
 
   const prevHasOverdue = useRef(hasOverdueTasks);
-  const hourglassSpin = useRef(new Animated.Value(0)).current;
+  const prevOverdueCount = useRef(overdueCount);
+
+  const hourglassSpin = useRef(
+    new Animated.Value(hasOverdueTasks ? 1 : 0),
+  ).current;
   const textOpacity = useRef(new Animated.Value(1)).current;
   const textTranslateY = useRef(new Animated.Value(0)).current;
   const dotScale = useRef(new Animated.Value(1)).current;
@@ -47,6 +51,13 @@ export default function Header() {
   }, [hasOverdueTasks, hourglassSpin]);
 
   useEffect(() => {
+    if (prevOverdueCount.current === overdueCount) return;
+    prevOverdueCount.current = overdueCount;
+
+    textOpacity.stopAnimation();
+    textTranslateY.stopAnimation();
+    dotScale.stopAnimation();
+
     Animated.parallel([
       Animated.timing(textOpacity, {
         toValue: 0,
@@ -75,6 +86,7 @@ export default function Header() {
       setDisplayedHasOverdue(hasOverdueTasks);
 
       textTranslateY.setValue(10);
+
       Animated.parallel([
         Animated.timing(textOpacity, {
           toValue: 1,
@@ -116,7 +128,7 @@ export default function Header() {
         <Animated.View
           style={{ transform: [{ scale: dotScale }] }}
           className={cn(
-            'size-3 rounded-full',
+            'size-3 rounded-full mt-0.5',
             displayedHasOverdue ? 'bg-accent-blue' : 'bg-accent-purple',
           )}
         />
