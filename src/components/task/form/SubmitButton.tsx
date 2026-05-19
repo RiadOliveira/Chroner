@@ -17,8 +17,13 @@ export default function SubmitButton({
 }: Props) {
   const Icon = isCreating ? Plus : Check;
 
+  const isValidRef = useRef(isValid);
   const scale = useRef(new Animated.Value(isValid ? 1 : 0.96)).current;
   const opacity = useRef(new Animated.Value(isValid ? 1 : 0.5)).current;
+
+  useEffect(() => {
+    isValidRef.current = isValid;
+  }, [isValid]);
 
   useEffect(() => {
     Animated.parallel([
@@ -35,7 +40,27 @@ export default function SubmitButton({
         useNativeDriver: true,
       }),
     ]).start();
-  }, [opacity, scale, isValid]);
+  }, [isValid, opacity, scale]);
+
+  function onPressIn() {
+    scale.stopAnimation();
+    Animated.timing(scale, {
+      toValue: isValidRef.current ? 0.96 : 0.92,
+      duration: 60,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  function onPressOut() {
+    scale.stopAnimation();
+    Animated.spring(scale, {
+      toValue: isValidRef.current ? 1 : 0.96,
+      tension: 100,
+      friction: 6,
+      useNativeDriver: true,
+    }).start();
+  }
 
   return (
     <Animated.View
@@ -47,8 +72,9 @@ export default function SubmitButton({
     >
       <Pressable
         onPress={handleSubmit}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
         disabled={!isValid}
-        className="active:opacity-90"
       >
         <AppGradient
           start={{ x: 0, y: 0 }}
