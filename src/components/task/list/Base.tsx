@@ -12,21 +12,7 @@ export default function TasksList() {
   useEffect(() => {
     if (previousLength.current === tasks.length) return;
 
-    LayoutAnimation.configureNext({
-      duration: 240,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity,
-      },
-      update: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-      },
-      delete: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.opacity,
-      },
-    });
-
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     previousLength.current = tasks.length;
   }, [tasks.length]);
 
@@ -35,7 +21,7 @@ export default function TasksList() {
       data={tasks}
       keyExtractor={({ id }) => id.toString()}
       showsVerticalScrollIndicator={false}
-      removeClippedSubviews
+      removeClippedSubviews={false}
       initialNumToRender={8}
       maxToRenderPerBatch={8}
       windowSize={10}

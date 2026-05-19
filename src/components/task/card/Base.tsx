@@ -20,36 +20,36 @@ export default function TaskCard({
   completeTask,
   deleteTask,
 }: Props) {
-  const scale = useRef(new Animated.Value(0.985)).current;
+  const scale = useRef(new Animated.Value(0.85)).current;
   const opacity = useRef(new Animated.Value(0)).current;
   const translateX = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(18)).current;
+  const translateY = useRef(new Animated.Value(20)).current;
 
   useEffect(() => {
-    const delay = Math.min(index * 35, 180);
+    const delay = Math.min(index * 50, 300);
 
-    Animated.parallel([
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: 260,
-        delay,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }),
-      Animated.timing(translateY, {
-        toValue: 0,
-        duration: 260,
-        delay,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }),
-      Animated.timing(scale, {
-        toValue: 1,
-        duration: 260,
-        delay,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }),
+    Animated.sequence([
+      Animated.delay(delay),
+      Animated.parallel([
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 250,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.spring(translateY, {
+          toValue: 0,
+          tension: 50,
+          friction: 7,
+          useNativeDriver: true,
+        }),
+        Animated.spring(scale, {
+          toValue: 1,
+          tension: 50,
+          friction: 7,
+          useNativeDriver: true,
+        }),
+      ]),
     ]).start();
   }, [index, opacity, scale, translateY]);
 
@@ -57,20 +57,18 @@ export default function TaskCard({
     Animated.parallel([
       Animated.timing(opacity, {
         toValue: 0,
-        duration: 220,
-        easing: Easing.in(Easing.ease),
+        duration: 200,
         useNativeDriver: true,
       }),
       Animated.timing(scale, {
-        toValue: 0.93,
-        duration: 220,
-        easing: Easing.in(Easing.ease),
+        toValue: 0.9,
+        duration: 200,
+        easing: Easing.inOut(Easing.ease),
         useNativeDriver: true,
       }),
       Animated.timing(translateY, {
-        toValue: -12,
-        duration: 220,
-        easing: Easing.in(Easing.ease),
+        toValue: 10,
+        duration: 200,
         useNativeDriver: true,
       }),
     ]).start(({ finished }) => finished && completeTask());
@@ -80,20 +78,13 @@ export default function TaskCard({
     Animated.parallel([
       Animated.timing(opacity, {
         toValue: 0,
-        duration: 180,
-        easing: Easing.in(Easing.ease),
+        duration: 200,
         useNativeDriver: true,
       }),
       Animated.timing(translateX, {
-        toValue: 48,
-        duration: 180,
-        easing: Easing.in(Easing.ease),
-        useNativeDriver: true,
-      }),
-      Animated.timing(scale, {
-        toValue: 0.9,
-        duration: 180,
-        easing: Easing.in(Easing.ease),
+        toValue: -100,
+        duration: 200,
+        easing: Easing.in(Easing.poly(4)),
         useNativeDriver: true,
       }),
     ]).start(({ finished }) => finished && deleteTask());
