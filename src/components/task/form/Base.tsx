@@ -1,24 +1,21 @@
 import type { TaskDTO } from '@/types/Task';
 
-import { Check, Plus } from 'lucide-react-native';
-import { View, Text, Pressable } from 'react-native';
 import { COLOR } from '@/types/Color';
 import { RECURRENCE } from '@/types/Recurrence';
-import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
+import { View } from 'react-native';
 import { useTasks } from '@/hooks/tasks';
 import { useEffect, useState } from 'react';
 
-import AppGradient from '../AppGradient';
-import Field from '../field/Base';
-import Input from '../field/Input';
-import DateTimePicker from '../field/DateTime';
-import RecurrencePicker from '../field/Recurrence';
-import ColorPicker from '../field/Color';
+import Field from '@/components/field/Base';
+import Input from '@/components/field/Input';
+import DateTimePicker from '@/components/field/DateTime';
+import RecurrencePicker from '@/components/field/Recurrence';
+import ColorPicker from '@/components/field/Color';
+import SubmitButton from './SubmitButton';
 
-type SubmitButtonProps = {
-  isValid: boolean;
+type Props = {
   isCreating: boolean;
-  handleSubmit(): Promise<void>;
+  onSubmit(): void;
 };
 
 const DEFAULT_FORM_DATA: TaskDTO = {
@@ -27,12 +24,11 @@ const DEFAULT_FORM_DATA: TaskDTO = {
   color: COLOR.BLUE,
 } as const;
 
-export default function TaskForm({ onSubmit }: { onSubmit(): void }) {
+export default function TaskForm({ isCreating, onSubmit }: Props) {
   const { tasks, selectedIndex, createTask, updateTask } = useTasks();
   const [formData, setFormData] = useState<TaskDTO>(DEFAULT_FORM_DATA);
 
   const isValid = formData.name.length > 0;
-  const isCreating = selectedIndex === CREATE_TASK_INDEX;
 
   useEffect(() => {
     if (selectedIndex === undefined) return;
@@ -105,34 +101,5 @@ export default function TaskForm({ onSubmit }: { onSubmit(): void }) {
         handleSubmit={handleSubmit}
       />
     </View>
-  );
-}
-
-function SubmitButton({
-  isValid,
-  isCreating,
-  handleSubmit,
-}: SubmitButtonProps) {
-  const Icon = isCreating ? Plus : Check;
-
-  return (
-    <Pressable
-      onPress={handleSubmit}
-      disabled={!isValid}
-      className="rounded-2xl overflow-hidden mt-2"
-      style={{ opacity: isValid ? 1 : 0.5 }}
-    >
-      <AppGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        className="flex-row items-center justify-center gap-2 py-4"
-      >
-        <Icon size={18} color="#fff" strokeWidth={2.5} />
-
-        <Text className="text-white font-bold text-base font-primary">
-          {isCreating ? 'Add Task' : 'Save Changes'}
-        </Text>
-      </AppGradient>
-    </Pressable>
   );
 }
