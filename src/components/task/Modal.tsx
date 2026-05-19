@@ -30,21 +30,22 @@ export default function TaskModal() {
 
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
-  const closeButtonRotation = useRef(new Animated.Value(0)).current;
+  const closeButtonAnimation = useRef(new Animated.Value(0)).current;
 
-  const closeScale = closeButtonRotation.interpolate({
+  const closeScale = closeButtonAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: [1, 0.88],
+    outputRange: [1, 0.92],
   });
-  const closeRotate = closeButtonRotation.interpolate({
+  const closeOpacity = closeButtonAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '-90deg'],
+    outputRange: [1, 0.6],
   });
 
   useEffect(() => {
     if (isVisible) {
       setIsCreating(selectedIndex === CREATE_TASK_INDEX);
       setRenderModal(true);
+      closeButtonAnimation.setValue(0);
 
       Animated.parallel([
         Animated.timing(opacity, {
@@ -79,26 +80,33 @@ export default function TaskModal() {
         }),
       ]).start(() => setRenderModal(false));
     }
-  }, [opacity, isVisible, renderModal, selectedIndex, translateY]);
+  }, [
+    isVisible,
+    renderModal,
+    selectedIndex,
+    translateY,
+    opacity,
+    closeButtonAnimation,
+  ]);
 
   function onClose() {
     selectTask(undefined);
   }
 
-  function handlePressIn() {
-    Animated.timing(closeButtonRotation, {
+  function onPressIn() {
+    Animated.timing(closeButtonAnimation, {
       toValue: 1,
-      duration: 100,
-      easing: Easing.out(Easing.ease),
+      duration: 80,
+      easing: Easing.linear,
       useNativeDriver: true,
     }).start();
   }
 
-  function handlePressOut() {
-    Animated.spring(closeButtonRotation, {
+  function onPressOut() {
+    Animated.spring(closeButtonAnimation, {
       toValue: 0,
-      tension: 100,
-      friction: 6,
+      tension: 120,
+      friction: 7,
       useNativeDriver: true,
     }).start();
   }
@@ -156,12 +164,13 @@ export default function TaskModal() {
 
                 <Animated.View
                   style={{
-                    transform: [{ scale: closeScale }, { rotate: closeRotate }],
+                    opacity: closeOpacity,
+                    transform: [{ scale: closeScale }],
                   }}
                 >
                   <Pressable
-                    onPressIn={handlePressIn}
-                    onPressOut={handlePressOut}
+                    onPressIn={onPressIn}
+                    onPressOut={onPressOut}
                     onPress={onClose}
                     className="bg-slate-200/70 p-2 rounded-xl"
                     hitSlop={8}
