@@ -17,31 +17,31 @@ export default function SubmitButton({
 }: Props) {
   const Icon = isCreating ? Plus : Check;
 
-  const buttonScale = useRef(new Animated.Value(isValid ? 1 : 0.96)).current;
-  const buttonOpacity = useRef(new Animated.Value(isValid ? 1 : 0.5)).current;
+  const scale = useRef(new Animated.Value(isValid ? 1 : 0.96)).current;
+  const opacity = useRef(new Animated.Value(isValid ? 1 : 0.5)).current;
 
   useEffect(() => {
     Animated.parallel([
-      Animated.timing(buttonOpacity, {
+      Animated.timing(opacity, {
         toValue: isValid ? 1 : 0.5,
         duration: 200,
         easing: Easing.out(Easing.ease),
         useNativeDriver: true,
       }),
-      Animated.spring(buttonScale, {
+      Animated.spring(scale, {
         toValue: isValid ? 1 : 0.96,
         tension: 80,
         friction: 8,
         useNativeDriver: true,
       }),
     ]).start();
-  }, [buttonOpacity, buttonScale, isValid]);
+  }, [opacity, scale, isValid]);
 
   return (
     <Animated.View
       style={{
-        opacity: buttonOpacity,
-        transform: [{ scale: buttonScale }],
+        opacity,
+        transform: [{ scale }],
       }}
       className="rounded-2xl overflow-hidden mt-2"
     >

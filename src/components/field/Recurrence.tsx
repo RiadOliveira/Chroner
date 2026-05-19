@@ -31,22 +31,20 @@ export default function RecurrencePicker({
   disabled,
   onChange,
 }: PickerProps<RecurrenceValue>) {
-  const containerOpacity = useRef(
-    new Animated.Value(disabled ? 0.6 : 1),
-  ).current;
+  const opacity = useRef(new Animated.Value(disabled ? 0.6 : 1)).current;
 
   useEffect(() => {
-    Animated.timing(containerOpacity, {
+    Animated.timing(opacity, {
       toValue: disabled ? 0.6 : 1,
       duration: 200,
       easing: Easing.out(Easing.ease),
       useNativeDriver: true,
     }).start();
-  }, [containerOpacity, disabled]);
+  }, [opacity, disabled]);
 
   return (
     <Animated.View
-      style={{ opacity: containerOpacity }}
+      style={{ opacity }}
       className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden"
     >
       <ScrollView
@@ -81,7 +79,7 @@ function Item({
 }: PickerItemProps<RecurrenceOption>) {
   const last = value === OPTIONS.at(-1)!.value;
 
-  const contentScale = useRef(new Animated.Value(1)).current;
+  const scale = useRef(new Animated.Value(1)).current;
   const lineScaleX = useRef(new Animated.Value(selected ? 1 : 0)).current;
   const lineOpacity = useRef(new Animated.Value(selected ? 1 : 0)).current;
 
@@ -102,7 +100,7 @@ function Item({
   }, [lineOpacity, lineScaleX, selected]);
 
   function onPressIn() {
-    Animated.spring(contentScale, {
+    Animated.spring(scale, {
       toValue: 0.93,
       speed: 60,
       useNativeDriver: true,
@@ -110,7 +108,7 @@ function Item({
   }
 
   function onPressOut() {
-    Animated.spring(contentScale, {
+    Animated.spring(scale, {
       toValue: 1,
       speed: 40,
       bounciness: 4,
@@ -128,7 +126,7 @@ function Item({
         className="items-center p-3 justify-center flex-1"
       >
         <Animated.View
-          style={{ transform: [{ scale: contentScale }] }}
+          style={{ transform: [{ scale: scale }] }}
           className="items-center w-full justify-center"
         >
           <Text

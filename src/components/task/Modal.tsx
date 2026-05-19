@@ -28,15 +28,15 @@ export default function TaskModal() {
   const [renderModal, setRenderModal] = useState(isVisible);
   const [isCreating, setIsCreating] = useState(false);
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
-  const closeButtonAnim = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
+  const closeButtonRotation = useRef(new Animated.Value(0)).current;
 
-  const closeScale = closeButtonAnim.interpolate({
+  const closeScale = closeButtonRotation.interpolate({
     inputRange: [0, 1],
     outputRange: [1, 0.88],
   });
-  const closeRotate = closeButtonAnim.interpolate({
+  const closeRotate = closeButtonRotation.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '-90deg'],
   });
@@ -47,13 +47,13 @@ export default function TaskModal() {
       setRenderModal(true);
 
       Animated.parallel([
-        Animated.timing(fadeAnim, {
+        Animated.timing(opacity, {
           toValue: 1,
           duration: 300,
           easing: Easing.out(Easing.poly(4)),
           useNativeDriver: true,
         }),
-        Animated.spring(slideAnim, {
+        Animated.spring(translateY, {
           toValue: 0,
           tension: 65,
           friction: 11,
@@ -66,12 +66,12 @@ export default function TaskModal() {
 
     if (renderModal) {
       Animated.parallel([
-        Animated.timing(fadeAnim, {
+        Animated.timing(opacity, {
           toValue: 0,
           duration: 200,
           useNativeDriver: true,
         }),
-        Animated.timing(slideAnim, {
+        Animated.timing(translateY, {
           toValue: SCREEN_HEIGHT,
           duration: 250,
           easing: Easing.in(Easing.poly(4)),
@@ -79,14 +79,14 @@ export default function TaskModal() {
         }),
       ]).start(() => setRenderModal(false));
     }
-  }, [fadeAnim, isVisible, renderModal, selectedIndex, slideAnim]);
+  }, [opacity, isVisible, renderModal, selectedIndex, translateY]);
 
   function onClose() {
     selectTask(undefined);
   }
 
   function handlePressIn() {
-    Animated.timing(closeButtonAnim, {
+    Animated.timing(closeButtonRotation, {
       toValue: 1,
       duration: 100,
       easing: Easing.out(Easing.ease),
@@ -95,7 +95,7 @@ export default function TaskModal() {
   }
 
   function handlePressOut() {
-    Animated.spring(closeButtonAnim, {
+    Animated.spring(closeButtonRotation, {
       toValue: 0,
       tension: 100,
       friction: 6,
@@ -114,7 +114,7 @@ export default function TaskModal() {
       <KeyboardAvoidingView behavior="height" className="flex-1">
         <Animated.View
           className="flex-1 bg-black/40 absolute size-full"
-          style={{ opacity: fadeAnim }}
+          style={{ opacity }}
         >
           <Pressable className="flex-1" onPress={onClose} />
         </Animated.View>
@@ -122,11 +122,11 @@ export default function TaskModal() {
         <Animated.View
           pointerEvents="box-none"
           className="flex-1 justify-end"
-          style={{ transform: [{ translateY: slideAnim }] }}
+          style={{ transform: [{ translateY }] }}
         >
           <SafeAreaView
             edges={['bottom']}
-            className="bg-background max-h-[88%] overflow-hidden shadow-2xl rounded-t-3xl"
+            className="bg-background max-h-[88%] overflow-hidden shadow-2xl"
           >
             <AppGradient
               start={{ x: 0, y: 0 }}
