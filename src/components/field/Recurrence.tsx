@@ -1,10 +1,18 @@
 import type { RecurrenceValue } from '@/types/Recurrence';
 import type { PickerProps, PickerItemProps } from '@/types/PickerProps';
 
-import { View, Text, Pressable, ScrollView } from 'react-native';
-import { cn } from '@/utils/mergeStyles';
 import { COLOR, HEX_COLOR } from '@/types/Color';
 import { RECURRENCE, RECURRENCE_LABEL } from '@/types/Recurrence';
+import {
+  View,
+  Text,
+  Pressable,
+  ScrollView,
+  Animated,
+  Easing,
+} from 'react-native';
+import { useEffect, useRef } from 'react';
+import { cn } from '@/utils/mergeStyles';
 
 type RecurrenceOption = {
   value: RecurrenceValue;
@@ -23,12 +31,23 @@ export default function RecurrencePicker({
   disabled,
   onChange,
 }: PickerProps<RecurrenceValue>) {
+  const containerOpacity = useRef(
+    new Animated.Value(disabled ? 0.6 : 1),
+  ).current;
+
+  useEffect(() => {
+    Animated.timing(containerOpacity, {
+      toValue: disabled ? 0.6 : 1,
+      duration: 200,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: true,
+    }).start();
+  }, [containerOpacity, disabled]);
+
   return (
-    <View
-      className={cn(
-        'bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden',
-        disabled && 'opacity-60',
-      )}
+    <Animated.View
+      style={{ opacity: containerOpacity }}
+      className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden"
     >
       <ScrollView
         horizontal
@@ -50,7 +69,7 @@ export default function RecurrencePicker({
           );
         })}
       </ScrollView>
-    </View>
+    </Animated.View>
   );
 }
 
@@ -62,26 +81,77 @@ function Item({
 }: PickerItemProps<RecurrenceOption>) {
   const last = value === OPTIONS.at(-1)!.value;
 
-  return (
-    <Pressable
-      onPress={onSelect}
-      disabled={disabled}
-      className={cn(
-        'items-center py-3 px-4 flex-1',
-        !last && 'border-r border-slate-200',
-      )}
-    >
-      <Text
-        className="text-sm font-semibold font-secondary"
-        style={{ color: selected ? activeColor : '#94a3b8' }}
-      >
-        {RECURRENCE_LABEL[value]}
-      </Text>
+  const contentScale = useRef(new Animated.Value(1)).current;
+  const lineScaleX = useRef(new Animated.Value(selected ? 1 : 0)).current;
+  const lineOpacity = useRef(new Animated.Value(selected ? 1 : 0)).current;
 
-      <View
-        className="h-0.5 w-full rounded-full mt-2"
-        style={{ backgroundColor: selected ? activeColor : '#c5cdd9' }}
-      />
-    </Pressable>
+  useEffect(() => {
+    Animated.parallel([
+      Animated.spring(lineScaleX, {
+        toValue: selected ? 1 : 0,
+        tension: 80,
+        friction: 10,
+        useNativeDriver: true,
+      }),
+      Animated.timing(lineOpacity, {
+        toValue: selected ? 1 : 0,
+        duration: 150,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [lineOpacity, lineScaleX, selected]);
+
+  function onPressIn() {
+    Animated.spring(contentScale, {
+      toValue: 0.93,
+      speed: 60,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  function onPressOut() {
+    Animated.spring(contentScale, {
+      toValue: 1,
+      speed: 40,
+      bounciness: 4,
+      useNativeDriver: true,
+    }).start();
+  }
+
+  return (
+    <View className={cn('flex-1', !last && 'border-r border-slate-200')}>
+      <Pressable
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        onPress={onSelect}
+        disabled={disabled}
+        className="items-center p-3 justify-center flex-1"
+      >
+        <Animated.View
+          style={{ transform: [{ scale: contentScale }] }}
+          className="items-center w-full justify-center"
+        >
+          <Text
+            className="text-sm font-semibold font-secondary text-center"
+            style={{ color: selected ? activeColor : '#94a3b8' }}
+          >
+            {RECURRENCE_LABEL[value]}
+          </Text>
+
+          <View className="h-0.5 w-10/12 mt-2 items-center justify-center relative">
+            <View className="h-full w-full rounded-full bg-slate-200/80 absolute" />
+
+            <Animated.View
+              className="h-full w-full rounded-full absolute"
+              style={{
+                backgroundColor: activeColor,
+                opacity: lineOpacity,
+                transform: [{ scaleX: lineScaleX }],
+              }}
+            />
+          </View>
+        </Animated.View>
+      </Pressable>
+    </View>
   );
 }
