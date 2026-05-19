@@ -66,7 +66,10 @@ export default function TaskForm({ onSubmit }: { onSubmit(): void }) {
             value={formData.dueDate}
             onChange={(value) => {
               setField('dueDate', value);
-              if (!value) setField('reminderTime', undefined);
+              if (value) return;
+
+              setField('reminderTime', undefined);
+              setField('recurrence', RECURRENCE.NONE);
             }}
           />
         </Field>
@@ -83,6 +86,7 @@ export default function TaskForm({ onSubmit }: { onSubmit(): void }) {
 
       <Field label="Recurrence">
         <RecurrencePicker
+          disabled={!formData.dueDate}
           value={formData.recurrence!}
           onChange={(value) => setField('recurrence', value)}
         />

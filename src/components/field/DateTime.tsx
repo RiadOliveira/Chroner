@@ -9,7 +9,6 @@ import { format, parse, parseISO } from 'date-fns';
 
 type Props = PickerProps<string | null | undefined> & {
   mode: DateTimePickerMode;
-  disabled?: boolean;
 };
 
 type ModeProps = {

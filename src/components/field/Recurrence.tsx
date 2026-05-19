@@ -20,10 +20,16 @@ const OPTIONS: RecurrenceOption[] = [
 
 export default function RecurrencePicker({
   value,
+  disabled,
   onChange,
 }: PickerProps<RecurrenceValue>) {
   return (
-    <View className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+    <View
+      className={cn(
+        'bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden',
+        disabled && 'opacity-60',
+      )}
+    >
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -38,6 +44,7 @@ export default function RecurrencePicker({
               key={option.value}
               data={option}
               selected={selected}
+              disabled={disabled}
               onSelect={() => onChange(selectValue)}
             />
           );
@@ -50,6 +57,7 @@ export default function RecurrencePicker({
 function Item({
   data: { value, activeColor },
   selected,
+  disabled,
   onSelect,
 }: PickerItemProps<RecurrenceOption>) {
   const last = value === OPTIONS.at(-1)!.value;
@@ -57,6 +65,7 @@ function Item({
   return (
     <Pressable
       onPress={onSelect}
+      disabled={disabled}
       className={cn(
         'items-center py-3 px-4 flex-1',
         !last && 'border-r border-slate-200',
