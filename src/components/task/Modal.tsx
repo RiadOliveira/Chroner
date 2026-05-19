@@ -30,6 +30,16 @@ export default function TaskModal() {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(SCREEN_HEIGHT)).current;
+  const closeButtonAnim = useRef(new Animated.Value(0)).current;
+
+  const closeScale = closeButtonAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 0.88],
+  });
+  const closeRotate = closeButtonAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '-90deg'],
+  });
 
   useEffect(() => {
     if (isVisible) {
@@ -75,6 +85,24 @@ export default function TaskModal() {
     selectTask(undefined);
   }
 
+  function handlePressIn() {
+    Animated.timing(closeButtonAnim, {
+      toValue: 1,
+      duration: 100,
+      easing: Easing.out(Easing.ease),
+      useNativeDriver: true,
+    }).start();
+  }
+
+  function handlePressOut() {
+    Animated.spring(closeButtonAnim, {
+      toValue: 0,
+      tension: 100,
+      friction: 6,
+      useNativeDriver: true,
+    }).start();
+  }
+
   return (
     <Modal
       transparent
@@ -98,7 +126,7 @@ export default function TaskModal() {
         >
           <SafeAreaView
             edges={['bottom']}
-            className="bg-background max-h-[88%] overflow-hidden shadow-2xl"
+            className="bg-background max-h-[88%] overflow-hidden shadow-2xl rounded-t-3xl"
           >
             <AppGradient
               start={{ x: 0, y: 0 }}
@@ -126,13 +154,21 @@ export default function TaskModal() {
                   </Text>
                 </View>
 
-                <Pressable
-                  onPress={onClose}
-                  className="bg-slate-200/70 p-2 rounded-xl"
-                  hitSlop={8}
+                <Animated.View
+                  style={{
+                    transform: [{ scale: closeScale }, { rotate: closeRotate }],
+                  }}
                 >
-                  <X size={18} color="#64748b" />
-                </Pressable>
+                  <Pressable
+                    onPressIn={handlePressIn}
+                    onPressOut={handlePressOut}
+                    onPress={onClose}
+                    className="bg-slate-200/70 p-2 rounded-xl"
+                    hitSlop={8}
+                  >
+                    <X size={18} color="#64748b" />
+                  </Pressable>
+                </Animated.View>
               </View>
 
               <TaskForm isCreating={isCreating} onSubmit={onClose} />
