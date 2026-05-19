@@ -2,9 +2,9 @@ import type { TaskDTO } from '@/types/Task';
 
 import { COLOR } from '@/types/Color';
 import { RECURRENCE } from '@/types/Recurrence';
-import { View } from 'react-native';
+import { type TextInput, View } from 'react-native';
 import { useTasks } from '@/hooks/tasks';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Field from '@/components/field/Base';
 import Input from '@/components/field/Input';
@@ -26,9 +26,16 @@ const DEFAULT_FORM_DATA: TaskDTO = {
 
 export default function TaskForm({ isCreating, onSubmit }: Props) {
   const { tasks, selectedIndex, createTask, updateTask } = useTasks();
+
+  const inputRef = useRef<TextInput>(null);
   const [formData, setFormData] = useState<TaskDTO>(DEFAULT_FORM_DATA);
 
   const isValid = formData.name.length > 0;
+
+  useEffect(() => {
+    const timer = setTimeout(() => inputRef.current?.focus(), 180);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (selectedIndex === undefined) return;
@@ -48,6 +55,7 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
     <View className="gap-6">
       <Field label="Task Name">
         <Input
+          ref={inputRef}
           placeholder="What do you need to do?"
           maxLength={80}
           value={formData.name}

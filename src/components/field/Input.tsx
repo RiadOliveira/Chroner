@@ -1,20 +1,19 @@
 import { COLOR, HEX_COLOR } from '@/types/Color';
 import {
-  type TextInputProps,
   type BlurEvent,
   type FocusEvent,
   TextInput,
   Animated,
 } from 'react-native';
+import { type ComponentPropsWithRef, useRef } from 'react';
 import { cn } from '@/utils/mergeStyles';
-import { useRef } from 'react';
 
 export default function Input({
   className,
   onFocus,
   onBlur,
   ...props
-}: TextInputProps) {
+}: ComponentPropsWithRef<typeof TextInput>) {
   const focus = useRef(new Animated.Value(0)).current;
 
   const borderColor = focus.interpolate({
