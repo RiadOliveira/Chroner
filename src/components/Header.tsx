@@ -1,10 +1,10 @@
+import { COLOR, HEX_COLOR } from '@/types/Color';
 import { View, Text, Animated } from 'react-native';
 import { Hourglass } from 'lucide-react-native';
-import { COLOR, HEX_COLOR } from '@/types/Color';
 import { cn } from '@/utils/mergeStyles';
-import { useMemo, useRef, useEffect, useState } from 'react';
 import { useTasks } from '@/hooks/tasks';
 import { isOverdue } from '@/utils/date';
+import { useMemo, useRef, useEffect, useState } from 'react';
 
 import AppGradient from './AppGradient';
 
@@ -58,7 +58,6 @@ export default function Header() {
         duration: 180,
         useNativeDriver: true,
       }),
-
       Animated.sequence([
         Animated.timing(dotScale, {
           toValue: 1.5,

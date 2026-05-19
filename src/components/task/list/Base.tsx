@@ -1,0 +1,60 @@
+import { FlatList, LayoutAnimation } from 'react-native';
+import { useTasks } from '@/hooks/tasks';
+import { useEffect, useRef } from 'react';
+
+import TaskCard from '../card/Base';
+import EmptyState from './EmptyState';
+
+export default function TasksList() {
+  const { tasks, selectTask, completeTask, deleteTask } = useTasks();
+  const previousLength = useRef(tasks.length);
+
+  useEffect(() => {
+    if (previousLength.current === tasks.length) return;
+
+    LayoutAnimation.configureNext({
+      duration: 240,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity,
+      },
+      update: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+      },
+      delete: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.opacity,
+      },
+    });
+
+    previousLength.current = tasks.length;
+  }, [tasks.length]);
+
+  return (
+    <FlatList
+      data={tasks}
+      keyExtractor={({ id }) => id.toString()}
+      showsVerticalScrollIndicator={false}
+      removeClippedSubviews
+      initialNumToRender={8}
+      maxToRenderPerBatch={8}
+      windowSize={10}
+      contentContainerStyle={{
+        gap: 12,
+        flexGrow: 1,
+        padding: 20,
+        paddingBottom: 80,
+      }}
+      renderItem={({ item, index }) => (
+        <TaskCard
+          task={item}
+          index={index}
+          selectTask={() => selectTask(item.id)}
+          completeTask={() => completeTask(item)}
+          deleteTask={() => deleteTask(item)}
+        />
+      )}
+      ListEmptyComponent={<EmptyState visible={!tasks.length} />}
+    />
+  );
+}

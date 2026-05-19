@@ -1,34 +1,34 @@
 import type { Task } from '@/types/Task';
 
+import { HEX_COLOR } from '@/types/Color';
+import { RECURRENCE, RECURRENCE_LABEL } from '@/types/Recurrence';
 import { View, Text } from 'react-native';
 import { AlertTriangle, Calendar, Clock, RefreshCw } from 'lucide-react-native';
-import { RECURRENCE, RECURRENCE_LABEL } from '@/types/Recurrence';
-import { HEX_COLOR } from '@/types/Color';
 import { isOverdue } from '@/utils/date';
 import { format, parse, parseISO } from 'date-fns';
 
-import GestureButton from '../GestureButton';
+import GestureButton from '@/components/GestureButton';
 
 type Props = {
   task: Task;
-  selectTask(): void;
-  completeTask(): Promise<void>;
-  deleteTask(): Promise<void>;
+  onSelect(): void;
+  onComplete(): void;
+  onDelete(): void;
 };
 
-export default function TaskCard({
+export default function TaskCardContainer({
   task,
-  selectTask,
-  completeTask,
-  deleteTask,
+  onSelect,
+  onComplete,
+  onDelete,
 }: Props) {
   const accentColor = HEX_COLOR[task.color];
 
   return (
     <GestureButton
-      onSingleTap={selectTask}
-      onDoubleTap={completeTask}
-      onHold={deleteTask}
+      onSingleTap={onSelect}
+      onDoubleTap={onComplete}
+      onHold={onDelete}
       className="rounded-2xl overflow-hidden bg-white border border-slate-200 shadow-sm"
     >
       <View
