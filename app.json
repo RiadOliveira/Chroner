@@ -13,13 +13,16 @@
       "backgroundColor": "#ffffff"
     },
     "android": {
+      "package": "com.riadoliveira.Chroner",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.riadoliveira.Chroner"
+      "permissions": [
+        "android.permission.USE_EXACT_ALARM"
+      ]
     },
     "plugins": [
       [

@@ -1,4 +1,8 @@
-import notifee, { type Notification, TriggerType } from '@notifee/react-native';
+import notifee, {
+  type Notification,
+  TriggerType,
+  AlarmType,
+} from '@notifee/react-native';
 import {
   CHANNEL_PROPS,
   NOTIFICATION_BASE_PROPS,
@@ -25,6 +29,7 @@ export async function scheduleNotification({
   return notifee.createTriggerNotification(notification, {
     type: TriggerType.TIMESTAMP,
     timestamp: date.getTime(),
+    alarmManager: { type: AlarmType.SET_EXACT_AND_ALLOW_WHILE_IDLE },
   });
 }
 
