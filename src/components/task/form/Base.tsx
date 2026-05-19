@@ -33,9 +33,12 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
   const isValid = formData.name.length > 0;
 
   useEffect(() => {
-    const timer = setTimeout(() => inputRef.current?.focus(), 180);
+    const timer = setTimeout(
+      () => isCreating && inputRef.current?.focus(),
+      180,
+    );
     return () => clearTimeout(timer);
-  }, []);
+  }, [isCreating]);
 
   useEffect(() => {
     if (selectedIndex === undefined) return;
