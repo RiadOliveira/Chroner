@@ -7,6 +7,7 @@ import {
   CHANNEL_PROPS,
   NOTIFICATION_BASE_PROPS,
 } from '@/constants/notificationProps';
+import { isPast } from 'date-fns';
 
 type NotificationProps = {
   id?: string;
@@ -24,8 +25,9 @@ export async function scheduleNotification({
   date,
   ...props
 }: NotificationProps & { date: Date }) {
-  const notification = await generateNotification(props);
+  if (isPast(date)) return displayNotification(props);
 
+  const notification = await generateNotification(props);
   return notifee.createTriggerNotification(notification, {
     type: TriggerType.TIMESTAMP,
     timestamp: date.getTime(),
