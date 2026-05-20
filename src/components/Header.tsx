@@ -141,7 +141,10 @@ export default function Header() {
             opacity: textOpacity,
             transform: [{ translateY: textTranslateY }],
           }}
-          className="text-slate-800 font-semibold font-secondary"
+          className={cn(
+            'font-semibold font-secondary',
+            displayedHasOverdue ? 'text-accent-blue' : 'text-accent-purple',
+          )}
         >
           {getOverdueMessage(displayedCount)}
         </Animated.Text>

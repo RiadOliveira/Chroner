@@ -67,7 +67,7 @@ export function TasksContext({ children }: DefaultProps) {
   async function createTask(task: TaskDTO) {
     await TASK_SERVICES.create(task);
 
-    showToast({ message: 'Task created', color: COLOR.BLUE });
+    showToast({ message: 'Task Created', color: COLOR.BLUE });
     return reloadTasks();
   }
 
@@ -75,21 +75,21 @@ export function TasksContext({ children }: DefaultProps) {
     const current = tasks.find(({ id }) => id === task.id)!;
     await TASK_SERVICES.update(current, task);
 
-    showToast({ message: 'Task updated', color: COLOR.PINK });
+    showToast({ message: 'Task Updated', color: COLOR.INDIGO });
     return reloadTasks();
   }
 
   async function deleteTask(task: Task) {
     await TASK_SERVICES.delete(task);
 
-    showToast({ message: 'Task deleted', color: COLOR.RED });
+    showToast({ message: 'Task Deleted', color: COLOR.RED });
     return reloadTasks();
   }
 
   async function completeTask(task: Task) {
     await TASK_SERVICES.complete(task);
 
-    showToast({ message: 'Task completed', color: COLOR.PURPLE });
+    showToast({ message: 'Task Completed', color: COLOR.PURPLE });
     return reloadTasks();
   }
 

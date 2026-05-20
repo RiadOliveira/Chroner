@@ -40,7 +40,7 @@ export const TOAST_PROPS: ToastProps = {
               className="rounded-full border-[5px]"
             />
 
-            <Text className="font-secondary font-semibold text-slate-800">
+            <Text style={{ color }} className="font-secondary font-semibold">
               {text1}
             </Text>
           </View>
