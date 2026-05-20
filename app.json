@@ -4,19 +4,19 @@
     "slug": "Chroner",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icons/base.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/icon.png",
+      "image": "./assets/icons/base.png",
       "resizeMode": "contain",
       "backgroundColor": "#f8fafc"
     },
     "android": {
       "package": "com.riadoliveira.Chroner",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-foreground.png",
-        "backgroundImage": "./assets/adaptive-background.png"
+        "foregroundImage": "./assets/icons/foreground.png",
+        "backgroundImage": "./assets/icons/background.png"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -27,6 +27,12 @@
     "plugins": [
       "expo-sqlite",
       "@react-native-community/datetimepicker",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/icons/notification.png"
+        }
+      ],
       [
         "expo-font",
         {

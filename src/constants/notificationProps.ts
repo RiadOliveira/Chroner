@@ -18,6 +18,7 @@ export const CHANNEL_PROPS: AndroidChannel = {
 export const NOTIFICATION_BASE_PROPS: NotificationAndroid = {
   ongoing: true,
   autoCancel: false,
+  smallIcon: 'notification_icon',
   color: HEX_COLOR[COLOR.PURPLE],
   category: AndroidCategory.REMINDER,
   pressAction: {
