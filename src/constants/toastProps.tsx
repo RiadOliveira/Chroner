@@ -5,13 +5,15 @@ import { Dimensions, Text, View } from 'react-native';
 
 import AppGradient from '@/components/AppGradient';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const MARGIN_RIGHT = 72;
+const FAB_GAP = 42;
+const TOAST_WIDTH = Dimensions.get('window').width - MARGIN_RIGHT - FAB_GAP;
 
 export const TOAST_PROPS: ToastProps = {
   type: 'info',
   position: 'bottom',
   bottomOffset: 14,
-  visibilityTime: 2000,
+  visibilityTime: 3000,
   config: {
     info({ text1, props: { color } }: ToastShowParams) {
       return (
@@ -19,11 +21,11 @@ export const TOAST_PROPS: ToastProps = {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={{
-            width: SCREEN_WIDTH - 42 - 72,
+            width: TOAST_WIDTH,
             height: 54,
             padding: 2,
             borderRadius: 16,
-            marginRight: 72,
+            marginRight: MARGIN_RIGHT,
             elevation: 13,
             zIndex: 10,
             shadowColor: HEX_COLOR[COLOR.PURPLE],
