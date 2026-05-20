@@ -2,7 +2,7 @@ import notifee, {
   type Notification,
   TriggerType,
   AlarmType,
-} from '@notifee/react-native';
+} from 'react-native-notify-kit';
 import {
   CHANNEL_PROPS,
   NOTIFICATION_BASE_PROPS,

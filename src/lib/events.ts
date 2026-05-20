@@ -3,7 +3,7 @@ import type { TaskNotificationData } from '@/types/TaskNotificationData';
 import { PRESS_ACTION } from '@/types/PressAction';
 import { TASK_SERVICES } from './taskServices';
 
-import notifee, { type Event, EventType } from '@notifee/react-native';
+import notifee, { type Event, EventType } from 'react-native-notify-kit';
 import { cancelNotification, displayNotification } from './notifications';
 
 type ForegroundProps = {

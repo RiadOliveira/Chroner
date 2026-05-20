@@ -2,14 +2,14 @@ import type { DefaultProps } from '@/types/DefaultProps';
 import type { Task, TaskDTO } from '@/types/Task';
 import type { TaskNotificationData } from '@/types/TaskNotificationData';
 
-import { fetchTasks } from '@/utils/fetchTasks';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { COLOR } from '@/types/Color';
 import { TASK_SERVICES } from '@/lib/taskServices';
 import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
-
-import notifee from '@notifee/react-native';
 import { showToast } from '@/lib/showToast';
-import { COLOR } from '@/types/Color';
+import { fetchTasks } from '@/utils/fetchTasks';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+import notifee from 'react-native-notify-kit';
 
 type TasksContextType = {
   tasks: Task[];

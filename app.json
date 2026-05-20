@@ -25,19 +25,6 @@
       ]
     },
     "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "compileSdkVersion": 36,
-            "targetSdkVersion": 36,
-            "buildToolsVersion": "36.0.0",
-            "extraMavenRepos": [
-              "../../node_modules/@notifee/react-native/android/libs"
-            ]
-          }
-        }
-      ],
       "expo-sqlite",
       "@react-native-community/datetimepicker",
       [

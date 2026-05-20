@@ -5,7 +5,7 @@ import {
   type NotificationAndroid,
   AndroidImportance,
   AndroidCategory,
-} from '@notifee/react-native';
+} from 'react-native-notify-kit';
 
 export const CHANNEL_PROPS: AndroidChannel = {
   id: 'Chroner',
