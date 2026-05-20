@@ -37,7 +37,7 @@ export default function FAB({ onPress }: Props) {
         onPressIn={onPressIn}
         onPressOut={onPressOut}
         onPress={onPress}
-        className="rounded-[20px] overflow-hidden shadow-md shadow-accent-purple elevation-xl"
+        className="rounded-[20px] overflow-hidden shadow shadow-accent-purple elevation-md"
       >
         <AppGradient
           start={{ x: 0, y: 0 }}

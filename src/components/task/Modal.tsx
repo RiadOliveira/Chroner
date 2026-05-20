@@ -1,6 +1,6 @@
 import { COLOR, HEX_COLOR } from '@/types/Color';
 import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
-import { X, Hourglass } from 'lucide-react-native';
+import { X } from 'lucide-react-native';
 import {
   View,
   Text,
@@ -19,6 +19,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import TaskForm from './form/Base';
 import AppGradient from '../AppGradient';
+import AppIcon from '../AppIcon';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -115,10 +116,9 @@ export default function TaskModal() {
               <View className="flex-row items-center justify-between pb-6">
                 <View className="flex-row items-center gap-3">
                   <View className="bg-accent-purple/10 p-2 rounded-xl">
-                    <Hourglass
-                      size={18}
-                      color={HEX_COLOR[COLOR.PURPLE]}
-                      strokeWidth={1.5}
+                    <AppIcon
+                      tintColor={HEX_COLOR[COLOR.PURPLE]}
+                      style={{ width: 18, height: 18 }}
                     />
                   </View>
 

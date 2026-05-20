@@ -26,7 +26,7 @@ export const TOAST_PROPS: ToastProps = {
             padding: 2,
             borderRadius: 16,
             marginRight: MARGIN_RIGHT,
-            elevation: 13,
+            elevation: 6,
             zIndex: 10,
             shadowColor: HEX_COLOR[COLOR.PURPLE],
             shadowOffset: { width: 0, height: 3 },

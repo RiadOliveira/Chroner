@@ -1,11 +1,11 @@
 import { COLOR, HEX_COLOR } from '@/types/Color';
 import { View, Text, Animated } from 'react-native';
-import { Hourglass } from 'lucide-react-native';
 import { cn } from '@/utils/mergeStyles';
 import { useTasks } from '@/hooks/tasks';
 import { isOverdue } from '@/utils/date';
 import { useMemo, useRef, useEffect, useState } from 'react';
 
+import AppIcon from './AppIcon';
 import AppGradient from './AppGradient';
 
 export default function Header() {
@@ -36,7 +36,7 @@ export default function Header() {
 
   const hourglassRotate = hourglassSpin.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '180deg'],
+    outputRange: ['0deg', '360deg'],
   });
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function Header() {
   }, [overdueCount, hasOverdueTasks, textOpacity, textTranslateY, dotScale]);
 
   return (
-    <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow-lg shadow-accent-purple elevation-x z-10">
+    <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow-lg shadow-accent-purple elevation-xl z-10">
       <AppGradient className="absolute inset-0" />
 
       <View className="flex-row justify-between items-center">
@@ -118,13 +118,16 @@ export default function Header() {
 
         <Animated.View
           style={{ transform: [{ rotate: hourglassRotate }] }}
-          className="bg-white/90 p-3 rounded-full border border-white/50"
+          className="bg-white mt-1 p-3 rounded-full border border-white/50 shadow elevation-md"
         >
-          <Hourglass size={24} color={HEX_COLOR[hourglassColor]} />
+          <AppIcon
+            tintColor={HEX_COLOR[hourglassColor]}
+            style={{ width: 28, height: 28 }}
+          />
         </Animated.View>
       </View>
 
-      <View className="bg-background p-4 rounded-[40px] shadow-sm border border-slate-100 flex-row items-center justify-center gap-3">
+      <View className="bg-white p-4 rounded-[40px] elevation-md shadow border border-slate-100 flex-row items-center justify-center gap-3">
         <Animated.View
           style={{ transform: [{ scale: dotScale }] }}
           className={cn(
