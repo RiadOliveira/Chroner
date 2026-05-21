@@ -23,7 +23,7 @@ export default function ColorPicker({
   onChange,
 }: PickerProps<ColorValue>) {
   return (
-    <View className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 gap-3 text-amber-500">
+    <View className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 gap-3">
       {COLOR_ROWS.map((row, rowIndex) => (
         <View
           key={`color-row-${rowIndex}`}
