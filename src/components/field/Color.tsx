@@ -7,8 +7,15 @@ import { View, Pressable, Animated } from 'react-native';
 import { useEffect, useRef } from 'react';
 
 const COLOR_ROWS: ColorValue[][] = [
-  [COLOR.BLUE, COLOR.CYAN, COLOR.TEAL, COLOR.GREEN, COLOR.LIME, COLOR.YELLOW],
-  [COLOR.ORANGE, COLOR.RED, COLOR.ROSE, COLOR.PINK, COLOR.PURPLE, COLOR.INDIGO],
+  [COLOR.BLUE, COLOR.INDIGO, COLOR.PURPLE, COLOR.PINK, COLOR.ROSE, COLOR.RED],
+  [
+    COLOR.ORANGE,
+    COLOR.AMBER,
+    COLOR.YELLOW,
+    COLOR.GREEN,
+    COLOR.EMERALD,
+    COLOR.TEAL,
+  ],
 ] as const;
 
 export default function ColorPicker({
@@ -16,7 +23,7 @@ export default function ColorPicker({
   onChange,
 }: PickerProps<ColorValue>) {
   return (
-    <View className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 gap-3">
+    <View className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4 gap-3 text-amber-500">
       {COLOR_ROWS.map((row, rowIndex) => (
         <View
           key={`color-row-${rowIndex}`}

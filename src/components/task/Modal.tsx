@@ -87,7 +87,7 @@ export default function TaskModal() {
               </Text>
             </View>
 
-            <View className="flex-row items-center gap-3.5">
+            <View className="flex-row items-center gap-3">
               {!creating && (
                 <>
                   <TouchableOpacity

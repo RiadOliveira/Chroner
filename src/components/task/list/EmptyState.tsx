@@ -1,4 +1,10 @@
 import { COLOR, HEX_COLOR } from '@/types/Color';
+import {
+  MousePointerClick,
+  Check,
+  Trash2,
+  PlusCircle,
+} from 'lucide-react-native';
 import { Animated, Easing, Text, View } from 'react-native';
 import { useEffect, useRef } from 'react';
 
@@ -52,30 +58,84 @@ export default function EmptyState({ visible }: Props) {
   }, [opacity, scale, translateY, visible]);
 
   return (
-    <View className="items-center justify-center px-4 pt-12">
+    <View className="items-center justify-center px-6 pt-12">
       <Animated.View
         renderToHardwareTextureAndroid
+        className="w-full"
         style={{
           opacity,
           transform: [{ translateY }, { scale }],
         }}
       >
-        <View className="bg-white rounded-3xl p-8 items-center border border-slate-100 shadow elevation-sm">
-          <View className="bg-accent-purple/10 p-4 rounded-full mb-4">
-            <AppIcon
-              tintColor={HEX_COLOR[COLOR.PURPLE]}
-              style={{ width: 32, height: 32 }}
-            />
+        <View className="bg-white rounded-[28px] p-6 w-full border border-slate-100 shadow-sm elevation-sm">
+          <View className="items-center mb-6 mt-2">
+            <View className="bg-accent-purple/10 p-4 rounded-3xl mb-4">
+              <AppIcon
+                tintColor={HEX_COLOR[COLOR.PURPLE]}
+                style={{ width: 32, height: 32 }}
+              />
+            </View>
+
+            <Text className="text-accent-purple font-bold text-xl font-primary text-center mb-2">
+              All quiet across the timeline
+            </Text>
+
+            <Text className="text-slate-500 text-sm font-medium font-secondary text-center px-4 leading-6">
+              Tap the{' '}
+              <View className="translate-y-[3px]">
+                <PlusCircle
+                  size={14}
+                  color={HEX_COLOR[COLOR.PURPLE]}
+                  strokeWidth={2.5}
+                />
+              </View>{' '}
+              button to start shaping it.
+            </Text>
           </View>
 
-          <Text className="text-accent-purple font-bold text-lg font-primary text-center mb-2">
-            All quiet across the timeline
-          </Text>
+          <View className="bg-slate-50 border border-slate-100 rounded-2xl p-4 gap-3">
+            <Text className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1 text-center font-primary">
+              Task Gestures
+            </Text>
 
-          <Text className="text-slate-600 text-sm font-medium font-secondary text-center">
-            Tap the + button to add your first task and start tracking your
-            timeline.
-          </Text>
+            <View className="flex-row items-center gap-3">
+              <View className="bg-indigo-500/10 p-2 rounded-xl">
+                <MousePointerClick size={16} color="#6366f1" />
+              </View>
+
+              <Text className="text-indigo-600 font-semibold font-secondary text-sm flex-1">
+                1 Tap
+              </Text>
+              <Text className="text-indigo-600 font-medium font-secondary text-sm">
+                Open / Edit
+              </Text>
+            </View>
+
+            <View className="flex-row items-center gap-3">
+              <View className="bg-emerald-500/10 p-2 rounded-xl">
+                <Check size={16} color="#059669" />
+              </View>
+
+              <Text className="text-emerald-600 font-semibold font-secondary text-sm flex-1">
+                2 Taps
+              </Text>
+              <Text className="text-emerald-600 font-medium font-secondary text-sm">
+                Complete
+              </Text>
+            </View>
+
+            <View className="flex-row items-center gap-3">
+              <View className="bg-red-500/10 p-2 rounded-xl">
+                <Trash2 size={16} color="#e11d48" />
+              </View>
+              <Text className="text-red-600 font-semibold font-secondary text-sm flex-1">
+                Hold
+              </Text>
+              <Text className="text-red-600 font-medium font-secondary text-sm">
+                Delete
+              </Text>
+            </View>
+          </View>
         </View>
       </Animated.View>
     </View>
