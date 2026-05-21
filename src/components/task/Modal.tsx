@@ -1,10 +1,10 @@
 import { COLOR, HEX_COLOR } from '@/types/Color';
 import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
-import { X } from 'lucide-react-native';
+import { X, Trash2, Check } from 'lucide-react-native';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTasks } from '@/hooks/tasks';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Modal from 'react-native-modal';
 import TaskForm from './form/Base';
@@ -12,21 +12,38 @@ import AppGradient from '../AppGradient';
 import AppIcon from '../AppIcon';
 
 export default function TaskModal() {
-  const { selectedIndex, selectTask } = useTasks();
-  const [isCreating, setIsCreating] = useState(false);
+  const { tasks, selectedIndex, selectTask, deleteTask, completeTask } =
+    useTasks();
+  const [creating, setCreating] = useState(false);
 
-  const isVisible = selectedIndex !== undefined;
+  const visible = selectedIndex !== undefined;
+  const selectedTask = visible && !creating ? tasks[selectedIndex] : undefined;
+
   useEffect(() => {
-    if (isVisible) setIsCreating(selectedIndex === CREATE_TASK_INDEX);
-  }, [isVisible, selectedIndex]);
+    if (visible) setCreating(selectedIndex === CREATE_TASK_INDEX);
+  }, [selectedIndex, visible]);
 
   function onClose() {
     selectTask(undefined);
   }
 
+  async function onDelete() {
+    if (selectedTask === undefined) return;
+
+    await deleteTask(selectedTask);
+    onClose();
+  }
+
+  async function onComplete() {
+    if (selectedTask === undefined) return;
+
+    await completeTask(selectedTask);
+    onClose();
+  }
+
   return (
     <Modal
-      isVisible={isVisible}
+      isVisible={visible}
       onBackdropPress={onClose}
       onBackButtonPress={onClose}
       avoidKeyboard
@@ -66,21 +83,45 @@ export default function TaskModal() {
               </View>
 
               <Text className="text-slate-800 text-xl font-bold font-primary">
-                {isCreating ? 'New Task' : 'Edit Task'}
+                {creating ? 'New Task' : 'Edit Task'}
               </Text>
             </View>
 
-            <TouchableOpacity
-              hitSlop={8}
-              activeOpacity={0.6}
-              className="bg-slate-200/70 p-2 rounded-xl"
-              onPress={onClose}
-            >
-              <X size={18} color="#64748b" />
-            </TouchableOpacity>
+            <View className="flex-row items-center gap-3.5">
+              {!creating && (
+                <>
+                  <TouchableOpacity
+                    className="bg-red-500/10 p-2 rounded-xl"
+                    onPress={onDelete}
+                    activeOpacity={0.6}
+                    hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
+                  >
+                    <Trash2 size={18} color="#e11d48" />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    className="bg-emerald-500/10 p-2 rounded-xl"
+                    onPress={onComplete}
+                    activeOpacity={0.6}
+                    hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
+                  >
+                    <Check size={18} color="#059669" />
+                  </TouchableOpacity>
+                </>
+              )}
+
+              <TouchableOpacity
+                className="bg-slate-200/70 p-2 rounded-xl"
+                onPress={onClose}
+                activeOpacity={0.6}
+                hitSlop={{ top: 10, bottom: 10, left: 6, right: 6 }}
+              >
+                <X size={18} color="#64748b" />
+              </TouchableOpacity>
+            </View>
           </View>
 
-          <TaskForm isCreating={isCreating} onSubmit={onClose} />
+          <TaskForm isCreating={creating} onSubmit={onClose} />
         </ScrollView>
       </SafeAreaView>
     </Modal>
