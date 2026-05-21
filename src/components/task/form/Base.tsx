@@ -75,7 +75,7 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
               setField('dueDate', value);
               if (value) return;
 
-              setField('reminderTime', undefined);
+              setField('reminderTime', null);
               setField('recurrence', RECURRENCE.NONE);
             }}
           />

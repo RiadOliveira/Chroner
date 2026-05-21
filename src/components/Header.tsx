@@ -154,6 +154,6 @@ export default function Header() {
 }
 
 function getOverdueMessage(overdueCount: number) {
-  if (overdueCount === 0) return 'Your timeline is perfectly synced!';
-  return `${overdueCount} task${overdueCount > 1 ? 's' : ''} shattered across the timeline!`;
+  if (overdueCount === 0) return 'Your timeline is perfectly synced';
+  return `${overdueCount} task${overdueCount > 1 ? 's' : ''} shattered across the timeline`;
 }

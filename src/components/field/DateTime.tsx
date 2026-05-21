@@ -171,7 +171,7 @@ export default function DateTimePicker({
           <Pressable
             hitSlop={12}
             className="p-1 -m-1 active:opacity-50"
-            onPress={() => onChange(undefined)}
+            onPress={() => onChange(null)}
           >
             <X size={16} color="#94a3b8" />
           </Pressable>
