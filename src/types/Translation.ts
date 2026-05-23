@@ -1,3 +1,48 @@
+import { RecurrenceI18nKey } from './Recurrence';
+
+type FieldKey = 'name' | 'date' | 'time' | 'recurrence' | 'color';
+type Field = { label: string; placeholder?: string };
+
 export type Translation = {
-  name: string;
+  header: {
+    subtitle: string;
+
+    overdueTasks_zero: string;
+    overdueTasks_one: `{{count}} ${string}`;
+    overdueTasks_other: `{{count}} ${string}`;
+  };
+
+  emptyState: {
+    title: string;
+
+    descriptionPrefix: string;
+    descriptionSuffix: string;
+  };
+  gestures: {
+    title: string;
+
+    singleTap: {
+      action: string;
+      result: string;
+    };
+    doubleTap: {
+      action: string;
+      result: string;
+    };
+    hold: {
+      action: string;
+      result: string;
+    };
+  };
+  overdueBadge: string;
+
+  form: {
+    title_create: string;
+    title_edit: string;
+
+    submit_create: string;
+    submit_edit: string;
+  };
+  fields: Record<FieldKey, Field>;
+  recurrence: Record<RecurrenceI18nKey, string>;
 };

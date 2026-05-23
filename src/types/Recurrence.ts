@@ -8,21 +8,24 @@ export const RECURRENCE = {
   YEARLY: 3,
 } as const;
 
-type RecurrenceMapType = typeof RECURRENCE;
-export type RecurrenceValue = RecurrenceMapType[keyof RecurrenceMapType];
+type RecurrenceMap = typeof RECURRENCE;
+export type RecurrenceValue = RecurrenceMap[keyof RecurrenceMap];
 
-export const RECURRENCE_LABEL: Record<RecurrenceValue, string> = {
-  [RECURRENCE.NONE]: '',
-  [RECURRENCE.DAILY]: 'Daily',
-  [RECURRENCE.WEEKLY]: 'Weekly',
-  [RECURRENCE.MONTHLY]: 'Monthly',
-  [RECURRENCE.YEARLY]: 'Yearly',
-};
+export const RECURRENCE_I18N_KEY = {
+  [RECURRENCE.NONE]: 'none',
+  [RECURRENCE.DAILY]: 'daily',
+  [RECURRENCE.WEEKLY]: 'weekly',
+  [RECURRENCE.MONTHLY]: 'monthly',
+  [RECURRENCE.YEARLY]: 'yearly',
+} as const satisfies Record<RecurrenceValue, string>;
 
-export const RECURRENCE_DURATION: Record<RecurrenceValue, Duration> = {
+type I18nKeyMap = typeof RECURRENCE_I18N_KEY;
+export type RecurrenceI18nKey = I18nKeyMap[keyof I18nKeyMap];
+
+export const RECURRENCE_DURATION = {
   [RECURRENCE.NONE]: {},
   [RECURRENCE.DAILY]: { days: 1 },
   [RECURRENCE.WEEKLY]: { weeks: 1 },
   [RECURRENCE.MONTHLY]: { months: 1 },
   [RECURRENCE.YEARLY]: { years: 1 },
-} as const;
+} as const satisfies Record<RecurrenceValue, Duration>;

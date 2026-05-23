@@ -4,6 +4,7 @@ import { X, Trash2, Check } from 'lucide-react-native';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTasks } from '@/hooks/tasks';
+import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 
 import Modal from 'react-native-modal';
@@ -12,6 +13,7 @@ import AppGradient from '../AppGradient';
 import AppIcon from '../AppIcon';
 
 export default function TaskModal() {
+  const { t } = useTranslation();
   const { tasks, selectedIndex, selectTask, deleteTask, completeTask } =
     useTasks();
   const [creating, setCreating] = useState(false);
@@ -83,7 +85,7 @@ export default function TaskModal() {
               </View>
 
               <Text className="text-slate-800 text-xl font-bold font-primary">
-                {creating ? 'New Task' : 'Edit Task'}
+                {t(`form.title_${creating ? 'create' : 'edit'}`)}
               </Text>
             </View>
 

@@ -3,6 +3,7 @@ import { View, Text, Animated } from 'react-native';
 import { cn } from '@/utils/mergeStyles';
 import { useTasks } from '@/hooks/tasks';
 import { isOverdue } from '@/utils/date';
+import { useTranslation } from 'react-i18next';
 import { useMemo, useRef, useEffect, useState } from 'react';
 
 import AppIcon from './AppIcon';
@@ -10,6 +11,7 @@ import AppGradient from './AppGradient';
 
 export default function Header() {
   const { tasks } = useTasks();
+  const { t } = useTranslation();
 
   const overdueCount = useMemo(() => {
     return tasks.reduce((count, { dueDate, reminderTime }) => {
@@ -112,7 +114,7 @@ export default function Header() {
             Chroner
           </Text>
           <Text className="font-secondary text-lg text-white font-medium">
-            Calibrate your timeline
+            {t('header.subtitle')}
           </Text>
         </View>
 
@@ -146,14 +148,9 @@ export default function Header() {
             displayedHasOverdue ? 'text-accent-blue' : 'text-accent-purple',
           )}
         >
-          {getOverdueMessage(displayedCount)}
+          {t('header.overdueTasks', { count: displayedCount })}
         </Animated.Text>
       </View>
     </View>
   );
-}
-
-function getOverdueMessage(overdueCount: number) {
-  if (overdueCount === 0) return 'Your timeline is perfectly synced';
-  return `${overdueCount} task${overdueCount > 1 ? 's' : ''} shattered across the timeline`;
 }

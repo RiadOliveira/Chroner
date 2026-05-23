@@ -7,12 +7,15 @@ import {
 } from 'lucide-react-native';
 import { Animated, Easing, Text, View } from 'react-native';
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import AppIcon from '@/components/AppIcon';
 
 type Props = { visible: boolean };
 
 export default function EmptyState({ visible }: Props) {
+  const { t } = useTranslation();
+
   const scale = useRef(new Animated.Value(0.985)).current;
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(16)).current;
@@ -77,25 +80,25 @@ export default function EmptyState({ visible }: Props) {
             </View>
 
             <Text className="text-accent-purple font-bold text-xl font-primary text-center mb-2">
-              All quiet across the timeline
+              {t('emptyState.title')}
             </Text>
 
             <Text className="text-slate-500 text-sm font-medium font-secondary text-center px-4 leading-6">
-              Tap the{' '}
+              {`${t('emptyState.descriptionPrefix')} `}
               <View className="translate-y-[3px]">
                 <PlusCircle
                   size={14}
                   color={HEX_COLOR[COLOR.PURPLE]}
                   strokeWidth={2.5}
                 />
-              </View>{' '}
-              button to start shaping it.
+              </View>
+              {` ${t('emptyState.descriptionSuffix')}.`}
             </Text>
           </View>
 
           <View className="bg-slate-50 border border-slate-100 rounded-2xl p-4 gap-3">
             <Text className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1 text-center font-primary">
-              Task Gestures
+              {t('gestures.title')}
             </Text>
 
             <View className="flex-row items-center gap-3">
@@ -104,10 +107,10 @@ export default function EmptyState({ visible }: Props) {
               </View>
 
               <Text className="text-indigo-600 font-semibold font-secondary text-sm flex-1">
-                1 Tap
+                {t('gestures.singleTap.action')}
               </Text>
               <Text className="text-indigo-600 font-medium font-secondary text-sm">
-                Open / Edit
+                {t('gestures.singleTap.result')}
               </Text>
             </View>
 
@@ -117,10 +120,10 @@ export default function EmptyState({ visible }: Props) {
               </View>
 
               <Text className="text-emerald-600 font-semibold font-secondary text-sm flex-1">
-                2 Taps
+                {t('gestures.doubleTap.action')}
               </Text>
               <Text className="text-emerald-600 font-medium font-secondary text-sm">
-                Complete
+                {t('gestures.doubleTap.result')}
               </Text>
             </View>
 
@@ -129,10 +132,10 @@ export default function EmptyState({ visible }: Props) {
                 <Trash2 size={16} color="#e11d48" />
               </View>
               <Text className="text-red-600 font-semibold font-secondary text-sm flex-1">
-                Hold
+                {t('gestures.hold.action')}
               </Text>
               <Text className="text-red-600 font-medium font-secondary text-sm">
-                Delete
+                {t('gestures.hold.result')}
               </Text>
             </View>
           </View>

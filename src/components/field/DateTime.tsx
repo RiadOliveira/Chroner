@@ -4,8 +4,15 @@ import { type LucideIcon, X, Calendar, Clock } from 'lucide-react-native';
 import { type ColorValue, HEX_COLOR, COLOR } from '@/types/Color';
 import { Text, Pressable, Keyboard, Animated } from 'react-native';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
-import { format, parse, parseISO } from 'date-fns';
+import { format } from 'date-fns';
+import {
+  formatDate,
+  formatTime,
+  parseDateString,
+  parseTimeString,
+} from '@/lib/date';
 
 type Props = PickerProps<string | null | undefined> & {
   mode: DateTimePickerMode;
@@ -24,15 +31,15 @@ const MODE_PROPS: Record<DateTimePickerMode, ModeProps> = {
     icon: Calendar,
     formatMask: 'yyyy-MM-dd',
     highlightColor: COLOR.BLUE,
-    getLabel: (value) => format(parseISO(value), 'MMM d, yyyy'),
-    parseValue: parseISO,
+    getLabel: formatDate,
+    parseValue: parseDateString,
   },
   time: {
     icon: Clock,
     formatMask: 'HH:mm',
     highlightColor: COLOR.PURPLE,
-    getLabel: (value) => value,
-    parseValue: (value) => parse(value, 'HH:mm', new Date()),
+    getLabel: formatTime,
+    parseValue: parseTimeString,
   },
 } as const;
 
@@ -42,6 +49,7 @@ export default function DateTimePicker({
   disabled,
   onChange,
 }: Props) {
+  const { t } = useTranslation();
   const {
     icon: Icon,
     formatMask,
@@ -50,7 +58,7 @@ export default function DateTimePicker({
     parseValue,
   } = MODE_PROPS[mode];
 
-  const label = value ? getLabel(value) : `Select ${mode}`;
+  const label = value ? getLabel(value) : t(`fields.${mode}.placeholder`);
   const textColor = value ? HEX_COLOR[highlightColor] : '#94a3b8';
 
   const scale = useRef(new Animated.Value(1)).current;

@@ -4,6 +4,7 @@ import { COLOR } from '@/types/Color';
 import { RECURRENCE } from '@/types/Recurrence';
 import { type TextInput, View } from 'react-native';
 import { useTasks } from '@/hooks/tasks';
+import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState } from 'react';
 
 import Field from '@/components/field/Base';
@@ -25,6 +26,7 @@ const DEFAULT_FORM_DATA: TaskDTO = {
 } as const;
 
 export default function TaskForm({ isCreating, onSubmit }: Props) {
+  const { t } = useTranslation();
   const { tasks, selectedIndex, createTask, updateTask } = useTasks();
 
   const inputRef = useRef<TextInput>(null);
@@ -56,10 +58,10 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
 
   return (
     <View className="gap-6">
-      <Field label="Task Name">
+      <Field label={t('fields.name.label')}>
         <Input
           ref={inputRef}
-          placeholder="What do you need to do?"
+          placeholder={t('fields.name.placeholder')}
           maxLength={80}
           value={formData.name}
           onChangeText={(value) => setField('name', value)}
@@ -67,7 +69,7 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
       </Field>
 
       <View className="flex-row gap-3">
-        <Field label="Due Date" className="flex-1">
+        <Field label={t('fields.date.label')} className="flex-1">
           <DateTimePicker
             mode="date"
             value={formData.dueDate}
@@ -81,7 +83,7 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
           />
         </Field>
 
-        <Field label="Reminder Time" className="flex-1">
+        <Field label={t('fields.time.label')} className="flex-1">
           <DateTimePicker
             mode="time"
             disabled={!formData.dueDate}
@@ -91,7 +93,7 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
         </Field>
       </View>
 
-      <Field label="Recurrence">
+      <Field label={t('fields.recurrence.label')}>
         <RecurrencePicker
           disabled={!formData.dueDate}
           value={formData.recurrence!}
@@ -99,7 +101,7 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
         />
       </Field>
 
-      <Field label="Color">
+      <Field label={t('fields.color.label')}>
         <ColorPicker
           value={formData.color!}
           onChange={(value) => setField('color', value)}

@@ -73,13 +73,9 @@ async function scheduleTask({
 }
 
 async function handleSchedulingUpdate(current: Task, updated: TaskDTO) {
-  const schedulingFields: (keyof Task)[] = [
-    'dueDate',
-    'reminderTime',
-    'recurrence',
-  ] as const;
+  const dateFields: (keyof Task)[] = ['dueDate', 'reminderTime'] as const;
 
-  const hasChanged = schedulingFields.some(
+  const hasChanged = dateFields.some(
     (field) => current[field] !== updated[field],
   );
   if (!hasChanged) return undefined;

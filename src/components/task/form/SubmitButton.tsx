@@ -1,5 +1,6 @@
 import { Check, Plus } from 'lucide-react-native';
 import { Text, Pressable, Animated, Easing } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
 
 import AppGradient from '@/components/AppGradient';
@@ -15,11 +16,13 @@ export default function SubmitButton({
   isCreating,
   handleSubmit,
 }: Props) {
-  const Icon = isCreating ? Plus : Check;
+  const { t } = useTranslation();
 
   const isValidRef = useRef(isValid);
   const scale = useRef(new Animated.Value(isValid ? 1 : 0.96)).current;
   const opacity = useRef(new Animated.Value(isValid ? 1 : 0.5)).current;
+
+  const Icon = isCreating ? Plus : Check;
 
   useEffect(() => {
     isValidRef.current = isValid;
@@ -84,7 +87,7 @@ export default function SubmitButton({
           <Icon size={18} color="#fff" strokeWidth={2.5} />
 
           <Text className="text-white font-bold text-base font-primary">
-            {isCreating ? 'Add Task' : 'Save Changes'}
+            {t(`form.submit_${isCreating ? 'create' : 'edit'}`)}
           </Text>
         </AppGradient>
       </Pressable>

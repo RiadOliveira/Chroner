@@ -1,8 +1,8 @@
 import type { RecurrenceValue } from '@/types/Recurrence';
 import type { PickerProps, PickerItemProps } from '@/types/PickerProps';
 
+import { RECURRENCE, RECURRENCE_I18N_KEY } from '@/types/Recurrence';
 import { COLOR, HEX_COLOR } from '@/types/Color';
-import { RECURRENCE, RECURRENCE_LABEL } from '@/types/Recurrence';
 import {
   View,
   Text,
@@ -11,8 +11,9 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import { useEffect, useRef } from 'react';
 import { cn } from '@/utils/mergeStyles';
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type RecurrenceOption = {
   value: RecurrenceValue;
@@ -77,11 +78,13 @@ function Item({
   disabled,
   onSelect,
 }: PickerItemProps<RecurrenceOption>) {
-  const last = value === OPTIONS.at(-1)!.value;
+  const { t } = useTranslation();
 
   const scale = useRef(new Animated.Value(1)).current;
   const lineScaleX = useRef(new Animated.Value(selected ? 1 : 0)).current;
   const lineOpacity = useRef(new Animated.Value(selected ? 1 : 0)).current;
+
+  const last = value === OPTIONS.at(-1)!.value;
 
   useEffect(() => {
     Animated.parallel([
@@ -133,7 +136,7 @@ function Item({
             className="text-sm font-semibold font-secondary text-center"
             style={{ color: selected ? activeColor : '#94a3b8' }}
           >
-            {RECURRENCE_LABEL[value]}
+            {t(`recurrence.${RECURRENCE_I18N_KEY[value]}`)}
           </Text>
 
           <View className="h-0.5 w-10/12 mt-2 items-center justify-center relative">
