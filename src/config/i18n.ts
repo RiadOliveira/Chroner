@@ -11,11 +11,11 @@ export function setupI18n() {
     (prev, [key, translation]) => ({ ...prev, [key]: { translation } }),
     {} as Record<Language, { translation: Translation }>,
   );
-  const lng = getPreference('language') ?? getLocales()[0].languageTag;
+  const language = getPreference('language') ?? getLocales()[0].languageCode;
 
   i18n.use(initReactI18next).init({
     resources,
-    lng,
+    lng: language ?? undefined,
     fallbackLng: 'en',
     interpolation: { escapeValue: false },
   });
