@@ -1,5 +1,5 @@
-import './i18n';
-import './global.css';
+import './config/i18n';
+import './config/global.css';
 
 import { StatusBar } from 'expo-status-bar';
 import { TasksContext } from './hooks/tasks';
