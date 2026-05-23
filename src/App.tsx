@@ -1,3 +1,4 @@
+import './i18n';
 import './global.css';
 
 import { StatusBar } from 'expo-status-bar';
