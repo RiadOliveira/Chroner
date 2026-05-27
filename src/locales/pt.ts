@@ -68,4 +68,10 @@ export default {
     title: 'Cronoativação',
     bodyPrefix: 'Está na hora de',
   },
+  toast: {
+    created: 'Tarefa Criada',
+    updated: 'Tarefa Atualizada',
+    deleted: 'Tarefa Excluída',
+    completed: 'Tarefa Concluída',
+  },
 } as const satisfies Translation;

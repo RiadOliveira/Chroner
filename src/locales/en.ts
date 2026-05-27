@@ -68,4 +68,10 @@ export default {
     title: 'Chrono Triggered',
     bodyPrefix: "It's time to",
   },
+  toast: {
+    created: 'Task Created',
+    updated: 'Task Updated',
+    deleted: 'Task Deleted',
+    completed: 'Task Completed',
+  },
 } as const satisfies Translation;

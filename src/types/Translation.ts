@@ -50,4 +50,10 @@ export type Translation = {
     title: string;
     bodyPrefix: string;
   };
+  toast: {
+    created: string;
+    updated: string;
+    deleted: string;
+    completed: string;
+  };
 };

@@ -10,6 +10,7 @@ import { fetchTasks } from '@/utils/fetchTasks';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import notifee from 'react-native-notify-kit';
+import i18n from '@/config/i18n';
 
 type TasksContextType = {
   tasks: Task[];
@@ -68,7 +69,7 @@ export function TasksContext({ children }: DefaultProps) {
   async function createTask(task: TaskDTO) {
     await TASK_SERVICES.create(task);
 
-    showToast({ message: 'Task Created', color: COLOR.BLUE });
+    showToast({ message: i18n.t('toast.created'), color: COLOR.BLUE });
     return reloadTasks();
   }
 
@@ -76,21 +77,21 @@ export function TasksContext({ children }: DefaultProps) {
     const current = tasks.find(({ id }) => id === task.id)!;
     await TASK_SERVICES.update(current, task);
 
-    showToast({ message: 'Task Updated', color: COLOR.PURPLE });
+    showToast({ message: i18n.t('toast.updated'), color: COLOR.PURPLE });
     return reloadTasks();
   }
 
   async function deleteTask(task: Task) {
     await TASK_SERVICES.delete(task);
 
-    showToast({ message: 'Task Deleted', color: COLOR.RED });
+    showToast({ message: i18n.t('toast.deleted'), color: COLOR.RED });
     return reloadTasks();
   }
 
   async function completeTask(task: Task) {
     await TASK_SERVICES.complete(task);
 
-    showToast({ message: 'Task Completed', color: COLOR.EMERALD });
+    showToast({ message: i18n.t('toast.completed'), color: COLOR.EMERALD });
     return reloadTasks();
   }
 
