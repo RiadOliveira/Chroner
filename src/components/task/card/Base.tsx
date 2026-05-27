@@ -4,6 +4,7 @@ import { Animated, Easing } from 'react-native';
 import { useEffect, useRef } from 'react';
 
 import CardContainer from './Container';
+import { RECURRENCE } from '@/types/Recurrence';
 
 type Props = {
   task: Task;
@@ -71,7 +72,38 @@ export default function TaskCard({
         duration: 200,
         useNativeDriver: true,
       }),
-    ]).start(({ finished }) => finished && completeTask());
+    ]).start(({ finished }) => {
+      if (!finished) return;
+
+      completeTask();
+      if (task.recurrence === RECURRENCE.NONE) return;
+
+      scale.setValue(0.85);
+      opacity.setValue(0);
+      translateY.setValue(20);
+      translateX.setValue(0);
+
+      Animated.parallel([
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 250,
+          easing: Easing.out(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.spring(translateY, {
+          toValue: 0,
+          tension: 50,
+          friction: 7,
+          useNativeDriver: true,
+        }),
+        Animated.spring(scale, {
+          toValue: 1,
+          tension: 50,
+          friction: 7,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    });
   }
 
   function onDelete() {
