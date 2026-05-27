@@ -2,70 +2,70 @@ import type { Translation } from '@/types/Translation';
 
 export default {
   header: {
-    subtitle: 'Calibrate your timeline',
+    subtitle: 'Calibre sua linha temporal',
 
-    overdueTasks_zero: 'Your timeline is perfectly synced',
-    overdueTasks_one: '{{count}} task shattered across the timeline',
-    overdueTasks_other: '{{count}} tasks shattered across the timeline',
+    overdueTasks_zero: 'Cronologia perfeitamente sincronizada',
+    overdueTasks_one: '{{count}} tarefa fragmentada pela linha temporal',
+    overdueTasks_other: '{{count}} tarefas fragmentadas pela linha temporal',
   },
 
   emptyState: {
-    title: 'All quiet across the timeline',
+    title: 'Tudo em ordem na cronologia',
 
-    descriptionPrefix: 'Tap the',
-    descriptionSuffix: 'button to start shaping it',
+    descriptionPrefix: 'Toque no',
+    descriptionSuffix: 'para começar a moldá-la',
   },
   gestures: {
-    title: 'Task Gestures',
+    title: 'Gestos de Tarefas',
 
     singleTap: {
-      action: '1 Tap',
-      result: 'Open / Edit',
+      action: '1 Toque',
+      result: 'Abrir / Editar',
     },
     doubleTap: {
-      action: '2 Taps',
-      result: 'Complete',
+      action: '2 Toques',
+      result: 'Concluir',
     },
     hold: {
-      action: 'Hold',
-      result: 'Delete',
+      action: 'Segurar',
+      result: 'Excluir',
     },
   },
-  overdueBadge: 'Overdue',
+  overdueBadge: 'Atrasada',
 
   form: {
-    title_create: 'New Task',
-    title_edit: 'Edit Task',
+    title_create: 'Nova Tarefa',
+    title_edit: 'Editar Tarefa',
 
-    submit_create: 'Add Task',
-    submit_edit: 'Save Changes',
+    submit_create: 'Adicionar Tarefa',
+    submit_edit: 'Salvar Alterações',
   },
   fields: {
     name: {
-      label: 'Name',
-      placeholder: 'What do you need to do?',
+      label: 'Nome',
+      placeholder: 'O que precisa ser feito?',
     },
     date: {
-      label: 'Due date',
-      placeholder: 'Select date',
+      label: 'Data prevista',
+      placeholder: 'Selecione a data',
     },
     time: {
-      label: 'Reminder time',
-      placeholder: 'Select time',
+      label: 'Horário do lembrete',
+      placeholder: 'Selecione o horário',
     },
-    recurrence: { label: 'Recurrence' },
-    color: { label: 'Color' },
+    recurrence: { label: 'Recorrência' },
+    color: { label: 'Cor' },
   },
   recurrence: {
     none: '',
-    daily: 'Daily',
-    weekly: 'Weekly',
-    monthly: 'Monthly',
-    yearly: 'Yearly',
+    daily: 'Diária',
+    weekly: 'Semanal',
+    monthly: 'Mensal',
+    yearly: 'Anual',
   },
 
   notification: {
-    title: 'Chrono Triggered',
-    bodyPrefix: "It's time to",
+    title: 'Cronoativação',
+    bodyPrefix: 'Está na hora de',
   },
 } as const satisfies Translation;
