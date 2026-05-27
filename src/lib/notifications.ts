@@ -39,6 +39,10 @@ export async function cancelNotification(notificationId?: string | null) {
   if (notificationId) return notifee.cancelNotification(notificationId);
 }
 
+export async function cancelAllNotifications() {
+  return notifee.cancelAllNotifications();
+}
+
 async function generateNotification(props: NotificationProps) {
   await notifee.requestPermission();
   const channelId = await notifee.createChannel(CHANNEL_PROPS);

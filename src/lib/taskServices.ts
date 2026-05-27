@@ -7,7 +7,11 @@ import { eq } from 'drizzle-orm';
 import { add, format } from 'date-fns';
 import { tasksTable } from '@/db/schema';
 import { joinDateTime } from '@/utils/date';
-import { scheduleNotification, cancelNotification } from './notifications';
+import {
+  scheduleNotification,
+  cancelNotification,
+  cancelAllNotifications,
+} from './notifications';
 
 import i18n from '@/config/i18n';
 
@@ -42,7 +46,19 @@ export const TASK_SERVICES = {
     if (task.recurrence === RECURRENCE.NONE) return deleteTask(task);
 
     const schedulingData = await scheduleTask(task);
-    await saveTask({ ...task, ...schedulingData });
+    return saveTask({ ...task, ...schedulingData });
+  },
+
+  async resetAllSchedulings() {
+    await cancelAllNotifications();
+
+    const allTasks = await db.select().from(tasksTable);
+    await Promise.all(
+      allTasks.map(async ({ notificationId: _, ...task }) => {
+        const schedulingData = await scheduleTask(task);
+        return saveTask({ ...task, ...schedulingData });
+      }),
+    );
   },
 } as const;
 

@@ -20,6 +20,7 @@ type TasksContextType = {
   deleteTask(task: Task): Promise<void>;
   completeTask(task: Task): Promise<void>;
   completeTaskById(id: number): Promise<void>;
+  resetAllSchedulings(): Promise<void>;
 };
 
 const tasksContext = createContext<TasksContextType>({} as TasksContextType);
@@ -109,6 +110,7 @@ export function TasksContext({ children }: DefaultProps) {
         deleteTask,
         completeTask,
         completeTaskById,
+        resetAllSchedulings: TASK_SERVICES.resetAllSchedulings,
       }}
     >
       {children}
