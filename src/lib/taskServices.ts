@@ -52,33 +52,30 @@ async function scheduleTask({
   notificationId: currentNotificationId,
   recurrence = RECURRENCE.NONE,
 }: TaskDTO) {
-  if (!reminderTime) return undefined;
+  if (!currentDueDate) return undefined;
 
-  const dateTime = joinDateTime(currentDueDate!, reminderTime);
+  const dateTime = joinDateTime(currentDueDate!, reminderTime ?? undefined);
+  const duration = RECURRENCE_DURATION[recurrence];
+
   const shouldReschedule = currentNotificationId !== undefined;
-
-  const date = shouldReschedule
-    ? add(dateTime, RECURRENCE_DURATION[recurrence])
-    : dateTime;
+  const date = shouldReschedule ? add(dateTime, duration) : dateTime;
 
   const dueDate = format(date, 'yyyy-MM-dd');
+  if (!reminderTime) return { dueDate };
+
   const notificationId = await scheduleNotification({
     date,
     title: 'Chrono Triggered',
     body: `It's time to ${name}`,
     data: { taskId: id! } as TaskNotificationData,
   });
-
   return { dueDate, notificationId };
 }
 
 async function handleSchedulingUpdate(current: Task, updated: TaskDTO) {
   const dateFields: (keyof Task)[] = ['dueDate', 'reminderTime'] as const;
-
-  const hasChanged = dateFields.some(
-    (field) => current[field] !== updated[field],
-  );
-  if (!hasChanged) return undefined;
+  const changed = dateFields.some((field) => current[field] !== updated[field]);
+  if (!changed) return undefined;
 
   await cancelNotification(current.notificationId);
   return scheduleTask({ ...updated, notificationId: undefined });
