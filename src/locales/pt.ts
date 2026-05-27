@@ -63,4 +63,9 @@ export default {
     monthly: 'Monthly',
     yearly: 'Yearly',
   },
+
+  notification: {
+    title: 'Chrono Triggered',
+    bodyPrefix: "It's time to",
+  },
 } as const satisfies Translation;

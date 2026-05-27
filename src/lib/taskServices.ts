@@ -9,6 +9,8 @@ import { tasksTable } from '@/db/schema';
 import { joinDateTime } from '@/utils/date';
 import { scheduleNotification, cancelNotification } from './notifications';
 
+import i18n from '@/config/i18n';
+
 export const TASK_SERVICES = {
   async findById(id: number): Promise<Task | null> {
     const whereSql = eq(tasksTable.id, id);
@@ -65,8 +67,8 @@ async function scheduleTask({
 
   const notificationId = await scheduleNotification({
     date,
-    title: 'Chrono Triggered',
-    body: `It's time to ${name}`,
+    title: i18n.t('notification.title'),
+    body: `${i18n.t('notification.bodyPrefix')} ${name}`,
     data: { taskId: id! } as TaskNotificationData,
   });
   return { dueDate, notificationId };

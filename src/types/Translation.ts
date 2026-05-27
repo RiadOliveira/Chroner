@@ -45,4 +45,9 @@ export type Translation = {
   };
   fields: Record<FieldKey, Field>;
   recurrence: Record<RecurrenceI18nKey, string>;
+
+  notification: {
+    title: string;
+    bodyPrefix: string;
+  };
 };
