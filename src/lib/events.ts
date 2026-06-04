@@ -4,6 +4,7 @@ import { PRESS_ACTION } from '@/types/PressAction';
 import { TASK_SERVICES } from './taskServices';
 
 import notifee, { type Event, EventType } from 'react-native-notify-kit';
+import { setupI18n } from '@/config/i18n';
 import { cancelNotification, displayNotification } from './notifications';
 
 type ForegroundProps = {
@@ -37,9 +38,13 @@ async function handleEvent({
 
   if (actionId === PRESS_ACTION.DEFAULT) return selectTask?.(taskId);
   if (actionId !== PRESS_ACTION.COMPLETE) return;
-  if (completeTaskById) return completeTaskById(taskId);
+
+  const isForeground = !!completeTaskById;
+  if (isForeground) return completeTaskById(taskId);
 
   const taskFound = await TASK_SERVICES.findById(taskId);
   if (taskFound === null) return cancelNotification(notification?.id);
+
+  setupI18n();
   return TASK_SERVICES.complete(taskFound);
 }

@@ -1,12 +1,15 @@
-import i18n from 'i18next';
-
 import type { Translation } from '@/types/Translation';
+
 import { type Language, LOCALES } from '@/locales';
 import { getLocales } from 'expo-localization';
 import { getPreference } from '@/lib/preferences';
 import { initReactI18next } from 'react-i18next';
 
+import i18n from 'i18next';
+
 export function setupI18n() {
+  if (i18n.isInitialized) return;
+
   const resources = Object.entries(LOCALES).reduce(
     (prev, [key, translation]) => ({ ...prev, [key]: { translation } }),
     {} as Record<Language, { translation: Translation }>,
