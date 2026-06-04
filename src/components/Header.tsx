@@ -1,13 +1,14 @@
 import { COLOR, HEX_COLOR } from '@/types/Color';
-import { View, Text, Animated } from 'react-native';
+import { View, Text, Animated, TouchableOpacity } from 'react-native';
+import { Settings } from 'lucide-react-native';
 import { cn } from '@/utils/mergeStyles';
 import { useTasks } from '@/hooks/tasks';
 import { isOverdue } from '@/utils/date';
 import { useTranslation } from 'react-i18next';
 import { useMemo, useRef, useEffect, useState } from 'react';
 
-import AppIcon from './AppIcon';
-import AppGradient from './AppGradient';
+import AppIcon from './decoration/AppIcon';
+import AppGradient from './decoration/AppGradient';
 
 export default function Header() {
   const { tasks } = useTasks();
@@ -118,15 +119,25 @@ export default function Header() {
           </Text>
         </View>
 
-        <Animated.View
-          style={{ transform: [{ rotate: hourglassRotate }] }}
-          className="bg-white mt-1 p-3 rounded-full border border-white/50 shadow elevation-md"
-        >
-          <AppIcon
-            tintColor={HEX_COLOR[hourglassColor]}
-            style={{ width: 28, height: 28 }}
-          />
-        </Animated.View>
+        <View className="flex-row items-center gap-3">
+          <TouchableOpacity
+            hitSlop={8}
+            activeOpacity={0.7}
+            className="bg-white/10 p-2.5 rounded-full border border-white/30"
+          >
+            <Settings size={20} color="white" />
+          </TouchableOpacity>
+
+          <Animated.View
+            style={{ transform: [{ rotate: hourglassRotate }] }}
+            className="bg-white mt-1 p-3 rounded-full border border-white/50 shadow elevation-md"
+          >
+            <AppIcon
+              tintColor={HEX_COLOR[hourglassColor]}
+              style={{ width: 28, height: 28 }}
+            />
+          </Animated.View>
+        </View>
       </View>
 
       <View className="bg-white p-4 rounded-[40px] elevation-md shadow border border-slate-100 flex-row items-center justify-center gap-3">

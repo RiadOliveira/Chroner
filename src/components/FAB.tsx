@@ -2,7 +2,7 @@ import { Plus } from 'lucide-react-native';
 import { Pressable, Animated } from 'react-native';
 import { useRef } from 'react';
 
-import AppGradient from './AppGradient';
+import AppGradient from './decoration/AppGradient';
 
 type Props = { onPress(): void };
 

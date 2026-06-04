@@ -9,7 +9,7 @@ import { Animated, Easing, Text, View } from 'react-native';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import AppIcon from '@/components/AppIcon';
+import AppIcon from '@/components/decoration/AppIcon';
 
 type Props = { visible: boolean };
 

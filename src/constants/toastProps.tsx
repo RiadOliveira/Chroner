@@ -3,7 +3,7 @@ import type { ToastProps, ToastShowParams } from 'react-native-toast-message';
 import { COLOR, HEX_COLOR } from '@/types/Color';
 import { Dimensions, Text, View } from 'react-native';
 
-import AppGradient from '@/components/AppGradient';
+import AppGradient from '@/components/decoration/AppGradient';
 
 const MARGIN_RIGHT = 72;
 const FAB_GAP = 42;

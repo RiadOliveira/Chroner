@@ -3,7 +3,7 @@ import { Text, Pressable, Animated, Easing } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef } from 'react';
 
-import AppGradient from '@/components/AppGradient';
+import AppGradient from '@/components/decoration/AppGradient';
 
 type Props = {
   isValid: boolean;
