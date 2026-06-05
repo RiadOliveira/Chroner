@@ -74,4 +74,10 @@ export default {
     deleted: 'Tarefa Excluída',
     completed: 'Tarefa Concluída',
   },
+
+  settings: {
+    title: 'Configurações',
+    fields: { language: 'Idioma', theme: 'Tema' },
+    theme: { light: 'Claro', dark: 'Escuro' },
+  },
 } as const satisfies Translation;

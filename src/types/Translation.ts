@@ -1,6 +1,8 @@
 import { RecurrenceI18nKey } from './Recurrence';
 
 type FieldKey = 'name' | 'date' | 'time' | 'recurrence' | 'color';
+type SettingsFieldKey = 'language' | 'theme';
+
 type Field = { label: string; placeholder?: string };
 
 export type Translation = {
@@ -55,5 +57,11 @@ export type Translation = {
     updated: string;
     deleted: string;
     completed: string;
+  };
+
+  settings: {
+    title: string;
+    fields: Record<SettingsFieldKey, string>;
+    theme: { light: string; dark: string };
   };
 };

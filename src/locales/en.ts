@@ -74,4 +74,10 @@ export default {
     deleted: 'Task Deleted',
     completed: 'Task Completed',
   },
+
+  settings: {
+    title: 'Settings',
+    fields: { language: 'Language', theme: 'Theme' },
+    theme: { light: 'Light', dark: 'Dark' },
+  },
 } as const satisfies Translation;

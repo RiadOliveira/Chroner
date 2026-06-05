@@ -22,7 +22,7 @@ type ModeProps = {
   icon: LucideIcon;
   formatMask: string;
   highlightColor: ColorValue;
-  getLabel(value: string): string;
+  getContent(value: string): string;
   parseValue(value: string): Date;
 };
 
@@ -31,14 +31,14 @@ const MODE_PROPS: Record<DateTimePickerMode, ModeProps> = {
     icon: Calendar,
     formatMask: 'yyyy-MM-dd',
     highlightColor: COLOR.BLUE,
-    getLabel: formatDate,
+    getContent: formatDate,
     parseValue: parseDateString,
   },
   time: {
     icon: Clock,
     formatMask: 'HH:mm',
     highlightColor: COLOR.PURPLE,
-    getLabel: formatTime,
+    getContent: formatTime,
     parseValue: parseTimeString,
   },
 } as const;
@@ -54,11 +54,11 @@ export default function DateTimePicker({
     icon: Icon,
     formatMask,
     highlightColor,
-    getLabel,
+    getContent,
     parseValue,
   } = MODE_PROPS[mode];
 
-  const label = value ? getLabel(value) : t(`fields.${mode}.placeholder`);
+  const content = value ? getContent(value) : t(`fields.${mode}.placeholder`);
   const textColor = value ? HEX_COLOR[highlightColor] : '#94a3b8';
 
   const scale = useRef(new Animated.Value(1)).current;
@@ -166,7 +166,7 @@ export default function DateTimePicker({
           style={{ color: textColor }}
           className="flex-1 text-sm font-medium font-secondary"
         >
-          {label}
+          {content}
         </Text>
 
         <Animated.View
