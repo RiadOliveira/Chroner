@@ -6,19 +6,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { cn } from '@/utils/mergeStyles';
 
 import Modal from 'react-native-modal';
-import AppGradient from './decoration/AppGradient';
+import AppGradient from '../decoration/AppGradient';
 
 type Props = DefaultProps & {
   visible: boolean;
   header: {
     title: string;
     icon: React.ReactNode;
-    extraButtons: React.ReactNode;
+    extraButtons?: React.ReactNode;
   };
   onClose(): void;
 };
 
-export default function DefaultModal({
+export default function BaseModal({
   visible,
   header: { title, icon, extraButtons },
   className,

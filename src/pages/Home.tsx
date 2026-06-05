@@ -7,8 +7,8 @@ import { setOnForegroundEvent } from '@/lib/events';
 
 import Toast from 'react-native-toast-message';
 import Header from '@/components/Header';
-import TasksList from '@/components/task/list/Base';
-import TaskModal from '@/components/task/Modal';
+import TasksList from '@/components/task/list';
+import TaskModal from '@/components/modal/Task';
 import FAB from '@/components/FAB';
 
 export default function Home() {

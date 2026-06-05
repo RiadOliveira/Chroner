@@ -6,9 +6,9 @@ import { useTasks } from '@/hooks/tasks';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 
-import TaskForm from './form/Base';
+import TaskForm from '../task/form';
 import AppIcon from '../decoration/AppIcon';
-import DefaultModal from '../DefaultModal';
+import BaseModal from './Base';
 
 export default function TaskModal() {
   const { t } = useTranslation();
@@ -42,7 +42,7 @@ export default function TaskModal() {
   }
 
   return (
-    <DefaultModal
+    <BaseModal
       visible={visible}
       onClose={onClose}
       header={{
@@ -77,6 +77,6 @@ export default function TaskModal() {
       }}
     >
       <TaskForm isCreating={creating} onSubmit={onClose} />
-    </DefaultModal>
+    </BaseModal>
   );
 }

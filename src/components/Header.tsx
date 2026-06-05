@@ -9,6 +9,7 @@ import { useMemo, useRef, useEffect, useState } from 'react';
 
 import AppIcon from './decoration/AppIcon';
 import AppGradient from './decoration/AppGradient';
+import SettingsModal from './modal/Settings';
 
 export default function Header() {
   const { tasks } = useTasks();
@@ -23,6 +24,7 @@ export default function Header() {
   const hasOverdueTasks = overdueCount > 0;
   const hourglassColor = hasOverdueTasks ? COLOR.BLUE : COLOR.PURPLE;
 
+  const [settingsModalVisible, setSettingsModalVisible] = useState(false);
   const [displayedCount, setDisplayedCount] = useState(overdueCount);
   const [displayedHasOverdue, setDisplayedHasOverdue] =
     useState(hasOverdueTasks);
@@ -106,62 +108,70 @@ export default function Header() {
   }, [overdueCount, hasOverdueTasks, textOpacity, textTranslateY, dotScale]);
 
   return (
-    <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow-lg shadow-accent-purple elevation-xl z-10">
-      <AppGradient className="absolute inset-0" />
+    <>
+      <SettingsModal
+        visible={settingsModalVisible}
+        onClose={() => setSettingsModalVisible(false)}
+      />
 
-      <View className="flex-row justify-between items-center">
-        <View className="gap-1">
-          <Text className="text-3xl font-extrabold text-white font-primary">
-            Chroner
-          </Text>
-          <Text className="font-secondary text-lg text-white font-medium">
-            {t('header.subtitle')}
-          </Text>
+      <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow-lg shadow-accent-purple elevation-xl z-10">
+        <AppGradient className="absolute inset-0" />
+
+        <View className="flex-row justify-between items-center">
+          <View className="gap-1">
+            <Text className="text-3xl font-extrabold text-white font-primary">
+              Chroner
+            </Text>
+            <Text className="font-secondary text-lg text-white font-medium">
+              {t('header.subtitle')}
+            </Text>
+          </View>
+
+          <View className="flex-row items-center gap-3">
+            <TouchableOpacity
+              hitSlop={8}
+              activeOpacity={0.7}
+              onPress={() => setSettingsModalVisible(true)}
+              className="bg-white/10 p-2.5 rounded-full border border-white/30"
+            >
+              <Settings size={20} color="white" />
+            </TouchableOpacity>
+
+            <Animated.View
+              style={{ transform: [{ rotate: hourglassRotate }] }}
+              className="bg-white mt-1 p-3 rounded-full border border-white/50 shadow elevation-md"
+            >
+              <AppIcon
+                tintColor={HEX_COLOR[hourglassColor]}
+                style={{ width: 28, height: 28 }}
+              />
+            </Animated.View>
+          </View>
         </View>
 
-        <View className="flex-row items-center gap-3">
-          <TouchableOpacity
-            hitSlop={8}
-            activeOpacity={0.7}
-            className="bg-white/10 p-2.5 rounded-full border border-white/30"
-          >
-            <Settings size={20} color="white" />
-          </TouchableOpacity>
-
+        <View className="bg-white p-4 rounded-[40px] elevation-md shadow border border-slate-100 flex-row items-center justify-center gap-3">
           <Animated.View
-            style={{ transform: [{ rotate: hourglassRotate }] }}
-            className="bg-white mt-1 p-3 rounded-full border border-white/50 shadow elevation-md"
+            style={{ transform: [{ scale: dotScale }] }}
+            className={cn(
+              'size-3 rounded-full mt-0.5',
+              displayedHasOverdue ? 'bg-accent-blue' : 'bg-accent-purple',
+            )}
+          />
+
+          <Animated.Text
+            style={{
+              opacity: textOpacity,
+              transform: [{ translateY: textTranslateY }],
+            }}
+            className={cn(
+              'font-semibold font-secondary',
+              displayedHasOverdue ? 'text-accent-blue' : 'text-accent-purple',
+            )}
           >
-            <AppIcon
-              tintColor={HEX_COLOR[hourglassColor]}
-              style={{ width: 28, height: 28 }}
-            />
-          </Animated.View>
+            {t('header.overdueTasks', { count: displayedCount })}
+          </Animated.Text>
         </View>
       </View>
-
-      <View className="bg-white p-4 rounded-[40px] elevation-md shadow border border-slate-100 flex-row items-center justify-center gap-3">
-        <Animated.View
-          style={{ transform: [{ scale: dotScale }] }}
-          className={cn(
-            'size-3 rounded-full mt-0.5',
-            displayedHasOverdue ? 'bg-accent-blue' : 'bg-accent-purple',
-          )}
-        />
-
-        <Animated.Text
-          style={{
-            opacity: textOpacity,
-            transform: [{ translateY: textTranslateY }],
-          }}
-          className={cn(
-            'font-semibold font-secondary',
-            displayedHasOverdue ? 'text-accent-blue' : 'text-accent-purple',
-          )}
-        >
-          {t('header.overdueTasks', { count: displayedCount })}
-        </Animated.Text>
-      </View>
-    </View>
+    </>
   );
 }

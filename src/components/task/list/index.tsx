@@ -2,7 +2,7 @@ import { FlatList, LayoutAnimation } from 'react-native';
 import { useTasks } from '@/hooks/tasks';
 import { useEffect, useRef } from 'react';
 
-import TaskCard from '../card/Base';
+import TaskCard from '../card';
 import EmptyState from './EmptyState';
 
 export default function TasksList() {
