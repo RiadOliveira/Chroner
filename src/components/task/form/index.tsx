@@ -1,3 +1,4 @@
+import type { Language } from '@/locales';
 import type { TaskDTO } from '@/types/Task';
 
 import { COLOR } from '@/types/Color';
@@ -26,12 +27,13 @@ const DEFAULT_FORM_DATA: TaskDTO = {
 } as const;
 
 export default function TaskForm({ isCreating, onSubmit }: Props) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { tasks, selectedIndex, createTask, updateTask } = useTasks();
 
   const inputRef = useRef<TextInput>(null);
   const [formData, setFormData] = useState<TaskDTO>(DEFAULT_FORM_DATA);
 
+  const isPtLang = (i18n.language as Language) === 'pt';
   const isValid = formData.name.length > 0;
 
   useEffect(() => {
@@ -69,7 +71,7 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
       </Field>
 
       <View className="flex-row gap-3">
-        <Field label={t('fields.date.label')} className="flex-1">
+        <Field label={t('fields.date.label')}>
           <DateTimePicker
             mode="date"
             value={formData.dueDate}
@@ -83,7 +85,10 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
           />
         </Field>
 
-        <Field label={t('fields.time.label')} className="flex-1">
+        <Field
+          label={t('fields.time.label')}
+          className={isPtLang ? 'max-w-44' : undefined}
+        >
           <DateTimePicker
             mode="time"
             disabled={!formData.dueDate}

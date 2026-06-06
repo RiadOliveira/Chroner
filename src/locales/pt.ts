@@ -51,11 +51,11 @@ export default {
     },
     date: {
       label: 'Data prevista',
-      placeholder: 'Selecione a data',
+      placeholder: 'Selecionar',
     },
     time: {
       label: 'Hora do lembrete',
-      placeholder: 'Selecione a hora',
+      placeholder: 'Selecionar',
     },
     recurrence: { label: 'Recorrência' },
     color: { label: 'Cor' },

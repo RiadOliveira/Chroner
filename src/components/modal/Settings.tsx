@@ -2,7 +2,6 @@ import type { Language } from '@/locales';
 import type { CycleOption } from '@/types/CycleOption';
 
 import { COLOR, HEX_COLOR } from '@/types/Color';
-import { View } from 'react-native';
 import { Settings } from 'lucide-react-native';
 import { useLanguage } from '@/hooks/language';
 import { useTranslation } from 'react-i18next';

@@ -61,7 +61,7 @@ export default function EmptyState({ visible }: Props) {
   }, [opacity, scale, translateY, visible]);
 
   return (
-    <View className="items-center justify-center px-6 pt-12">
+    <View className="items-center justify-center px-5 pt-12">
       <Animated.View
         renderToHardwareTextureAndroid
         className="w-full"

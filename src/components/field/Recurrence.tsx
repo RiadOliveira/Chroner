@@ -51,7 +51,7 @@ export default function RecurrencePicker({
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingHorizontal: 4, flexGrow: 1 }}
+        contentContainerStyle={{ flexGrow: 1 }}
       >
         {OPTIONS.map((option) => {
           const selected = value === option.value;

@@ -5,7 +5,6 @@ import { RECURRENCE, RECURRENCE_I18N_KEY } from '@/types/Recurrence';
 import { View, Text } from 'react-native';
 import { AlertTriangle, Calendar, Clock, RefreshCw } from 'lucide-react-native';
 import { isOverdue } from '@/utils/date';
-import { useTranslation } from 'react-i18next';
 import { formatDate, formatTime, parseDateString } from '@/lib/date';
 import { differenceInDays, startOfDay, startOfToday } from 'date-fns';
 
@@ -25,7 +24,6 @@ export default function TaskCardContainer({
   onComplete,
   onDelete,
 }: Props) {
-  const { t } = useTranslation();
   const accentColor = HEX_COLOR[task.color];
 
   return (
