@@ -13,7 +13,7 @@ export function useLanguage() {
     async setLanguage(language: Language) {
       const parsed = language === 'system' ? resolveLocaleLanguage() : language;
 
-      setLanguage(parsed);
+      setLanguage(language);
       await i18n.changeLanguage(parsed);
     },
   };
