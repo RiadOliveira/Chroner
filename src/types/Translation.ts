@@ -49,6 +49,7 @@ export type Translation = {
   notification: {
     title: string;
     bodyPrefix: string;
+    completeAction: string;
   };
   toast: {
     created: string;

@@ -67,6 +67,7 @@ export default {
   notification: {
     title: 'Chrono Triggered',
     bodyPrefix: "It's time to",
+    completeAction: 'Complete',
   },
   toast: {
     created: 'Task Created',

@@ -7,7 +7,10 @@ import {
   CHANNEL_PROPS,
   NOTIFICATION_BASE_PROPS,
 } from '@/constants/notificationProps';
+import { PRESS_ACTION } from '@/types/PressAction';
 import { isPast } from 'date-fns';
+
+import i18n from '@/config/i18n';
 
 type NotificationProps = {
   id?: string;
@@ -49,6 +52,18 @@ async function generateNotification(props: NotificationProps) {
 
   return {
     ...props,
-    android: { ...NOTIFICATION_BASE_PROPS, channelId },
+    android: {
+      ...NOTIFICATION_BASE_PROPS,
+      channelId,
+      actions: [
+        {
+          title: i18n.t('notification.completeAction'),
+          pressAction: {
+            id: PRESS_ACTION.COMPLETE,
+            launchActivity: undefined,
+          },
+        },
+      ],
+    },
   } as const satisfies Notification;
 }

@@ -67,6 +67,7 @@ export default {
   notification: {
     title: 'Cronoativação',
     bodyPrefix: 'Está na hora de',
+    completeAction: 'Concluir',
   },
   toast: {
     created: 'Tarefa Criada',
