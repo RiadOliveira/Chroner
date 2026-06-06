@@ -35,10 +35,10 @@ export type Translation = {
     };
   };
 
+  overdueBadge: string;
   dateLabel_zero: string;
   dateLabel_one: `{{count}} ${string}`;
   dateLabel_other: `{{count}} ${string}`;
-  overdueBadge: string;
 
   form: {
     title_create: string;
