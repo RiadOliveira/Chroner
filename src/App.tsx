@@ -6,7 +6,6 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { db } from './db/database';
 import { useEffect } from 'react';
 import { setupI18n } from './config/i18n';
-import { setupTheme } from './config/theme';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 
 import Home from './pages/Home';
@@ -14,11 +13,7 @@ import migrations from '@/db/drizzle/migrations';
 
 export default function App() {
   useMigrations(db, migrations);
-
-  useEffect(() => {
-    setupI18n();
-    setupTheme();
-  }, []);
+  useEffect(() => setupI18n(), []);
 
   return (
     <SafeAreaProvider>

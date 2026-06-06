@@ -148,7 +148,7 @@ export default function DateTimePicker({
       onPressOut={onPressOut}
       onPress={openPicker}
       disabled={disabled}
-      className="w-full"
+      className="flex-1"
     >
       <Animated.View
         style={{

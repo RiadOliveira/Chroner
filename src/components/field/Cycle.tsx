@@ -50,7 +50,7 @@ export default function CycleField<V extends string>({
       onPressIn={onPressIn}
       onPressOut={onPressOut}
       onPress={onPress}
-      className="w-full"
+      className="flex-1"
     >
       <Animated.View
         style={{ transform: [{ scale: scale }] }}
