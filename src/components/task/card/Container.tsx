@@ -60,7 +60,7 @@ export default function TaskCardContainer({
             reminderTime={task.reminderTime}
           />
 
-          <View className="flex-row gap-2.5">
+          <View className="flex-row gap-1.5">
             <OverdueBadge
               label={t('overdueBadge')}
               dueDate={task.dueDate}
@@ -106,7 +106,7 @@ function DateTimeRow({
   const timeLabel = reminderTime ? formatTime(reminderTime) : null;
 
   return (
-    <View className="flex-row items-center gap-3">
+    <View className="flex-row items-center gap-2">
       {dateLabel && (
         <View className="flex-row items-center gap-1">
           <Calendar size={12} color="#64748b" strokeWidth={3} />

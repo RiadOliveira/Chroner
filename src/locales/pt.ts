@@ -31,7 +31,7 @@ export default {
       result: 'Excluir',
     },
   },
-  overdueBadge: 'Atrasada',
+  overdueBadge: 'Vencida',
 
   form: {
     title_create: 'Nova Tarefa',
@@ -50,8 +50,8 @@ export default {
       placeholder: 'Selecione a data',
     },
     time: {
-      label: 'Horário do lembrete',
-      placeholder: 'Selecione o horário',
+      label: 'Hora do lembrete',
+      placeholder: 'Selecione a hora',
     },
     recurrence: { label: 'Recorrência' },
     color: { label: 'Cor' },
