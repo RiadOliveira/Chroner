@@ -1,5 +1,6 @@
-import i18n from '@/config/i18n';
 import { parse, parseISO } from 'date-fns';
+
+import i18n from '@/config/i18n';
 
 export function formatDate(value: string | Date) {
   const date = typeof value === 'string' ? parseDateString(value) : value;

@@ -6,8 +6,10 @@ import { View, Text } from 'react-native';
 import { AlertTriangle, Calendar, Clock, RefreshCw } from 'lucide-react-native';
 import { isOverdue } from '@/utils/date';
 import { useTranslation } from 'react-i18next';
-import { formatDate, formatTime } from '@/lib/date';
+import { formatDate, formatTime, parseDateString } from '@/lib/date';
+import { differenceInDays, startOfDay, startOfToday } from 'date-fns';
 
+import i18n from '@/config/i18n';
 import GestureButton from '@/components/GestureButton';
 
 type Props = {
@@ -62,13 +64,11 @@ export default function TaskCardContainer({
 
           <View className="flex-row gap-1.5">
             <OverdueBadge
-              label={t('overdueBadge')}
               dueDate={task.dueDate}
               reminderTime={task.reminderTime}
             />
 
             <RecurrencePill
-              label={t(`recurrence.${RECURRENCE_I18N_KEY[task.recurrence]}`)}
               recurrence={task.recurrence}
               accentColor={accentColor}
             />
@@ -80,16 +80,41 @@ export default function TaskCardContainer({
 }
 
 function OverdueBadge({
-  label,
   dueDate,
   reminderTime,
-}: Pick<Task, 'dueDate' | 'reminderTime'> & { label: string }) {
+}: Pick<Task, 'dueDate' | 'reminderTime'>) {
   if (!isOverdue(dueDate, reminderTime)) return null;
 
   return (
     <View className="flex-row items-center gap-1 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">
       <AlertTriangle size={10} color="#F59E0B" strokeWidth={3} />
       <Text className="text-amber-600 text-xs font-semibold font-secondary">
+        {i18n.t('overdueBadge')}
+      </Text>
+    </View>
+  );
+}
+
+function RecurrencePill({
+  recurrence,
+  accentColor,
+}: Pick<Task, 'recurrence'> & { accentColor: string }) {
+  if (recurrence === RECURRENCE.NONE) return null;
+
+  const label = i18n.t(`recurrence.${RECURRENCE_I18N_KEY[recurrence]}`);
+  return (
+    <View
+      className="flex-row items-center gap-1 px-2 py-0.5 rounded-full border"
+      style={{
+        backgroundColor: `${accentColor}10`,
+        borderColor: `${accentColor}40`,
+      }}
+    >
+      <RefreshCw size={10} color={accentColor} strokeWidth={3} />
+      <Text
+        style={{ color: accentColor }}
+        className="font-semibold text-xs font-secondary"
+      >
         {label}
       </Text>
     </View>
@@ -102,7 +127,7 @@ function DateTimeRow({
 }: Pick<Task, 'dueDate' | 'reminderTime'>) {
   if (!dueDate && !reminderTime) return null;
 
-  const dateLabel = dueDate ? formatDate(dueDate) : null;
+  const dateLabel = generateDateLabel(dueDate);
   const timeLabel = reminderTime ? formatTime(reminderTime) : null;
 
   return (
@@ -128,28 +153,13 @@ function DateTimeRow({
   );
 }
 
-function RecurrencePill({
-  label,
-  recurrence,
-  accentColor,
-}: Pick<Task, 'recurrence'> & { label: string; accentColor: string }) {
-  if (recurrence === RECURRENCE.NONE) return null;
+function generateDateLabel(dueDate: string | null) {
+  if (dueDate === null) return null;
 
-  return (
-    <View
-      className="flex-row items-center gap-1 px-2 py-0.5 rounded-full border"
-      style={{
-        backgroundColor: `${accentColor}10`,
-        borderColor: `${accentColor}40`,
-      }}
-    >
-      <RefreshCw size={10} color={accentColor} strokeWidth={3} />
-      <Text
-        style={{ color: accentColor }}
-        className="font-semibold text-xs font-secondary"
-      >
-        {label}
-      </Text>
-    </View>
-  );
+  const todayDate = startOfToday();
+  const parsedDate = parseDateString(dueDate);
+  const difference = differenceInDays(startOfDay(parsedDate), todayDate);
+
+  if (difference > 0) return formatDate(parsedDate);
+  return i18n.t('dateLabel', { count: -difference });
 }

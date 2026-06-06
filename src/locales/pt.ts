@@ -31,7 +31,11 @@ export default {
       result: 'Excluir',
     },
   },
+
   overdueBadge: 'Vencida',
+  dateLabel_zero: 'Hoje',
+  dateLabel_one: '{{count}} dia atrás',
+  dateLabel_other: '{{count}} dias atrás',
 
   form: {
     title_create: 'Nova Tarefa',

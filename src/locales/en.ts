@@ -31,7 +31,11 @@ export default {
       result: 'Delete',
     },
   },
+
   overdueBadge: 'Overdue',
+  dateLabel_zero: 'Today',
+  dateLabel_one: '{{count}} day ago',
+  dateLabel_other: '{{count}} days ago',
 
   form: {
     title_create: 'New Task',
