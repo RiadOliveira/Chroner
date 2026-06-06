@@ -61,7 +61,12 @@ export type Translation = {
 
   settings: {
     title: string;
+    system: string;
+
     fields: Record<SettingsFieldKey, string>;
-    theme: { light: string; dark: string };
+    theme: {
+      light: string;
+      dark: string;
+    };
   };
 };

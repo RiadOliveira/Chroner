@@ -4,15 +4,20 @@ import type { TFunction } from 'i18next';
 import type { CycleOption } from '@/types/CycleOption';
 
 import { COLOR, HEX_COLOR } from '@/types/Color';
-import { LANGUAGE_OPTIONS } from '@/constants/languageOptions';
 import { View } from 'react-native';
-import { Moon, Settings, Sun } from 'lucide-react-native';
+import { Settings, Sun, Moon, SunMoon } from 'lucide-react-native';
+import { useTheme } from '@/hooks/theme';
+import { useLanguage } from '@/hooks/language';
 import { useTranslation } from 'react-i18next';
-import { changeLanguage } from '@/lib/language';
 
 import Field from '../field/Base';
 import BaseModal from './Base';
 import CycleField from '../field/Cycle';
+
+type SettingsOptions = {
+  languageOptions: CycleOption<Language>[];
+  themeOptions: CycleOption<Theme>[];
+};
 
 type Props = {
   visible: boolean;
@@ -20,8 +25,11 @@ type Props = {
 };
 
 export default function SettingsModal({ visible, onClose }: Props) {
-  const { t, i18n } = useTranslation();
-  const themeOptions = getThemeOptions(t);
+  const { t } = useTranslation();
+  const { languageOptions, themeOptions } = getSettingsOptions(t);
+
+  const { language, setLanguage } = useLanguage();
+  const { theme, setTheme } = useTheme();
 
   return (
     <BaseModal
@@ -35,17 +43,17 @@ export default function SettingsModal({ visible, onClose }: Props) {
       <View className="flex-row gap-4 justify-between">
         <Field label={t('settings.fields.language')} centered>
           <CycleField
-            selectedValue={i18n.language as Language}
-            options={LANGUAGE_OPTIONS}
-            onSelect={changeLanguage}
+            selectedValue={language}
+            options={languageOptions}
+            onSelect={setLanguage}
           />
         </Field>
 
         <Field label={t('settings.fields.theme')} centered>
           <CycleField
-            selectedValue="light"
+            selectedValue={theme}
             options={themeOptions}
-            onSelect={() => null}
+            onSelect={setTheme}
           />
         </Field>
       </View>
@@ -53,11 +61,22 @@ export default function SettingsModal({ visible, onClose }: Props) {
   );
 }
 
-function getThemeOptions(
+function getSettingsOptions(
   t: TFunction<'translation', undefined>,
-): CycleOption<Theme>[] {
-  return [
-    { value: 'light', label: t('settings.theme.light'), icon: Sun },
-    { value: 'dark', label: t('settings.theme.dark'), icon: Moon },
-  ];
+): SettingsOptions {
+  const systemLabel = t('settings.system');
+
+  return {
+    languageOptions: [
+      { value: 'system', label: `🌐  ${systemLabel}` },
+      { value: 'en', label: '🇺🇸  English' },
+      { value: 'pt', label: '🇧🇷  Português' },
+    ],
+
+    themeOptions: [
+      { value: 'system', label: systemLabel, icon: SunMoon },
+      { value: 'light', label: t('settings.theme.light'), icon: Sun },
+      { value: 'dark', label: t('settings.theme.dark'), icon: Moon },
+    ],
+  };
 }

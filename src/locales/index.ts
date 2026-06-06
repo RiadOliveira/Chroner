@@ -8,4 +8,4 @@ export const LOCALES = {
   pt,
 } as const satisfies Record<string, Translation>;
 
-export type Language = keyof typeof LOCALES;
+export type Language = 'system' | keyof typeof LOCALES;

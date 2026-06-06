@@ -14,13 +14,13 @@ export function getPreference<P extends Preference>(preference: P) {
   return storage.getString(preference) as PreferenceValueMap[P] | undefined;
 }
 
+export function usePreference<P extends Preference>(preference: P) {
+  return useMMKVString(preference);
+}
+
 export function setPreference<P extends Preference>(
   preference: P,
   value: PreferenceValueMap[P],
 ) {
   storage.set(preference, value);
-}
-
-export function usePreference<P extends Preference>(preference: P) {
-  return useMMKVString(preference);
 }

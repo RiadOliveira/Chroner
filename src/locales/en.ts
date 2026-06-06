@@ -77,7 +77,12 @@ export default {
 
   settings: {
     title: 'Settings',
+    system: 'System',
+
     fields: { language: 'Language', theme: 'Theme' },
-    theme: { light: 'Light', dark: 'Dark' },
+    theme: {
+      light: 'Light',
+      dark: 'Dark',
+    },
   },
 } as const satisfies Translation;
