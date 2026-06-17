@@ -69,7 +69,7 @@ export default {
   },
 
   notification: {
-    title: 'Chrono Triggered',
+    title: 'Chronovergence',
     bodyPrefix: "It's time to",
     completeAction: 'Complete',
   },
