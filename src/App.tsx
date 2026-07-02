@@ -7,13 +7,18 @@ import { db } from './db/database';
 import { useEffect } from 'react';
 import { setupI18n } from './config/i18n';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
+import { setupNotifications } from './lib/notifications';
 
 import Home from './pages/Home';
 import migrations from '@/db/drizzle/migrations';
 
 export default function App() {
   useMigrations(db, migrations);
-  useEffect(() => setupI18n(), []);
+
+  useEffect(() => {
+    setupI18n();
+    setupNotifications();
+  }, []);
 
   return (
     <SafeAreaProvider>

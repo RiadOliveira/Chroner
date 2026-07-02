@@ -19,6 +19,10 @@ type NotificationProps = {
   data?: Notification['data'];
 };
 
+export function setupNotifications() {
+  return notifee.requestPermission();
+}
+
 export async function displayNotification(props: NotificationProps) {
   const notification = await generateNotification(props);
   return notifee.displayNotification(notification);
@@ -47,7 +51,6 @@ export async function cancelAllNotifications() {
 }
 
 async function generateNotification(props: NotificationProps) {
-  await notifee.requestPermission();
   const channelId = await notifee.createChannel(CHANNEL_PROPS);
 
   return {
