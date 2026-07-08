@@ -38,7 +38,7 @@ export async function scheduleNotification({
   return notifee.createTriggerNotification(notification, {
     type: TriggerType.TIMESTAMP,
     timestamp: date.getTime(),
-    alarmManager: { type: AlarmType.SET_EXACT_AND_ALLOW_WHILE_IDLE },
+    alarmManager: { type: AlarmType.SET_ALARM_CLOCK },
   });
 }
 
