@@ -3,9 +3,9 @@ import type { Task, TaskDTO } from '@/types/Task';
 import type { TaskNotificationData } from '@/types/TaskNotificationData';
 
 import { COLOR } from '@/types/Color';
-import { TASK_SERVICES } from '@/lib/taskServices';
+import { TASK_SERVICES } from '@/lib/tasks';
 import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
-import { showToast } from '@/lib/showToast';
+import { showToast } from '@/utils/showToast';
 import { fetchTasks } from '@/utils/fetchTasks';
 import { createContext, useContext, useEffect, useState } from 'react';
 

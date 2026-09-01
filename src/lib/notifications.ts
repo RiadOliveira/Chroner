@@ -19,6 +19,10 @@ type NotificationProps = {
   data?: Notification['data'];
 };
 
+export function registerForegroundService() {
+  return notifee.registerForegroundService(async () => undefined);
+}
+
 export function setupNotifications() {
   return notifee.requestPermission();
 }
@@ -50,13 +54,15 @@ export async function cancelAllNotifications() {
   return notifee.cancelAllNotifications();
 }
 
-async function generateNotification(props: NotificationProps) {
-  const channelId = await notifee.createChannel(CHANNEL_PROPS);
+async function generateNotification(
+  props: NotificationProps,
+): Promise<Notification> {
+  const channelId = await notifee.createChannel(CHANNEL_PROPS.default);
 
   return {
     ...props,
     android: {
-      ...NOTIFICATION_BASE_PROPS,
+      ...NOTIFICATION_BASE_PROPS.default,
       channelId,
       actions: [
         {
@@ -68,5 +74,5 @@ async function generateNotification(props: NotificationProps) {
         },
       ],
     },
-  } as const satisfies Notification;
+  };
 }

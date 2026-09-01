@@ -12,7 +12,7 @@ import {
   formatTime,
   parseDateString,
   parseTimeString,
-} from '@/lib/date';
+} from '@/utils/date';
 
 type Props = PickerProps<string | null | undefined> & {
   mode: DateTimePickerMode;

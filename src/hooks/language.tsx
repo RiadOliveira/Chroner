@@ -1,6 +1,6 @@
 import type { Language } from '@/locales';
 
-import { TASK_SERVICES } from '@/lib/taskServices';
+import { TASK_SERVICES } from '@/lib/tasks';
 import { usePreference } from '@/lib/preferences';
 import { resolveLocaleLanguage } from '@/utils/resolveLocaleLanguage';
 

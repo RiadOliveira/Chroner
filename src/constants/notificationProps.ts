@@ -7,32 +7,48 @@ import {
   AndroidCategory,
 } from 'react-native-notify-kit';
 
-export const CHANNEL_PROPS: AndroidChannel = {
-  id: 'Chroner',
-  name: 'Chroner',
-  bypassDnd: true,
-  importance: AndroidImportance.HIGH,
-  lightColor: HEX_COLOR[COLOR.PURPLE],
+type NotificationKind = 'default' | 'foregroundService';
+
+export const CHANNEL_PROPS: Record<NotificationKind, AndroidChannel> = {
+  default: {
+    id: 'Chroner',
+    name: 'Chroner',
+    bypassDnd: true,
+    importance: AndroidImportance.HIGH,
+    lightColor: HEX_COLOR[COLOR.PURPLE],
+  },
+
+  foregroundService: {
+    id: 'Chroner-service',
+    name: 'Chroner-service',
+    importance: AndroidImportance.LOW,
+    lightColor: HEX_COLOR[COLOR.PURPLE],
+  },
 } as const;
 
-export const NOTIFICATION_BASE_PROPS: NotificationAndroid = {
-  ongoing: true,
-  autoCancel: false,
-  smallIcon: 'notification_icon',
-  color: HEX_COLOR[COLOR.PURPLE],
-  category: AndroidCategory.REMINDER,
-  pressAction: {
-    id: PRESS_ACTION.DEFAULT,
-    launchActivity: PRESS_ACTION.DEFAULT,
-  },
-  actions: [
-    {
-      title: 'Complete',
-      pressAction: {
-        id: PRESS_ACTION.COMPLETE,
-        launchActivity: undefined,
-      },
+export const NOTIFICATION_BASE_PROPS: Record<
+  NotificationKind,
+  NotificationAndroid
+> = {
+  default: {
+    ongoing: true,
+    autoCancel: false,
+    smallIcon: 'notification_icon',
+    color: HEX_COLOR[COLOR.PURPLE],
+    category: AndroidCategory.REMINDER,
+    pressAction: {
+      id: PRESS_ACTION.DEFAULT,
+      launchActivity: PRESS_ACTION.DEFAULT,
     },
-  ],
-  showChronometer: true,
+    showChronometer: true,
+  },
+
+  foregroundService: {
+    ongoing: true,
+    autoCancel: false,
+    asForegroundService: true,
+    smallIcon: 'notification_icon',
+    color: HEX_COLOR[COLOR.PURPLE],
+    category: AndroidCategory.SERVICE,
+  },
 } as const;
