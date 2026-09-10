@@ -5,6 +5,7 @@ import {
   type NotificationAndroid,
   AndroidImportance,
   AndroidCategory,
+  AndroidForegroundServiceBehavior,
 } from 'react-native-notify-kit';
 
 type NotificationKind = 'default' | 'foregroundService';
@@ -49,6 +50,7 @@ export const NOTIFICATION_BASE_PROPS: Record<
     ongoing: true,
     autoCancel: false,
     asForegroundService: true,
+    foregroundServiceBehavior: AndroidForegroundServiceBehavior.IMMEDIATE,
     smallIcon: 'notification_icon',
     color: HEX_COLOR[COLOR.PURPLE],
     category: AndroidCategory.SERVICE,
