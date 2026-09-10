@@ -21,7 +21,9 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "permissions": [
-        "android.permission.USE_EXACT_ALARM"
+        "android.permission.USE_EXACT_ALARM",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_SPECIAL_USE"
       ]
     },
     "plugins": [
@@ -32,6 +34,19 @@
         "expo-notifications",
         {
           "icon": "./assets/icons/notification.png"
+        }
+      ],
+      [
+        "react-native-notify-kit",
+        {
+          "android": {
+            "foregroundService": {
+              "types": [
+                "specialUse"
+              ],
+              "specialUseSubtype": "Displays a persistent indicator while task reminders are active, so the app can detect when the user manually dismisses one of those reminder notifications."
+            }
+          }
         }
       ],
       [
