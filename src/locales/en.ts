@@ -72,6 +72,12 @@ export default {
     title: 'Chronovergence',
     bodyPrefix: "It's time to",
     completeAction: 'Complete',
+
+    service: {
+      title: 'Chronovergences on watch',
+      body_one: 'Stabilizing {{count}} task on the timeline',
+      body_other: 'Stabilizing {{count}} tasks on the timeline',
+    },
   },
   toast: {
     created: 'Task Created',

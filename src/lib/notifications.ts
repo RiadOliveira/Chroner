@@ -5,6 +5,7 @@ import notifee, {
 } from 'react-native-notify-kit';
 import {
   CHANNEL_PROPS,
+  FOREGROUND_SERVICE_ID,
   NOTIFICATION_BASE_PROPS,
 } from '@/constants/notificationProps';
 import { PRESS_ACTION } from '@/types/PressAction';
@@ -20,7 +21,7 @@ type NotificationProps = {
 };
 
 export function registerForegroundService() {
-  return notifee.registerForegroundService(async () => undefined);
+  return notifee.registerForegroundService(() => new Promise(() => {}));
 }
 
 export function setupNotifications() {
@@ -32,11 +33,27 @@ export async function displayNotification(props: NotificationProps) {
   return notifee.displayNotification(notification);
 }
 
+export async function syncForegroundService() {
+  const notifications = await notifee.getDisplayedNotifications();
+  const isActive = notifications.some(({ id }) => id === FOREGROUND_SERVICE_ID);
+
+  const count = notifications.length - Number(isActive);
+  const hasNotifications = count > 0;
+
+  if (hasNotifications && !isActive) return displayForegroundService(count);
+  if (!hasNotifications && isActive) return notifee.stopForegroundService();
+}
+
 export async function scheduleNotification({
   date,
   ...props
 }: NotificationProps & { date: Date }) {
-  if (isPast(date)) return displayNotification(props);
+  if (isPast(date)) {
+    const notificationId = await displayNotification(props);
+    await syncForegroundService();
+
+    return notificationId;
+  }
 
   const notification = await generateNotification(props);
   return notifee.createTriggerNotification(notification, {
@@ -47,11 +64,20 @@ export async function scheduleNotification({
 }
 
 export async function cancelNotification(notificationId?: string | null) {
-  if (notificationId) return notifee.cancelNotification(notificationId);
+  if (!notificationId) return;
+
+  await notifee.cancelNotification(notificationId);
+  await syncForegroundService();
 }
 
 export async function cancelAllNotifications() {
-  return notifee.cancelAllNotifications();
+  await notifee.cancelAllNotifications();
+  await syncForegroundService();
+}
+
+async function displayForegroundService(count: number) {
+  const serviceNotification = await generateServiceNotification(count);
+  return notifee.displayNotification(serviceNotification);
 }
 
 async function generateNotification(
@@ -74,5 +100,20 @@ async function generateNotification(
         },
       ],
     },
+  };
+}
+
+async function generateServiceNotification(
+  count: number,
+): Promise<Notification> {
+  const channelId = await notifee.createChannel(
+    CHANNEL_PROPS.foregroundService,
+  );
+
+  return {
+    id: FOREGROUND_SERVICE_ID,
+    title: i18n.t('notification.service.title'),
+    body: i18n.t('notification.service.body', { count }),
+    android: { ...NOTIFICATION_BASE_PROPS.foregroundService, channelId },
   };
 }

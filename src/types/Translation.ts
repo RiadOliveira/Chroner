@@ -54,6 +54,12 @@ export type Translation = {
     title: string;
     bodyPrefix: string;
     completeAction: string;
+
+    service: {
+      title: string;
+      body_one: string;
+      body_other: string;
+    };
   };
   toast: {
     created: string;

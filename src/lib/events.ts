@@ -5,7 +5,12 @@ import { TASK_SERVICES } from './tasks';
 
 import notifee, { type Event, EventType } from 'react-native-notify-kit';
 import { setupI18n } from '@/config/i18n';
-import { cancelNotification, displayNotification } from './notifications';
+import {
+  cancelNotification,
+  displayNotification,
+  syncForegroundService,
+} from './notifications';
+import { FOREGROUND_SERVICE_ID } from '@/constants/notificationProps';
 
 type ForegroundProps = {
   selectTask(id: number): void;
@@ -28,8 +33,17 @@ async function handleEvent({
   selectTask,
   completeTaskById,
 }: Event & Partial<ForegroundProps>) {
+  setupI18n();
+
   if (type === EventType.DISMISSED) {
     await displayNotification(notification!);
+    return;
+  }
+
+  if (type === EventType.DELIVERED) {
+    const isServiceNotification = notification?.id === FOREGROUND_SERVICE_ID;
+    if (!isServiceNotification) await syncForegroundService();
+
     return;
   }
 
@@ -45,6 +59,5 @@ async function handleEvent({
   const taskFound = await TASK_SERVICES.findById(taskId);
   if (taskFound === null) return cancelNotification(notification?.id);
 
-  setupI18n();
   return TASK_SERVICES.complete(taskFound);
 }

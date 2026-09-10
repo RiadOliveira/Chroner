@@ -72,6 +72,12 @@ export default {
     title: 'Cronovergência',
     bodyPrefix: 'Está na hora de',
     completeAction: 'Concluir',
+
+    service: {
+      title: 'Cronovergências monitoradas',
+      body_one: 'Estabilizando {{count}} tarefa na linha temporal',
+      body_other: 'Estabilizando {{count}} tarefas na linha temporal',
+    },
   },
   toast: {
     created: 'Tarefa Criada',

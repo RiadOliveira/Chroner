@@ -9,9 +9,11 @@ import {
 
 type NotificationKind = 'default' | 'foregroundService';
 
+export const FOREGROUND_SERVICE_ID = 'chroner-service';
+
 export const CHANNEL_PROPS: Record<NotificationKind, AndroidChannel> = {
   default: {
-    id: 'Chroner',
+    id: 'chroner',
     name: 'Chroner',
     bypassDnd: true,
     importance: AndroidImportance.HIGH,
@@ -19,7 +21,7 @@ export const CHANNEL_PROPS: Record<NotificationKind, AndroidChannel> = {
   },
 
   foregroundService: {
-    id: 'Chroner-service',
+    id: 'chroner-service',
     name: 'Chroner-service',
     importance: AndroidImportance.LOW,
     lightColor: HEX_COLOR[COLOR.PURPLE],
