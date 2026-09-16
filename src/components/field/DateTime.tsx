@@ -169,21 +169,23 @@ export default function DateTimePicker({
           {content}
         </Text>
 
-        <Animated.View
-          style={{
-            opacity: xOpacity,
-            transform: [{ scale: xScale }, { rotate: xRotate }],
-          }}
-          pointerEvents={value ? 'auto' : 'none'}
-        >
-          <Pressable
-            hitSlop={12}
-            className="active:opacity-50"
-            onPress={() => onChange(null)}
+        {mode !== 'time' && (
+          <Animated.View
+            style={{
+              opacity: xOpacity,
+              transform: [{ scale: xScale }, { rotate: xRotate }],
+            }}
+            pointerEvents={value ? 'auto' : 'none'}
           >
-            <X size={16} color="#94a3b8" />
-          </Pressable>
-        </Animated.View>
+            <Pressable
+              hitSlop={12}
+              className="active:opacity-50"
+              onPress={() => onChange(null)}
+            >
+              <X size={16} color="#94a3b8" />
+            </Pressable>
+          </Animated.View>
+        )}
       </Animated.View>
     </Pressable>
   );

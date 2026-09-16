@@ -1,4 +1,3 @@
-import type { Language } from '@/locales';
 import type { TaskDTO } from '@/types/Task';
 
 import { COLOR } from '@/types/Color';
@@ -27,13 +26,11 @@ const DEFAULT_FORM_DATA: TaskDTO = {
 } as const;
 
 export default function TaskForm({ isCreating, onSubmit }: Props) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { tasks, selectedIndex, createTask, updateTask } = useTasks();
 
-  const inputRef = useRef<TextInput>(null);
   const [formData, setFormData] = useState<TaskDTO>(DEFAULT_FORM_DATA);
-
-  const isPtLang = (i18n.language as Language) === 'pt';
+  const inputRef = useRef<TextInput>(null);
   const isValid = formData.name.length > 0;
 
   useEffect(() => {
@@ -51,6 +48,18 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
 
   function setField<K extends keyof TaskDTO>(key: K, value: TaskDTO[K]) {
     setFormData((prev) => ({ ...prev, [key]: value }));
+  }
+
+  function onDateFieldChange(value?: string | null) {
+    setField('dueDate', value);
+
+    if (value) {
+      if (!formData.dueDate) setField('reminderTime', '00:00');
+      return;
+    }
+
+    setField('reminderTime', null);
+    setField('recurrence', RECURRENCE.NONE);
   }
 
   async function handleSubmit() {
@@ -75,20 +84,11 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
           <DateTimePicker
             mode="date"
             value={formData.dueDate}
-            onChange={(value) => {
-              setField('dueDate', value);
-              if (value) return;
-
-              setField('reminderTime', null);
-              setField('recurrence', RECURRENCE.NONE);
-            }}
+            onChange={onDateFieldChange}
           />
         </Field>
 
-        <Field
-          label={t('fields.time.label')}
-          className={isPtLang ? 'max-w-44' : undefined}
-        >
+        <Field label={t('fields.time.label')} className="max-w-[40%]">
           <DateTimePicker
             mode="time"
             disabled={!formData.dueDate}
