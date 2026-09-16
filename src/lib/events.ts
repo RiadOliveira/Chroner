@@ -14,7 +14,7 @@ import { FOREGROUND_SERVICE_ID } from '@/constants/notificationProps';
 
 type ForegroundProps = {
   selectTask(id: number): void;
-  completeTaskById(id: number): Promise<void>;
+  onForegroundTaskComplete(): Promise<void>;
 };
 
 export function setOnForegroundEvent(props: ForegroundProps) {
@@ -31,7 +31,7 @@ async function handleEvent({
   type,
   detail: { notification, pressAction },
   selectTask,
-  completeTaskById,
+  onForegroundTaskComplete,
 }: Event & Partial<ForegroundProps>) {
   setupI18n();
 
@@ -53,11 +53,9 @@ async function handleEvent({
   if (actionId === PRESS_ACTION.DEFAULT) return selectTask?.(taskId);
   if (actionId !== PRESS_ACTION.COMPLETE) return;
 
-  const isForeground = !!completeTaskById;
-  if (isForeground) return completeTaskById(taskId);
-
   const taskFound = await TASK_SERVICES.findById(taskId);
   if (taskFound === null) return cancelNotification(notification?.id);
 
-  return TASK_SERVICES.complete(taskFound);
+  await TASK_SERVICES.complete(taskFound);
+  return onForegroundTaskComplete?.();
 }

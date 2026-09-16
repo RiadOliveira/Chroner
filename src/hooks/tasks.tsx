@@ -20,7 +20,7 @@ type TasksContextType = {
   updateTask(task: TaskDTO): Promise<void>;
   deleteTask(task: Task): Promise<void>;
   completeTask(task: Task): Promise<void>;
-  completeTaskById(id: number): Promise<void>;
+  onForegroundTaskComplete(): Promise<void>;
   resetAllSchedulings(): Promise<void>;
 };
 
@@ -88,16 +88,14 @@ export function TasksContext({ children }: DefaultProps) {
     return reloadTasks();
   }
 
-  async function completeTask(task: Task) {
-    await TASK_SERVICES.complete(task);
-
+  async function onForegroundTaskComplete() {
     showToast({ message: i18n.t('toast.completed'), color: COLOR.EMERALD });
     return reloadTasks();
   }
 
-  async function completeTaskById(id: number) {
-    const taskFound = tasks.find(({ id: taskId }) => taskId === id);
-    if (taskFound !== undefined) return completeTask(taskFound);
+  async function completeTask(task: Task) {
+    await TASK_SERVICES.complete(task);
+    return onForegroundTaskComplete();
   }
 
   return (
@@ -110,7 +108,7 @@ export function TasksContext({ children }: DefaultProps) {
         updateTask,
         deleteTask,
         completeTask,
-        completeTaskById,
+        onForegroundTaskComplete,
         resetAllSchedulings: TASK_SERVICES.resetAllSchedulings,
       }}
     >

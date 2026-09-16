@@ -12,11 +12,11 @@ import TaskModal from '@/components/modal/Task';
 import FAB from '@/components/FAB';
 
 export default function Home() {
-  const { selectTask, completeTaskById } = useTasks();
+  const { selectTask, onForegroundTaskComplete } = useTasks();
 
   useEffect(() => {
-    return setOnForegroundEvent({ selectTask, completeTaskById });
-  }, [selectTask, completeTaskById]);
+    return setOnForegroundEvent({ selectTask, onForegroundTaskComplete });
+  }, [selectTask, onForegroundTaskComplete]);
 
   return (
     <View className="flex-1 bg-background">
