@@ -114,10 +114,16 @@ export default function Header() {
 
         <View className="flex-row justify-between items-center">
           <View className="gap-1">
-            <Text className="text-3xl font-extrabold text-white font-primary">
+            <Text
+              allowFontScaling={false}
+              className="text-3xl font-extrabold text-white font-primary"
+            >
               Chroner
             </Text>
-            <Text className="font-secondary text-lg text-white font-medium">
+            <Text
+              allowFontScaling={false}
+              className="font-secondary text-lg text-white font-medium"
+            >
               {t('header.subtitle')}
             </Text>
           </View>
@@ -154,6 +160,7 @@ export default function Header() {
           />
 
           <Animated.Text
+            allowFontScaling={false}
             style={{
               opacity: textOpacity,
               transform: [{ translateY: textTranslateY }],
