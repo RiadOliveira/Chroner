@@ -6,7 +6,7 @@ import { db } from '@/db/database';
 import { eq } from 'drizzle-orm';
 import { add, format } from 'date-fns';
 import { tasksTable } from '@/db/schema';
-import { joinDateTime } from '@/utils/date';
+import { formatTime, joinDateTime } from '@/utils/date';
 import {
   scheduleNotification,
   cancelNotification,
@@ -81,12 +81,14 @@ async function scheduleTask({
   const dueDate = format(date, 'yyyy-MM-dd');
   if (!reminderTime) return { dueDate };
 
+  const time = formatTime(reminderTime);
   const notificationId = await scheduleNotification({
     date,
-    title: i18n.t('notification.title'),
+    title: i18n.t('notification.title', { time }),
     body: `${i18n.t('notification.bodyPrefix')} ${name}`,
     data: { taskId: id! } as TaskNotificationData,
   });
+
   return { dueDate, notificationId };
 }
 

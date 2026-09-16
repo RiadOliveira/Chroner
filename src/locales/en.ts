@@ -69,7 +69,7 @@ export default {
   },
 
   notification: {
-    title: 'Chronovergence',
+    title: 'Chronovergence at {{time}}',
     bodyPrefix: "It's time to",
     completeAction: 'Complete',
 

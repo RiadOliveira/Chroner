@@ -69,7 +69,7 @@ export default {
   },
 
   notification: {
-    title: 'Cronovergência',
+    title: 'Cronovergência às {{time}}',
     bodyPrefix: 'Está na hora de',
     completeAction: 'Concluir',
 
