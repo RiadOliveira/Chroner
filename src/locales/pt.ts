@@ -34,8 +34,9 @@ export default {
 
   overdueBadge: 'Vencida',
   dateLabel_zero: 'Hoje',
-  dateLabel_one: '{{count}} dia atrás',
+  dateLabel_one: 'Ontem',
   dateLabel_other: '{{count}} dias atrás',
+  dateLabelTomorrow: 'Amanhã',
 
   form: {
     title_create: 'Nova Tarefa',

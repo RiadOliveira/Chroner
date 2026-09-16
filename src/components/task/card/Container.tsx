@@ -168,6 +168,7 @@ function generateDateLabel(
   const parsedDate = parseDateString(dueDate);
   const difference = differenceInDays(startOfDay(parsedDate), todayDate);
 
-  if (difference > 0) return formatDate(parsedDate);
+  if (difference > 1) return formatDate(parsedDate);
+  if (difference === 1) return t('dateLabelTomorrow');
   return t('dateLabel', { count: -difference });
 }

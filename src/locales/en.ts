@@ -34,8 +34,9 @@ export default {
 
   overdueBadge: 'Overdue',
   dateLabel_zero: 'Today',
-  dateLabel_one: '{{count}} day ago',
+  dateLabel_one: 'Yesterday',
   dateLabel_other: '{{count}} days ago',
+  dateLabelTomorrow: 'Tomorrow',
 
   form: {
     title_create: 'New Task',
