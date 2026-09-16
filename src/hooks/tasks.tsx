@@ -11,6 +11,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 import notifee from 'react-native-notify-kit';
 import i18n from '@/config/i18n';
+import { countOverdueTasks, countTaskNotifications } from '@/utils/counting';
 
 type TasksContextType = {
   tasks: Task[];
@@ -35,7 +36,9 @@ export function TasksContext({ children }: DefaultProps) {
   useEffect(() => {
     async function handleInitialLoad() {
       const tasksFound = await fetchTasks();
+
       setTasks(tasksFound);
+      handleNotificationsReload(tasksFound);
 
       const detail = await notifee.getInitialNotification();
       if (detail === null) return;
@@ -119,4 +122,15 @@ export function TasksContext({ children }: DefaultProps) {
 
 export function useTasks() {
   return useContext(tasksContext);
+}
+
+async function handleNotificationsReload(tasks: Task[]) {
+  const overdueTaskCount = countOverdueTasks(tasks);
+  if (overdueTaskCount === 0) return;
+
+  const notifications = await notifee.getDisplayedNotifications();
+  const taskNotificationCount = countTaskNotifications(notifications);
+
+  const countsMatch = overdueTaskCount === taskNotificationCount;
+  if (!countsMatch) return TASK_SERVICES.resetAllSchedulings();
 }

@@ -4,13 +4,13 @@ import notifee, {
   AlarmType,
 } from 'react-native-notify-kit';
 import {
-  EMPTY_ID,
   CHANNEL_PROPS,
   FOREGROUND_SERVICE_ID,
   NOTIFICATION_BASE_PROPS,
 } from '@/constants/notificationProps';
 import { PRESS_ACTION } from '@/types/PressAction';
 import { isPast } from 'date-fns';
+import { countTaskNotifications } from '@/utils/counting';
 
 import i18n from '@/config/i18n';
 
@@ -36,11 +36,7 @@ export async function displayNotification(props: NotificationProps) {
 
 export async function syncForegroundService() {
   const notifications = await notifee.getDisplayedNotifications();
-
-  const count = notifications.reduce((prev, { id }) => {
-    const isValid = id !== EMPTY_ID && id !== FOREGROUND_SERVICE_ID;
-    return prev + Number(isValid);
-  }, 0);
+  const count = countTaskNotifications(notifications);
 
   return count ? displayForegroundService(count) : cancelForegroundService();
 }

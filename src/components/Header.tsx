@@ -3,8 +3,8 @@ import { View, Text, Animated, TouchableOpacity } from 'react-native';
 import { Settings } from 'lucide-react-native';
 import { cn } from '@/utils/mergeStyles';
 import { useTasks } from '@/hooks/tasks';
-import { isOverdue } from '@/utils/date';
 import { useTranslation } from 'react-i18next';
+import { countOverdueTasks } from '@/utils/counting';
 import { useMemo, useRef, useEffect, useState } from 'react';
 
 import AppIcon from './decoration/AppIcon';
@@ -12,14 +12,9 @@ import AppGradient from './decoration/AppGradient';
 import SettingsModal from './modal/Settings';
 
 export default function Header() {
-  const { tasks } = useTasks();
   const { t } = useTranslation();
-
-  const overdueCount = useMemo(() => {
-    return tasks.reduce((count, { dueDate, reminderTime }) => {
-      return count + Number(isOverdue(dueDate, reminderTime));
-    }, 0);
-  }, [tasks]);
+  const { tasks } = useTasks();
+  const overdueCount = useMemo(() => countOverdueTasks(tasks), [tasks]);
 
   const hasOverdueTasks = overdueCount > 0;
   const hourglassColor = hasOverdueTasks ? COLOR.BLUE : COLOR.PURPLE;
