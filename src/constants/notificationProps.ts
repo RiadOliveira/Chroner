@@ -10,6 +10,7 @@ import {
 
 type NotificationKind = 'default' | 'foregroundService';
 
+export const EMPTY_ID = '0';
 export const FOREGROUND_SERVICE_ID = 'chroner-service';
 
 export const CHANNEL_PROPS: Record<NotificationKind, AndroidChannel> = {

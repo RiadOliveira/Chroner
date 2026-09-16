@@ -4,6 +4,7 @@ import notifee, {
   AlarmType,
 } from 'react-native-notify-kit';
 import {
+  EMPTY_ID,
   CHANNEL_PROPS,
   FOREGROUND_SERVICE_ID,
   NOTIFICATION_BASE_PROPS,
@@ -35,25 +36,20 @@ export async function displayNotification(props: NotificationProps) {
 
 export async function syncForegroundService() {
   const notifications = await notifee.getDisplayedNotifications();
-  const isActive = notifications.some(({ id }) => id === FOREGROUND_SERVICE_ID);
 
-  const count = notifications.length - Number(isActive);
-  const hasNotifications = count > 0;
+  const count = notifications.reduce((prev, { id }) => {
+    const isValid = id !== EMPTY_ID && id !== FOREGROUND_SERVICE_ID;
+    return prev + Number(isValid);
+  }, 0);
 
-  if (hasNotifications && !isActive) return displayForegroundService(count);
-  if (!hasNotifications && isActive) return notifee.stopForegroundService();
+  return count ? displayForegroundService(count) : cancelForegroundService();
 }
 
 export async function scheduleNotification({
   date,
   ...props
 }: NotificationProps & { date: Date }) {
-  if (isPast(date)) {
-    const notificationId = await displayNotification(props);
-    await syncForegroundService();
-
-    return notificationId;
-  }
+  if (isPast(date)) return displayNotification(props);
 
   const notification = await generateNotification(props);
   return notifee.createTriggerNotification(notification, {
@@ -78,6 +74,11 @@ export async function cancelAllNotifications() {
 async function displayForegroundService(count: number) {
   const serviceNotification = await generateServiceNotification(count);
   return notifee.displayNotification(serviceNotification);
+}
+
+async function cancelForegroundService() {
+  await notifee.cancelNotification(FOREGROUND_SERVICE_ID);
+  return notifee.stopForegroundService();
 }
 
 async function generateNotification(
