@@ -9,26 +9,26 @@ export default {
     overdueTasks_other: '{{count}} tasks shattered across the timeline',
   },
 
-  emptyState: {
+  instructions: {
     title: 'All quiet across the timeline',
-
     descriptionPrefix: 'Tap the',
     descriptionSuffix: 'button to start shaping it',
-  },
-  gestures: {
-    title: 'Task Gestures',
 
-    singleTap: {
-      action: '1 Tap',
-      result: 'Open / Edit',
-    },
-    doubleTap: {
-      action: '2 Taps',
-      result: 'Complete',
-    },
-    hold: {
-      action: 'Hold',
-      result: 'Delete',
+    gestures: {
+      title: 'Task Gestures',
+
+      singleTap: {
+        action: '1 Tap',
+        result: 'Open / Edit',
+      },
+      doubleTap: {
+        action: '2 Taps',
+        result: 'Complete',
+      },
+      hold: {
+        action: 'Hold',
+        result: 'Delete',
+      },
     },
   },
 

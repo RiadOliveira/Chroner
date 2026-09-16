@@ -3,7 +3,7 @@ import { useTasks } from '@/hooks/tasks';
 import { useEffect, useRef } from 'react';
 
 import TaskCard from '../card';
-import EmptyState from './EmptyState';
+import Instructions from './Instructions';
 
 export default function TasksList() {
   const { tasks, selectTask, completeTask, deleteTask } = useTasks();
@@ -40,7 +40,7 @@ export default function TasksList() {
           deleteTask={() => deleteTask(item)}
         />
       )}
-      ListEmptyComponent={<EmptyState visible={!tasks.length} />}
+      ListEmptyComponent={<Instructions visible={!tasks.length} />}
     />
   );
 }

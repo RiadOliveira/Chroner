@@ -6,14 +6,14 @@ import {
   PlusCircle,
 } from 'lucide-react-native';
 import { Animated, Easing, Text, View } from 'react-native';
-import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useEffect, useRef } from 'react';
 
 import AppIcon from '@/components/decoration/AppIcon';
 
 type Props = { visible: boolean };
 
-export default function EmptyState({ visible }: Props) {
+export default function Instructions({ visible }: Props) {
   const { t } = useTranslation();
 
   const scale = useRef(new Animated.Value(0.985)).current;
@@ -61,7 +61,7 @@ export default function EmptyState({ visible }: Props) {
   }, [opacity, scale, translateY, visible]);
 
   return (
-    <View className="items-center justify-center px-5 pt-12">
+    <View className="items-center justify-center p-5">
       <Animated.View
         renderToHardwareTextureAndroid
         className="w-full"
@@ -80,11 +80,11 @@ export default function EmptyState({ visible }: Props) {
             </View>
 
             <Text className="text-accent-purple font-bold text-xl font-primary text-center mb-2">
-              {t('emptyState.title')}
+              {t('instructions.title')}
             </Text>
 
             <Text className="text-slate-500 text-sm font-medium font-secondary text-center px-4 leading-6">
-              {`${t('emptyState.descriptionPrefix')} `}
+              {`${t('instructions.descriptionPrefix')} `}
               <View className="translate-y-[3px]">
                 <PlusCircle
                   size={14}
@@ -92,13 +92,13 @@ export default function EmptyState({ visible }: Props) {
                   strokeWidth={2.5}
                 />
               </View>
-              {` ${t('emptyState.descriptionSuffix')}.`}
+              {` ${t('instructions.descriptionSuffix')}.`}
             </Text>
           </View>
 
           <View className="bg-slate-50 border border-slate-100 rounded-2xl p-4 gap-3">
             <Text className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-1 text-center font-primary">
-              {t('gestures.title')}
+              {t('instructions.gestures.title')}
             </Text>
 
             <View className="flex-row items-center gap-3">
@@ -107,10 +107,10 @@ export default function EmptyState({ visible }: Props) {
               </View>
 
               <Text className="text-indigo-600 font-semibold font-secondary text-sm flex-1">
-                {t('gestures.singleTap.action')}
+                {t('instructions.gestures.singleTap.action')}
               </Text>
               <Text className="text-indigo-600 font-medium font-secondary text-sm">
-                {t('gestures.singleTap.result')}
+                {t('instructions.gestures.singleTap.result')}
               </Text>
             </View>
 
@@ -120,10 +120,10 @@ export default function EmptyState({ visible }: Props) {
               </View>
 
               <Text className="text-emerald-600 font-semibold font-secondary text-sm flex-1">
-                {t('gestures.doubleTap.action')}
+                {t('instructions.gestures.doubleTap.action')}
               </Text>
               <Text className="text-emerald-600 font-medium font-secondary text-sm">
-                {t('gestures.doubleTap.result')}
+                {t('instructions.gestures.doubleTap.result')}
               </Text>
             </View>
 
@@ -131,11 +131,12 @@ export default function EmptyState({ visible }: Props) {
               <View className="bg-red-500/10 p-2 rounded-xl">
                 <Trash2 size={16} color="#e11d48" />
               </View>
+
               <Text className="text-red-600 font-semibold font-secondary text-sm flex-1">
-                {t('gestures.hold.action')}
+                {t('instructions.gestures.hold.action')}
               </Text>
               <Text className="text-red-600 font-medium font-secondary text-sm">
-                {t('gestures.hold.result')}
+                {t('instructions.gestures.hold.result')}
               </Text>
             </View>
           </View>

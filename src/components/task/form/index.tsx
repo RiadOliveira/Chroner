@@ -88,7 +88,7 @@ export default function TaskForm({ isCreating, onSubmit }: Props) {
           />
         </Field>
 
-        <Field label={t('fields.time.label')} className="max-w-[40%]">
+        <Field label={t('fields.time.label')} className="max-w-[44%]">
           <DateTimePicker
             mode="time"
             disabled={!formData.dueDate}

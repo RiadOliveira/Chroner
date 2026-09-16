@@ -12,26 +12,26 @@ export type Translation = {
     overdueTasks_other: `{{count}} ${string}`;
   };
 
-  emptyState: {
+  instructions: {
     title: string;
-
     descriptionPrefix: string;
     descriptionSuffix: string;
-  };
-  gestures: {
-    title: string;
 
-    singleTap: {
-      action: string;
-      result: string;
-    };
-    doubleTap: {
-      action: string;
-      result: string;
-    };
-    hold: {
-      action: string;
-      result: string;
+    gestures: {
+      title: string;
+
+      singleTap: {
+        action: string;
+        result: string;
+      };
+      doubleTap: {
+        action: string;
+        result: string;
+      };
+      hold: {
+        action: string;
+        result: string;
+      };
     };
   };
 

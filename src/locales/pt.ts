@@ -9,26 +9,26 @@ export default {
     overdueTasks_other: '{{count}} tarefas fragmentadas pela linha temporal',
   },
 
-  emptyState: {
+  instructions: {
     title: 'Tudo em ordem na cronologia',
-
     descriptionPrefix: 'Toque no',
     descriptionSuffix: 'para começar a moldá-la',
-  },
-  gestures: {
-    title: 'Gestos de Tarefas',
 
-    singleTap: {
-      action: '1 Toque',
-      result: 'Abrir / Editar',
-    },
-    doubleTap: {
-      action: '2 Toques',
-      result: 'Concluir',
-    },
-    hold: {
-      action: 'Segurar',
-      result: 'Excluir',
+    gestures: {
+      title: 'Gestos de Tarefas',
+
+      singleTap: {
+        action: '1 Toque',
+        result: 'Abrir / Editar',
+      },
+      doubleTap: {
+        action: '2 Toques',
+        result: 'Concluir',
+      },
+      hold: {
+        action: 'Segurar',
+        result: 'Excluir',
+      },
     },
   },
 
