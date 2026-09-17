@@ -109,14 +109,14 @@ export default function Header() {
         onClose={() => setSettingsModalVisible(false)}
       />
 
-      <View className="pt-16 pb-4 px-6 gap-8 rounded-b-[40px] overflow-hidden shadow-lg shadow-accent-purple elevation-xl z-10">
+      <View className="pt-16 pb-4 px-6 gap-7 rounded-b-[40px] overflow-hidden shadow-lg shadow-accent-purple elevation-xl z-10">
         <AppGradient className="absolute inset-0" />
 
-        <View className="flex-row justify-between items-center">
+        <View className="flex-row justify-between items-center px-0.5">
           <View className="gap-1">
             <Text
               allowFontScaling={false}
-              className="text-3xl font-extrabold text-white font-primary"
+              className="text-4xl font-extrabold text-white font-primary"
             >
               Chroner
             </Text>
