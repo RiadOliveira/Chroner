@@ -1,16 +1,15 @@
 import type { TaskNotificationData } from '@/types/TaskNotificationData';
 
+import notifee, { type Event, EventType } from 'react-native-notify-kit';
 import { PRESS_ACTION } from '@/types/PressAction';
 import { TASK_SERVICES } from './tasks';
-
-import notifee, { type Event, EventType } from 'react-native-notify-kit';
+import { FOREGROUND_SERVICE_ID } from '@/constants/notificationProps';
 import { setupI18n } from '@/config/i18n';
 import {
   cancelNotification,
   displayNotification,
   syncForegroundService,
 } from './notifications';
-import { FOREGROUND_SERVICE_ID } from '@/constants/notificationProps';
 
 type ForegroundProps = {
   selectTask(id: number): void;

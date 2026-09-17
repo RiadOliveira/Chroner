@@ -58,8 +58,7 @@ export type Translation = {
 
     service: {
       title: string;
-      body_one: string;
-      body_other: string;
+      body: string;
     };
   };
   toast: {

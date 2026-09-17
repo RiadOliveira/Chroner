@@ -76,8 +76,7 @@ export default {
 
     service: {
       title: 'Cronovergências monitoradas',
-      body_one: 'Estabilizando {{count}} tarefa na linha temporal',
-      body_other: 'Estabilizando {{count}} tarefas na linha temporal',
+      body: 'Sincronizando fragmentos temporais',
     },
   },
   toast: {

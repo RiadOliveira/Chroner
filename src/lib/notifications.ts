@@ -38,7 +38,7 @@ export async function syncForegroundService() {
   const notifications = await notifee.getDisplayedNotifications();
   const count = countTaskNotifications(notifications);
 
-  return count ? displayForegroundService(count) : cancelForegroundService();
+  return (count ? displayForegroundService : cancelForegroundService)();
 }
 
 export async function scheduleNotification({
@@ -67,8 +67,8 @@ export async function cancelAllNotifications() {
   await syncForegroundService();
 }
 
-async function displayForegroundService(count: number) {
-  const serviceNotification = await generateServiceNotification(count);
+async function displayForegroundService() {
+  const serviceNotification = await generateServiceNotification();
   return notifee.displayNotification(serviceNotification);
 }
 
@@ -100,9 +100,7 @@ async function generateNotification(
   };
 }
 
-async function generateServiceNotification(
-  count: number,
-): Promise<Notification> {
+async function generateServiceNotification(): Promise<Notification> {
   const channelId = await notifee.createChannel(
     CHANNEL_PROPS.foregroundService,
   );
@@ -110,7 +108,7 @@ async function generateServiceNotification(
   return {
     id: FOREGROUND_SERVICE_ID,
     title: i18n.t('notification.service.title'),
-    body: i18n.t('notification.service.body', { count }),
+    body: i18n.t('notification.service.body'),
     android: { ...NOTIFICATION_BASE_PROPS.foregroundService, channelId },
   };
 }
