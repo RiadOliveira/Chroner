@@ -7,13 +7,20 @@ import { View, Pressable, Animated } from 'react-native';
 import { useEffect, useRef } from 'react';
 
 const COLOR_ROWS: ColorValue[][] = [
-  [COLOR.BLUE, COLOR.INDIGO, COLOR.PURPLE, COLOR.PINK, COLOR.ROSE, COLOR.RED],
   [
+    COLOR.BLUE,
+    COLOR.INDIGO,
+    COLOR.PURPLE,
+    COLOR.PINK,
+    COLOR.FUCHSIA,
+    COLOR.RED,
+  ],
+  [
+    COLOR.BROWN,
     COLOR.ORANGE,
-    COLOR.AMBER,
     COLOR.YELLOW,
+    COLOR.LIME,
     COLOR.GREEN,
-    COLOR.EMERALD,
     COLOR.TEAL,
   ],
 ] as const;

@@ -80,7 +80,7 @@ export function TasksContext({ children }: DefaultProps) {
     const current = tasks.find(({ id }) => id === task.id)!;
     await TASK_SERVICES.update(current, task);
 
-    showToast({ message: i18n.t('toast.updated'), color: COLOR.PURPLE });
+    showToast({ message: i18n.t('toast.updated'), color: COLOR.INDIGO });
     return reloadTasks();
   }
 
@@ -92,7 +92,7 @@ export function TasksContext({ children }: DefaultProps) {
   }
 
   async function onForegroundTaskComplete() {
-    showToast({ message: i18n.t('toast.completed'), color: COLOR.EMERALD });
+    showToast({ message: i18n.t('toast.completed'), color: COLOR.PURPLE });
     return reloadTasks();
   }
 
