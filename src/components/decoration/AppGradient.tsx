@@ -7,7 +7,7 @@ type Props = Partial<LinearGradientProps> & DefaultProps;
 
 export default function AppGradient({
   colors = [HEX_COLOR[COLOR.BLUE], HEX_COLOR[COLOR.PURPLE]],
-  locations = [0, 1],
+  locations = [0, 0.75],
   ...props
 }: Props) {
   return <LinearGradient {...props} colors={colors} locations={locations} />;
