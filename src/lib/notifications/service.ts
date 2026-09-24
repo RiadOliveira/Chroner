@@ -10,10 +10,7 @@ import {
   FOREGROUND_SERVICE_ID,
   NOTIFICATION_BASE_PROPS,
 } from '@/constants/notificationProps';
-import {
-  hasTaskNotification,
-  hasTriggerTaskNotification,
-} from '@/utils/taskChecks';
+import { hasTaskNotification } from '@/utils/taskChecks';
 
 import i18n from '@/config/i18n';
 
@@ -22,13 +19,16 @@ type TimestampNotification = {
   trigger: TimestampTrigger;
 };
 
+const SERVICE_STARTUP_DELAY_MS = 10 * 1000;
+
 export async function syncNotificationService() {
   const displayed = await notifee.getDisplayedNotifications();
   if (hasTaskNotification(displayed)) return displayService();
 
+  await cancelService();
   const trigger = await notifee.getTriggerNotifications();
-  if (!hasTriggerTaskNotification(trigger)) return cancelService();
 
+  if (trigger.length === 0) return;
   return handleServiceScheduling(trigger as TimestampNotification[]);
 }
 
@@ -43,19 +43,15 @@ async function cancelService() {
 }
 
 async function handleServiceScheduling(notifications: TimestampNotification[]) {
-  let closestTime: number | undefined = undefined;
-  let serviceTime: number | undefined = undefined;
-
-  notifications.forEach(({ notification: { id }, trigger: { timestamp } }) => {
-    if (id === FOREGROUND_SERVICE_ID) serviceTime = timestamp;
-    if (!closestTime || timestamp < closestTime) closestTime = timestamp;
-  });
-  if (closestTime === serviceTime) return;
+  const closestTime = Math.min(
+    ...notifications.map(({ trigger }) => trigger.timestamp),
+  );
+  const timestamp = closestTime - SERVICE_STARTUP_DELAY_MS;
 
   const serviceNotification = await generateServiceNotification();
   await notifee.createTriggerNotification(serviceNotification, {
     type: TriggerType.TIMESTAMP,
-    timestamp: closestTime,
+    timestamp,
     alarmManager: { type: AlarmType.SET_ALARM_CLOCK },
   });
 }

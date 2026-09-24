@@ -1,36 +1,25 @@
 import type { Task } from '@/types/Task';
-import type {
-  Notification,
-  TriggerNotification,
-} from 'react-native-notify-kit';
+import type { Notification } from 'react-native-notify-kit';
 
 import { FOREGROUND_SERVICE_ID } from '@/constants/notificationProps';
 import { isOverdue } from './date';
 
 const EMPTY_ID = '0';
 
-export function countTaskNotifications(items: Notification[]) {
-  return items.reduce((acc, item) => {
+export function countTaskNotifications(notifications: Notification[]) {
+  return notifications.reduce((acc, item) => {
     return acc + Number(isTaskNotification(item));
   }, 0);
 }
 
-export function hasTaskNotification(items: Notification[]) {
-  return items.some(isTaskNotification);
+export function hasTaskNotification(notifications: Notification[]) {
+  return notifications.some(isTaskNotification);
 }
 
-export function hasTriggerTaskNotification(items: TriggerNotification[]) {
-  return items.some(isTriggerTaskNotification);
-}
-
-export function countOverdueTasks(items: Task[]) {
-  return items.reduce((acc, { dueDate, reminderTime }) => {
+export function countOverdueTasks(tasks: Task[]) {
+  return tasks.reduce((acc, { dueDate, reminderTime }) => {
     return acc + Number(isOverdue(dueDate, reminderTime));
   }, 0);
-}
-
-function isTriggerTaskNotification({ notification }: TriggerNotification) {
-  return isTaskNotification(notification);
 }
 
 function isTaskNotification({ id }: Notification) {
