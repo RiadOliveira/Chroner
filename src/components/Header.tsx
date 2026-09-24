@@ -4,7 +4,7 @@ import { Settings } from 'lucide-react-native';
 import { cn } from '@/utils/mergeStyles';
 import { useTasks } from '@/hooks/tasks';
 import { useTranslation } from 'react-i18next';
-import { countOverdueTasks } from '@/utils/counting';
+import { countOverdueTasks } from '@/utils/taskChecks';
 import { useMemo, useRef, useEffect, useState } from 'react';
 
 import AppIcon from './decoration/AppIcon';

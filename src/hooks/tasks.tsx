@@ -7,7 +7,7 @@ import { TASK_SERVICES } from '@/lib/tasks';
 import { CREATE_TASK_INDEX } from '@/constants/createTaskIndex';
 import { showToast } from '@/utils/showToast';
 import { fetchTasks } from '@/utils/fetchTasks';
-import { countOverdueTasks, countTaskNotifications } from '@/utils/counting';
+import { countOverdueTasks, countTaskNotifications } from '@/utils/taskChecks';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import i18n from '@/config/i18n';
