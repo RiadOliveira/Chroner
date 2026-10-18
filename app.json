@@ -13,7 +13,7 @@
       "backgroundColor": "#f8fafc"
     },
     "android": {
-      "package": "com.riadoliveira.chroner",
+      "package": "com.riadoliveira.Chroner",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/foreground.png",
         "backgroundImage": "./assets/icons/background.png"
