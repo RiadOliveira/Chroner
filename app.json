@@ -13,7 +13,7 @@
       "backgroundColor": "#f8fafc"
     },
     "android": {
-      "package": "com.riadoliveira.Chroner",
+      "package": "com.riadoliveira.chroner",
       "adaptiveIcon": {
         "foregroundImage": "./assets/icons/foreground.png",
         "backgroundImage": "./assets/icons/background.png"
@@ -100,6 +100,12 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0e44e607-c960-4fd8-bdf2-ec2719d38567"
+      }
+    },
+    "owner": "riad-oliveira"
   }
 }
