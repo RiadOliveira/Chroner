@@ -13,7 +13,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import i18n from '@/config/i18n';
 import notifee from 'react-native-notify-kit';
 
-type TasksContextType = {
+type ContextType = {
   tasks: Task[];
   selectedIndex: number | undefined;
   selectTask(id: number | undefined): void;
@@ -25,7 +25,7 @@ type TasksContextType = {
   resetAllSchedulings(): Promise<void>;
 };
 
-const tasksContext = createContext<TasksContextType>({} as TasksContextType);
+const tasksContext = createContext<ContextType>({} as ContextType);
 
 export function TasksContext({ children }: DefaultProps) {
   const [tasks, setTasks] = useState<Task[]>([]);

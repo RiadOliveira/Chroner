@@ -30,6 +30,10 @@ export function setupNotifications() {
   return notifee.requestPermission();
 }
 
+export function requestAlarmPermission() {
+  return notifee.openAlarmPermissionSettings();
+}
+
 export async function displayNotification(props: NotificationProps) {
   const notification = await generateNotification(props);
   return notifee.displayNotification(notification);

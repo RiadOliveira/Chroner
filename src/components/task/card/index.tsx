@@ -1,10 +1,11 @@
 import type { Task } from '@/types/Task';
 
+import { RECURRENCE } from '@/types/Recurrence';
 import { Animated, Easing } from 'react-native';
 import { useEffect, useRef } from 'react';
+import { useAlarmPermission } from '@/hooks/alarmPermission';
 
 import CardContainer from './Container';
-import { RECURRENCE } from '@/types/Recurrence';
 
 type Props = {
   task: Task;
@@ -21,6 +22,8 @@ export default function TaskCard({
   completeTask,
   deleteTask,
 }: Props) {
+  const { granted } = useAlarmPermission();
+
   const scale = useRef(new Animated.Value(0.85)).current;
   const opacity = useRef(new Animated.Value(0)).current;
   const translateX = useRef(new Animated.Value(0)).current;
@@ -55,6 +58,9 @@ export default function TaskCard({
   }, [index, opacity, scale, translateY]);
 
   function onComplete() {
+    const canComplete = granted || task.recurrence === RECURRENCE.NONE;
+    if (!canComplete) return selectTask();
+
     Animated.parallel([
       Animated.timing(opacity, {
         toValue: 0,

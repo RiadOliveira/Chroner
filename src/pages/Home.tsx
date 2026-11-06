@@ -5,11 +5,11 @@ import { useTasks } from '@/hooks/tasks';
 import { useEffect } from 'react';
 import { setOnForegroundEvent } from '@/lib/events';
 
+import FAB from '@/components/FAB';
 import Toast from 'react-native-toast-message';
 import Header from '@/components/Header';
-import TasksList from '@/components/task/list';
+import TaskList from '@/components/task/list';
 import TaskModal from '@/components/modal/Task';
-import FAB from '@/components/FAB';
 
 export default function Home() {
   const { selectTask, onForegroundTaskComplete } = useTasks();
@@ -22,7 +22,7 @@ export default function Home() {
     <View className="flex-1 bg-background">
       <Header />
       <View className="flex-1 -mt-1">
-        <TasksList />
+        <TaskList />
       </View>
 
       <FAB onPress={() => selectTask(CREATE_TASK_INDEX)} />

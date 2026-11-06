@@ -86,8 +86,20 @@ export default {
     completed: 'Tarefa Concluída',
   },
 
+  alarm: {
+    title: 'Alarmes exatos desativados',
+    description:
+      'O Chroner precisa da permissão “Alarmes e lembretes” para avisar no minuto exato. Ative-a para gerenciar tarefas.',
+    hint: 'Na próxima tela, permita alarmes e lembretes para o Chroner.',
+    action: 'Ativar permissão',
+  },
+
   settings: {
     title: 'Configurações',
-    label: { system: 'Sistema', language: 'Idioma' },
+    label: {
+      system: 'Sistema',
+      language: 'Idioma',
+      alarms: 'Alarmes e lembretes',
+    },
   },
 } as const satisfies Translation;

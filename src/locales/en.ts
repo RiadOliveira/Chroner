@@ -86,8 +86,20 @@ export default {
     completed: 'Task Completed',
   },
 
+  alarm: {
+    title: 'Exact alarms are off',
+    description:
+      'Chroner needs the “Alarms & reminders” permission to alert you on time. Turn it on to manage tasks.',
+    hint: 'On the next screen, allow alarms and reminders for Chroner.',
+    action: 'Turn on',
+  },
+
   settings: {
     title: 'Settings',
-    label: { system: 'System', language: 'Language' },
+    label: {
+      system: 'System',
+      language: 'Language',
+      alarms: 'Alarms & reminders',
+    },
   },
 } as const satisfies Translation;

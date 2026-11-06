@@ -68,8 +68,19 @@ export type Translation = {
     completed: string;
   };
 
+  alarm: {
+    title: string;
+    description: string;
+    hint: string;
+    action: string;
+  };
+
   settings: {
     title: string;
-    label: { system: string; language: string };
+    label: {
+      system: string;
+      language: string;
+      alarms: string;
+    };
   };
 };

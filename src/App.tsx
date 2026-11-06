@@ -2,6 +2,7 @@ import './config/global.css';
 
 import { StatusBar } from 'expo-status-bar';
 import { TasksContext } from './hooks/tasks';
+import { AlarmPermissionContext } from './hooks/alarmPermission';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { db } from './db/database';
 import { useEffect } from 'react';
@@ -23,9 +24,11 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <TasksContext>
-        <SafeAreaView edges={['bottom']} className="flex-1 bg-background">
-          <Home />
-        </SafeAreaView>
+        <AlarmPermissionContext>
+          <SafeAreaView edges={['bottom']} className="flex-1 bg-background">
+            <Home />
+          </SafeAreaView>
+        </AlarmPermissionContext>
       </TasksContext>
 
       <StatusBar style="light" />
