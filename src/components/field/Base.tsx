@@ -12,6 +12,7 @@ export default function Field({ label, centered, className, children }: Props) {
   return (
     <View className={cn('gap-2 flex-1', className)}>
       <Text
+        allowFontScaling={false}
         className={cn(
           'text-slate-500 text-xs font-semibold font-secondary uppercase tracking-widest ml-1',
           centered && 'text-center',

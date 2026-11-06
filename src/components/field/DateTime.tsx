@@ -163,6 +163,7 @@ export default function DateTimePicker({
 
         <Text
           numberOfLines={1}
+          allowFontScaling={false}
           style={{ color: textColor }}
           className="flex-1 text-sm font-medium font-secondary"
         >

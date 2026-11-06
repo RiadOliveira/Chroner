@@ -54,6 +54,7 @@ export default function Input({
         {...props}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        allowFontScaling={false}
         returnKeyType="done"
         placeholderTextColor="#94a3b8"
         className="text-slate-800 text-base font-secondary font-medium p-4"

@@ -133,8 +133,9 @@ function Item({
           className="items-center w-full justify-center"
         >
           <Text
-            className="text-sm font-semibold font-secondary text-center"
+            allowFontScaling={false}
             style={{ color: selected ? activeColor : '#94a3b8' }}
+            className="text-sm font-semibold font-secondary text-center"
           >
             {t(`recurrence.${RECURRENCE_I18N_KEY[value]}`)}
           </Text>

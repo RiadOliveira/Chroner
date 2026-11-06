@@ -60,6 +60,7 @@ export default function CycleField<V extends string>({
 
         <Text
           numberOfLines={1}
+          allowFontScaling={false}
           className="text-center text-sm font-medium font-secondary text-slate-800"
         >
           {label}

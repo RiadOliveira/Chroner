@@ -120,6 +120,7 @@ export default function Header() {
             >
               Chroner
             </Text>
+
             <Text
               allowFontScaling={false}
               className="font-secondary text-lg text-white font-medium"
