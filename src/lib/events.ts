@@ -34,13 +34,15 @@ async function handleEvent({
   }
 
   const actionId = pressAction?.id;
-  const { taskId } = notification?.data as TaskNotificationData;
+  const { taskId, dueDate } = notification?.data as TaskNotificationData;
 
   if (actionId === PRESS_ACTION.DEFAULT) return selectTask?.(taskId);
   if (actionId !== PRESS_ACTION.COMPLETE) return;
 
   const taskFound = await TASK_SERVICES.findById(taskId);
-  if (taskFound === null) return cancelNotification(notification?.id);
+  if (taskFound === null || taskFound.dueDate !== dueDate) {
+    return cancelNotification(notification?.id);
+  }
 
   setupI18n();
   await TASK_SERVICES.complete(taskFound);

@@ -72,7 +72,7 @@ async function scheduleTask({
 }: TaskDTO) {
   if (!currentDueDate) return undefined;
 
-  const dateTime = joinDateTime(currentDueDate!, reminderTime ?? undefined);
+  const dateTime = joinDateTime(currentDueDate, reminderTime ?? undefined);
   const duration = RECURRENCE_DURATION[recurrence];
 
   const shouldReschedule = currentNotificationId !== undefined;
@@ -86,7 +86,7 @@ async function scheduleTask({
     date,
     title: i18n.t('notification.title', { time }),
     body: `${i18n.t('notification.bodyPrefix')} ${name}`,
-    data: { taskId: id! } as TaskNotificationData,
+    data: { taskId: id!, dueDate } as TaskNotificationData,
   });
 
   return { dueDate, notificationId };

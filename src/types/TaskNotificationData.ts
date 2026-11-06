@@ -1,1 +1,4 @@
-export type TaskNotificationData = { taskId: number };
+export type TaskNotificationData = {
+  taskId: number;
+  dueDate: string;
+};
