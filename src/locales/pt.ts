@@ -76,7 +76,7 @@ export default {
 
     service: {
       title: 'Cronovergências monitoradas',
-      body: 'Sincronizando fragmentos temporais',
+      body: 'Abra o Chroner para ressincronizar',
     },
   },
   toast: {

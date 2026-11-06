@@ -76,7 +76,7 @@ export default {
 
     service: {
       title: 'Chronovergences on watch',
-      body: 'Syncing temporal fragments',
+      body: 'Open Chroner to resync the timeline',
     },
   },
   toast: {
